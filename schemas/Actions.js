@@ -5,8 +5,10 @@ var Schema = mongoose.Schema;
 
 var Action = new Schema({
     name: {type: String},
-    userId: {type: String},
-    itemId: {type: String}
+    user: {type: String},
+    item: {type: String},
+    collection:{type: String},
+    occured: {type: Date, default: Date.now},
 });
 
 ActionModel = mongoose.model('actions', Action);

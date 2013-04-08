@@ -2,17 +2,6 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
-
-//Redefined Ad for Advertiser's ad(s)
-var Ad = new Schema({
-    name: {type: String},
-    remuneration: [{ cp: {type: String ,enum: ['cpm', 'cpc']}, repartition: [{ cpm: {type:Number}, cpc: {type:Number}}] }],
-    kind: { type : String, enum: ['image','text'] }, 
-    modified: {type: Date},
-    created: {type: Date},
-    validated : { type : Boolean }
-});
-
 var Advertiser = new Schema({
     username: { type: String, required: true, match: /^[a-zA-Z0-9-_]+$/, unique: true },  
     password: { type: String, required: true},
@@ -24,7 +13,7 @@ var Advertiser = new Schema({
     city: { type: String },
     country: { type: String },
     phone: { type: String},
-    ads: [Ad]
+    ads: [{ type: String }]
 });
 
 AdvertiserModel = mongoose.model('advertisers', Advertiser);
