@@ -9,9 +9,7 @@ var http = require('http')
   , server = http.createServer(app)
   , mongoose = require('mongoose')
   , io = require('socket.io').listen(server)
-  , path = require('path'),
-    crontest = require('./cronjob.js');
-
+  , path = require('path');
 
 // Database
 
