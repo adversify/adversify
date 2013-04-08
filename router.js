@@ -13,7 +13,6 @@ module.exports = function(app) {
 
 	app.post('/signup', signup.create); 
 	app.get('/signup/step2', signup.step2); // Signup step2
-	app.post('/signup/step2', signup.step2create);
 
 	app.get('/publisher', publisher.index);
 	app.get('/publisher/get', publisher.get);
@@ -29,7 +28,7 @@ module.exports = function(app) {
 	app.get('/publisher/default', publisher.default);
 	app.get('/publisher/websites', publisher.getWebsites);
 	app.get('/publisher/websites/default', websites.default);
-	app.get('/publisher/websites/:id', publisher.getWebsites.getWebsite);
+	app.get('/publisher/websites/:id', publisher.getWebsite);
 	app.get('/publisher/websites/:id/delete', publisher.deleteWebsite); // 
 	app.post('/publisher/websites', publisher.createWebsite);
 
@@ -38,19 +37,19 @@ module.exports = function(app) {
 
 
 	app.get('/advertiser', advertiser.index);
-	app.get('/advertiser/get', advertiser.get);
+	//app.get('/advertiser/get', advertiser.get); TODO
 	app.post('/advertiser/signin', advertiser.signin);
 
 	app.get('/advertiser/profile', advertiser.profile);
 	app.post('/advertiser/profile', advertiser.updateProfile);
 
 	app.get('/advertiser/default', advertiser.default);
-	app.get('/advertiser/ads', advertiser.getAds);
+	//app.get('/advertiser/ads', advertiser.getAds); // TO DO
 	app.post('/advertiser/ads', advertiser.createAd);
 
 
-	app.get('/socket', routes.socket);
-	app.get('/socketview', routes.socketview);
+	//app.get('/socket', routes.socket);
+//	app.get('/socketview', routes.socketview);
 
 	app.get('/test', publisher.test);
 	app.get('/h/c/:r', delivery.createHash);

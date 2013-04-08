@@ -210,16 +210,14 @@ exports.test = function(req,res) {
   });
 }
 
-/*
 
-// NOT TESTED PASSWORD CHANGE
 exports.changePassword = function(req,res) {
   if(req.session.kind != "publisher") {
     res.redirect("/");
   } else {
     PM.checkPassword(req.body.u,req.body.password,function(e) {
       if(!e) { 
-        PM.setPassword(req.session.username,req.body.password function(e,o) {
+        PM.setPassword(req.session.username,req.body.password, function(e,o) {
           if(!o) {
               res.send(e,400);
           } else  {
@@ -232,4 +230,4 @@ exports.changePassword = function(req,res) {
 
     });
   }  
-}*/
+}
