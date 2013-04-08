@@ -7,23 +7,11 @@ var http = require('http')
   , express = require('express')
   , app = express()
   , server = http.createServer(app)
-  , i18n = require("i18n")
   , mongoose = require('mongoose')
   , io = require('socket.io').listen(server)
   , path = require('path'),
     crontest = require('./cronjob.js');
 
-  // i18n a.k.a Internationalization !
-  // TO-DO : better implementation
-i18n.configure({
-    // setup some locales - other locales default to en silently
-    locales:['en', 'fr'],
-
-    // where to register __() and __n() to, might be "global" if you know what you are doing
-    register: global
-
-    // To-DO : check this
-});
 
 // Database
 
