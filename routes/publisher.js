@@ -7,7 +7,7 @@ exports.index = function(req, res){
     res.render('login-publisher.html', { title: 'Login to your Publisher account.' });
   } else {
     PM.autoLogin(req.cookies.username, req.cookies.password, function(o){
-      if (o != null){
+      if (o !== null){
         req.session.username = o.username;
         req.session.uid = o._id;
         req.session.kind = "publisher";
@@ -35,7 +35,7 @@ exports.signin = function(req, res){
         res.redirect("/publisher");
       }
   });
-}
+};
 
 exports.default = function(req,res) {
   var since;
@@ -50,23 +50,9 @@ exports.default = function(req,res) {
                 }
           });
   }
-}
+};
 
-exports.createWebsite = function(req,res) {
-  console.log("Publisher attempt to create Website :");
-  if(req.session.kind != "publisher") {
-    res.redirect("/");
-  } else {
-        WM.addWebsite(req.session.username,req.body,function(e,o) {
-          if(!o) {
-              res.send(e, 400);
-          }
-          else {
-            res.send(o, 200);
-          }
-        });
-  }
-}
+
 
 exports.createZone = function(req,res) {
   console.log("Publisher attempt to create Zone for website : "+req.body.url);
@@ -82,57 +68,9 @@ exports.createZone = function(req,res) {
       }
     });
   }
-}
+};
 
-exports.getWebsites = function(req,res) {
-  console.log("Publisher attempt to get all his websites");
-  if(req.session.kind != "publisher") {
-    res.redirect("/");
-  } else {
-        WM.getWebsites(req.session.username,null,null,function(e,o) {
-          if(!o) {
-            res.send(e, 400);
-          }
-          else {
-            res.send(o, 200);
-          }
-        });
-  }
-}
 
-exports.deleteWebsite = function(req,res) {
-  if(req.session.kind != "publisher") {
-    res.redirect("/");
-  } else {
-    console.log("IZI IZI ?")
-    WM.deleteWebsite(req.session.uid,req.param('id'),function(e,o){
-      if(e) {
-        res.send(e, 400);
-            console.log("NO NO NO?")
-      } else if(o === "OK") {
-        res.send("OK", 200);
-            console.log("YES YES YES")
-
-      }
-    });
-  }
-}
-
-exports.getWebsite = function(req, res){
-  if(req.session.kind != "publisher") {
-    res.redirect("/");
-  } else {
-  	WM.getWebsite(req.body.url,function(e,o){
-  		if(!o) {
-              res.send(e, 400);
-            }
-      else {
-              res.send(o, 200);
-            }
-  	
-  	});
-  }
-}
 
 exports.profile = function(req,res) {
     if(req.session.kind != "publisher") {
@@ -140,7 +78,7 @@ exports.profile = function(req,res) {
   } else {
     res.render('publisher-profile.html', { title: 'Publisher Profile'});
   }
-}
+};
 
 exports.updateProfile = function(req,res) {
     if(req.session.kind != "publisher") {
@@ -155,7 +93,7 @@ exports.updateProfile = function(req,res) {
           }
         });
   }
-}
+};
 
 exports.get = function(req,res) {
     if(req.session.kind != "publisher") {
@@ -168,8 +106,8 @@ exports.get = function(req,res) {
           res.send(o,200);
       }
     });
-  }  
-}
+  }
+};
 
 exports.getProfile = function(req,res) {
     if(req.session.kind != "publisher") {
@@ -182,8 +120,8 @@ exports.getProfile = function(req,res) {
           res.send(o,200);
       }
     });
-  }  
-}
+  }
+};
 
 exports.getActions = function(req,res) {
   if(req.session.kind != "publisher") {
@@ -201,14 +139,14 @@ exports.getActions = function(req,res) {
       }
     });
   }
-}
+};
 
 
 exports.test = function(req,res) {
   WebsiteModel.findOne(null,function(e,o) {
     res.send(o.zones);
   });
-}
+};
 
 
 exports.changePassword = function(req,res) {
@@ -216,7 +154,7 @@ exports.changePassword = function(req,res) {
     res.redirect("/");
   } else {
     PM.checkPassword(req.body.u,req.body.password,function(e) {
-      if(!e) { 
+      if(!e) {
         PM.setPassword(req.session.username,req.body.password, function(e,o) {
           if(!o) {
               res.send(e,400);
@@ -229,5 +167,5 @@ exports.changePassword = function(req,res) {
       }
 
     });
-  }  
-}
+  }
+};
