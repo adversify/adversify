@@ -52,12 +52,13 @@ AM.loginPublisher = function(username, password, callback) {
 		if (o == null){
 			callback('publisher-not-found');
 		}	else{
-			console.log(pwd);
 			pwd.hash(password, o.salt, function(err, hash){
+				console.log('---');
+				console.log(hash);
+				console.log(o.salt);
   				if (o.password == hash) {
   					callback(null,o);
   				} else {
-  					console.log(hash);
   					callback('invalid-password',o);
   				}
 			});
@@ -111,7 +112,7 @@ AM.signup = function(newData, callback) {
 															callback("no-user-kind-specified");
 														}
 
-														if(user !== 0) {
+														if(userJSON && userJSON.salt) {
 															user.save(function(e,o) {
 																if(o) {
 																	callback(null,o);

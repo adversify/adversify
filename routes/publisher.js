@@ -22,13 +22,13 @@ exports.index = function(req, res){
 exports.signin = function(req, res){
   console.log(req.body);
   PM.login(req.param('username'),req.param('password'), function(e,o) {
-      if (!o){
+      if (e || !o){
+        if(!o) {
+          e = new Error('Could not retrieve your account.');
+        }
         res.send(e, 400);
-      
       } else{
-        req.session.username = o.username;
-        req.session.uid = o._id;
-        req.session.kind = "publisher";
+        req.session.user = {name: req.params.username, password: req.params.password, kind: 'publisher'};
         if (req.param('remember-me') == 'on'){
           res.cookie('username', o.username, { maxAge: 900000 });
           res.cookie('password', o.password, { maxAge: 900000 });
