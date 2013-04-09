@@ -21,4 +21,8 @@ exports.default = function(req, res){
     }
    });
   }
-}
+};
+
+exports.createZone = function(req, res) {
+  res.send(null, 200);
+};

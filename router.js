@@ -26,14 +26,14 @@ module.exports = function(app) {
 	app.get('/publisher/security', publisher.getActions);
 
 	app.get('/publisher/default', publisher.default);
-	app.get('/publisher/websites', publisher.getWebsites);
+	app.get('/publisher/websites', websites.getListOfWebsites);
 	app.get('/publisher/websites/default', websites.default);
-	app.get('/publisher/websites/:id', publisher.getWebsite);
-	app.get('/publisher/websites/:id/delete', publisher.deleteWebsite); // 
-	app.post('/publisher/websites', publisher.createWebsite);
+	app.get('/publisher/websites/:id', websites.getWebsite);
+	app.get('/publisher/websites/:id/delete', websites.deleteWebsite); // 
+	app.post('/publisher/websites', websites.createWebsite);
 
 	app.get('/publisher/zones/default', zones.default);
-	app.post('/publisher/zones', publisher.createZone);
+	app.post('/publisher/zones', zones.createZone);
 
 
 	app.get('/advertiser', advertiser.index);
@@ -44,7 +44,7 @@ module.exports = function(app) {
 	app.post('/advertiser/profile', advertiser.updateProfile);
 
 	app.get('/advertiser/default', advertiser.default);
-	//app.get('/advertiser/ads', advertiser.getAds); // TO DO
+	//	app.get('/advertiser/ads', advertiser.getAds); // TO DO
 	app.post('/advertiser/ads', advertiser.createAd);
 
 

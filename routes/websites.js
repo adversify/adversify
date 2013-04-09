@@ -19,6 +19,14 @@ exports.getListOfWebsites = function(req,res) {
   }
 };
 
+exports.default = function(req, res) {
+  if(req.session.kind != 'publisher') {
+    res.redirect("/");
+  } else {
+    res.send(200, "OK");
+  }
+};
+
 exports.deleteWebsite = function(req,res) {
   if(req.session.kind != "publisher") {
     res.redirect("/");

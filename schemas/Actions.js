@@ -7,7 +7,7 @@ var Action = new Schema({
     name: {type: String},
     user: {type: String},
     item: {type: String},
-    collection:{type: String},
+    list:{type: String},
     occured: {type: Date, default: Date.now},
 });
 
