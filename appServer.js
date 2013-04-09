@@ -8,7 +8,7 @@ var http = require('http')
   , app = express()
   , server = http.createServer(app)
   , mongoose = require('mongoose')
-  , io = require('socket.io').listen(server)
+//  , io = require('socket.io').listen(server)
   , path = require('path');
 
 // Database
@@ -30,7 +30,7 @@ app.configure('development', function(){
   app.use(express.static(path.join(__dirname, 'public')));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); // Shown all errors, with stackTrace
 });
-
+/*
 app.get('/socket', function(req,res){
   console.log("Attempt to connect SOCKET : "+req.session.uid);
   io.of('/'+req.session.uid).on('connection', function (socket) {
@@ -90,7 +90,7 @@ app.get('/plus1000', function(req,res) {
   });
 });
 
-
+*/
 
 require('./router')(app); // Router file.
 
