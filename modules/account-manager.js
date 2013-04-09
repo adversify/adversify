@@ -1,35 +1,28 @@
-/* This module is so not ready for production!*/
-/* e -> error
-/* o -> object
-
-*/
-var mongoose = require('mongoose');
-var pwd = require('pwd');
-
-var AM = {};
+var mongoose = require('mongoose'),
+pwd = require('pwd'),
+AM = {};
 
 module.exports = AM;
 
 AM.loginAdvertiser = function(u, password, callback) {
 		AdvertiserModel.findOne({username:u}, function(e, o) {
-		if (o == null){
+		if (o === null){
 			callback('advertiser-not-found');
 		}	else{
 			pwd.hash(password, o.salt, function(err, hash){
-  				if (o.password == hash) {
-  					callback(null,o);
-    				console.log("User Successfully logged in to Advertiser account ("+u+")");
-  				} else {
-  					callback('invalid-password');
-  				}
+				if (o.password == hash) {
+					callback(null,o);
+					console.log("User Successfully logged in to Advertiser account ("+u+")");
+				} else {
+					callback('invalid-password');
+				}
 			});
 		}
 	});
-}
+};
 
 
-AM.autoLoginAdvertiser = function(username, password, callback)
-{
+AM.autoLoginAdvertiser = function(username, password, callback) {
 	AdvertiserModel.findOne({username:username}, function(e, o) {
 		if (o){
 			o.password == password ? callback(o) : callback(null);
@@ -37,7 +30,7 @@ AM.autoLoginAdvertiser = function(username, password, callback)
 			callback(null);
 		}
 	});
-}
+};
 
 
 AM.autoLoginPublisher = function(username, password, callback)
@@ -49,37 +42,33 @@ AM.autoLoginPublisher = function(username, password, callback)
 			callback(null);
 		}
 	});
-}
+};
 
 
 
 AM.loginPublisher = function(username, password, callback) {
-	console.log("----- Login -----");
-	console.log(username+" [-] "+password);
 
 		PublisherModel.findOne({username:username}, function(e, o) {
-		if (o == null){
+		if (o === null){
 			callback('publisher-not-found');
 		}	else{
 			pwd.hash(password, o.salt, function(err, hash){
   				if (o.password == hash) {
   					callback(null,o);
-    				console.log("User Successfully logged in to Publisher account ("+username+")");
-    				console.log("USER ID :"+o._id);
   				} else {
   					callback('invalid-password');
   				}
 			});
 		}
 	});
-}
+};
 
 
 
 AM.signupStep2 = function(newData, callback) {
 	var user;
 	// TO DO
-}
+};
 
 
 
@@ -120,13 +109,11 @@ AM.signup = function(newData, callback) {
 															callback("no-user-kind-specified");
 														}
 
-														if(user != 0) {
+														if(user !== 0) {
 															user.save(function(e,o) {
 																if(o) {
-																	console.log("Successfully saved new user");
 																	callback(null,o);
 																} else {
-																	console.log("User could not be saved into DB");
 																	callback(e);
 																}
 															});
@@ -141,7 +128,7 @@ AM.signup = function(newData, callback) {
 						}
 				});
 
-}
+};
 
 // TO DO AM.checkPassword();
 AM.setPassword = function(u, oldPass, newPass, callback)
@@ -163,21 +150,20 @@ AM.setPassword = function(u, oldPass, newPass, callback)
 						PublisherModel.save(o); callback(o);
 					});
 				}
-			})
-		}
-	});
-}
-
-AM.validateLink = function(email, passHash, callback)
-{
-	AdvertiserModel.find({ $and: [{email:email, pass:passHash}] }, function(e, o){
-		if(!o) {
-			PublisherModel.find({ $and: [{email:email, pass:passHash}] }, function(e,o) {
-				callback(o ? 'ok' : null)
 			});
 		}
 	});
-}
+};
+
+AM.validateLink = function(email, passHash, callback) {
+	AdvertiserModel.find({ $and: [{email:email, pass:passHash}] }, function(e, o){
+		if(!o) {
+			PublisherModel.find({ $and: [{email:email, pass:passHash}] }, function(e,o) {
+				callback(o ? 'ok' : null);
+			});
+		}
+	});
+};
 
 AM.updateAdvertiser = function(newData, callback) {
   var a = new AdvertiserModel({
@@ -187,7 +173,6 @@ AM.updateAdvertiser = function(newData, callback) {
     "phone":newData.phone,
     "country":newData.country
   });
-  console.log(a);
   AdvertiserModel.findOneAndUpdate(
     { username : newData.username },
     { $set : a },
@@ -199,47 +184,43 @@ AM.updateAdvertiser = function(newData, callback) {
               callback(null,o);
             }
     });
-}
+};
 
 AM.updatePublisher = function(u,newData, callback) {
-	console.log(u);
   PublisherModel.findOneAndUpdate(
     { username : u },
-    { $set: 
-    	{ 
-    		email : newData.email,
+    { $set:
+		{
+			email : newData.email,
             phone : newData.phone,
             streetadress : newData.streetadress,
             country : newData.country,
             city : newData.city
-    	}
- 	},
+		}
+	},
     { safe: true, upsert: true },
     function(e, o) {
-   	  if(e) {
-   	  			console.log("plop");
-		    	callback(e);
-		    } else {
-		    	callback(null,o);
+		if(e) {
+			callback(e);
+		} else {
+			callback(null,o);
 		}
     });
-}
+};
 
 
 AM.getPublisher = function(u, callback) {
-	console.log(u);
 	PublisherModel.findOne({username:u}, function(e,o) {
 		console.log(o);
 		if(!e) {
-			callback(null,o)
+			callback(null,o);
 		} else {
 			callback(e);
 		}
 	});
-}
+};
 
 AM.getPublisherProfile = function(u, callback) {
-	console.log(u);
 	PublisherModel.findOne({username:u}, function(e,o) {
 		console.log(o);
 		if(!e) {
@@ -252,21 +233,21 @@ AM.getPublisherProfile = function(u, callback) {
 				streetadress : o.streetadress,
 				phone : o.phone,
 				country : o.country
-			}
+			};
 			callback(null,user);
 		} else {
 			callback(e);
 		}
 	});
-}
+};
 
 
 AM.getAdvertiser = function(u, callback) {
 	AdvertiserModel.findOne({username:u}, function(e,o) {
 		if(!e) {
-			callback(null,o)
+			callback(null,o);
 		} else {
 			callback(e);
 		}
 	});
-}
+};

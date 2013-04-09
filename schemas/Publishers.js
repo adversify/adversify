@@ -15,6 +15,7 @@ var Publisher = new Schema({
     phone: { type: String},
     balance: { type: Number, default:0 },
     websites: [{type: String}],
+    zones: [{type:String}]
 });
 
 

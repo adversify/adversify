@@ -1,63 +1,63 @@
-/* This module is so not ready for production!*/
-/* e -> error
-/* o -> object
-
-*/
-var mongoose = require('mongoose');
-var ZM = {};
+var mongoose = require('mongoose'),
+WM = require('../modules/website-manager.js'),
+ZM = {};
 
 module.exports = ZM;
-var WM = require('../modules/website-manager.js');
 
 
 ZM.addZone = function(u,newData,callback) {
-		console.log(newData);
 		var z = new ZoneModel({
 			"name":newData.name,
 			"created":Date.now(),
 			"dimensions":newData.dimensions,
 			"format":newData.format,
 			"remuneration":newData.remuneration,
-			"kind":newData.kind
+			"kind":newData.kind,
+			"author":u.id
 		});
 
-		// WORKAROUND for positional cursor + $push, see https://jira.mongodb.org/browse/SERVER-831
-
-		z.save(function(e,o){
-			if(!e) {
-				z = o;
-				PublisherModel.findOne(
-				  { username:u, "websites.url":newData.url },
-				  function(e,o) {
-				    if(e) {
-				    	callback(e);
-				    } else {
-				    	console.log("Saving into Website");
-				    	WebsiteModel.findOneAndUpdate(
-				    		{ url:newData.url },
-				    		{ $push : { zones : z }},
-				    		{ safe: true, upsert:true },
-				    		function(e,o) {
-				    			if(e) {
-				    				callback(e);
-				    			} else {
-				    				callback(null,o);
-				    			}
-				    	});
-				    }
-				});	
-			} else {
+		z.save(function(e,zone) {
+			if(e || !zone) {
+				if(!e) {
+					e = new Error('Unable to add zone');
+				}
 				callback(e);
+			} else {
+				PublisherModel.findOneAndUpdate(
+					{ _id: u.id },
+					{ $push: { zones: zone._id }},
+					function(err, publisher) {
+						if(err || !publisher) {
+							if(!err) {
+								err = new Error('Unable to find your publisher account');
+							}
+							callback(err);
+						} else {
+							WebsiteModel.findOneAndUpdate(
+								{_id: newData.websiteId},
+								{ $push: { zones: zone._id }},
+								function(error, website) {
+									if(error || !website) {
+										if(!error) {
+											error = new Error('Unable to find the corresponding website');
+										}
+										callback(error);
+									} else {
+										callback(null,zone);
+									}
+								}
+							);
+						}
+					}
+				);
 			}
-			
 		});
-
-	
-}
+};
 
 ZM.deleteZonesByWebsite = function(uId,wId,callback) { // Deletes all zones inside a website
-	var ids = []
-	, tempZones = [];
+	var ids = [],
+	tempZones = [];
+
 	PublisherModel.findOne({_id:uId, "websites._id":wId}, function(e,o) {
 		if(o) {
 			WebsiteModel.findOne({_id:wId}, function(e,o) {
@@ -86,30 +86,40 @@ ZM.deleteZonesByWebsite = function(uId,wId,callback) { // Deletes all zones insi
 			callback(e);
 		}
 	});
-}
+};
 
 
 ZM.deleteZone = function(u,zId,callback) {
 	// TO DO : function check user owns this particual zone and website
 	WebsiteModel.findOne({"zones._id":nId},
 		function(e,o) {
-		 	if(e) {
-		 		callback(e);
-		 	} else {
-		 		o.zones.id(nId).remove();
-		 		o.save(function (e,o) {
-				 		if(e) {
-				 			callback(e);
-				 		} else {
-				 			callback(null,"OK");
-				 		}
-		 		});
-		 	}
+			if(e) {
+				callback(e);
+			} else {
+				o.zones.id(nId).remove();
+				o.save(function (e,o) {
+						if(e) {
+							callback(e);
+						} else {
+							callback(null,"OK");
+						}
+				});
+			}
 	});
-}
+};
 
 ZM.getZones = function(uId,callback) { // Having to write so much code for such a simple thing is driving me insane
 	var w = [],z = [],zoneIds = [], websiteIds = [];
+
+	ZoneModel.find({owner:uId},function(err, zones) {
+		if(err || !zones) {
+			var err = new Error('Unable to retrieve your zones.');
+			callback(err);
+		} else {
+			callback(null,zones);
+		}
+	});
+
 	PublisherModel.findOne({_id:uId},function(e,o) {
 		if(o) {
 			w = o.websites;
@@ -117,7 +127,7 @@ ZM.getZones = function(uId,callback) { // Having to write so much code for such 
 				websiteIds.push(w[i]._id);
 			}
 			WebsiteModel.find({_id:{$in: websiteIds}}, function(e,o) {
-				if(e) {	
+				if(e) {
 					callback(e);
 				} else if(o) {
 					for(var y=0;y < o.length; y++) { // BHOUUU DOUBLE BOUCLE
@@ -138,6 +148,6 @@ ZM.getZones = function(uId,callback) { // Having to write so much code for such 
 					callback("no-websites-found-"+websiteIds);
 				}
 			});
-			}
-		});
-	}
+		}
+	});
+};

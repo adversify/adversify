@@ -11,7 +11,8 @@ var Website = new Schema({
     modified: { type: Date, default: Date.now },
     created: {type: Date},
     validatedOn: {type: Date},
-    zones: [{ type: String }]
+    zones: [{ type: String }],
+    owner: {type: String}
 });
 
 WebsiteModel = mongoose.model('websites', Website);
