@@ -47,16 +47,18 @@ AM.autoLoginPublisher = function(username, password, callback)
 
 
 AM.loginPublisher = function(username, password, callback) {
-
+	console.log(password);
 		PublisherModel.findOne({username:username}, function(e, o) {
-		if (o === null){
+		if (o == null){
 			callback('publisher-not-found');
 		}	else{
+			console.log(pwd);
 			pwd.hash(password, o.salt, function(err, hash){
   				if (o.password == hash) {
   					callback(null,o);
   				} else {
-  					callback('invalid-password');
+  					console.log(hash);
+  					callback('invalid-password',o);
   				}
 			});
 		}

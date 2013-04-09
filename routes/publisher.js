@@ -24,6 +24,7 @@ exports.signin = function(req, res){
   PM.login(req.param('username'),req.param('password'), function(e,o) {
       if (!o){
         res.send(e, 400);
+      
       } else{
         req.session.username = o.username;
         req.session.uid = o._id;
