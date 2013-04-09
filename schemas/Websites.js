@@ -12,7 +12,7 @@ var Website = new Schema({
     created: {type: Date},
     validatedOn: {type: Date},
     zones: [{ type: String }],
-    owner: {type: String}
+    owner: {type: String},
 });
 
 WebsiteModel = mongoose.model('websites', Website);
