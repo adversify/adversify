@@ -11,7 +11,7 @@ var Website = new Schema({
     modified: { type: Date, default: Date.now },
     created: {type: Date},
     validatedOn: {type: Date},
-    test :{type: Date},
+    test :{type: Date}, 
     zones: [{ type: String }]
 });
 
