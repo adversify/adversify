@@ -9,7 +9,7 @@ module.exports = WM; // WEBSITE MANAGER MODULE
  * @function
  * @param {String} uId userId from session
  * @param {String} nb number of results to fetch
- * @param {String} sort sort criteria, 'ascending' or 'descending'
+ * @param {String} sort criteria, 'ascending' or 'descending'
  * @param {Function} callback(err, result) function that is used to give back results or error
 */
 
