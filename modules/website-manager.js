@@ -14,12 +14,14 @@ module.exports = WM; // WEBSITE MANAGER MODULE
 */
 
 
-WM.getWebsites = function(uId,nb,sort,callback) {
+WM.getListOfWebsites = function(uId,nb,sort,callback) {
 	var websiteIds = [];
-
+	console.log('@ website-manager');
 	PublisherModel.findOne({_id:uId}, function(e,publisher) {
 		if(!publisher || e) {
-			websiteIds = publishers.websites;
+			callback(e);
+		} else {
+			websiteIds = publisher.websites;
 			WebsiteModel.find({_id:{$in: websiteIds}}, function(e, fetchedWebsites) {
 				if(e || !fetchedWebsites || !fetchedWebsites.length) {
 					callback(e);
@@ -27,9 +29,6 @@ WM.getWebsites = function(uId,nb,sort,callback) {
 					callback(null, fetchedWebsites);
 				}
 			});
-
-		} else {
-			callback(e);
 		}
 	});
 };
@@ -127,8 +126,11 @@ WM.deleteWebsite = function(uId, wId, callback) {
 
 WM.addWebsite = function(uId,newData,callback) {
 
-	WebsiteModel.findOne({"url":newData.url}, function(e, websiteThatAlreadyExists) {
-		if(e || !websiteAlreadyExists) {
+	WebsiteModel.findOne({"url":newData.url}, function(e, websiteAlreadyExists) {
+		if(e || websiteAlreadyExists) {
+			if(!e) {
+				e = new Error('Website already exists');
+			}
 			callback(e);
 		} else {
 			var newWebsite = new WebsiteModel({

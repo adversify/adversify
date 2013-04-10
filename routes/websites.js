@@ -2,20 +2,20 @@ var WM = require('../modules/website-manager.js');
 
 exports.getListOfWebsites = function(req,res) {
   console.log("Publisher attempt to get all his websites");
-  if(req.session.kind != "publisher") {
+  if(!req.session.user || req.session.user.kind != "publisher") {
     res.redirect("/");
   } else {
-        WM.getWebsites(req.session.uid, null, null, function(e,o) {
-          if(!o || e || o.length) {
-            if(!e) {
-              e = new Error('Unable to get the list of websites');
-            }
-            res.send(e, 400);
-          }
-          else {
-            res.send(o, 200);
-          }
-        });
+    WM.getListOfWebsites(req.session.user.id, null, null, function(e,o) {
+      if(!o || e || !o.length) {
+        if(!e) {
+          e = new Error('Unable to get the list of websites');
+        }
+        res.send(e, 400);
+      }
+      else {
+        res.send(o, 200);
+      }
+    });
   }
 };
 
@@ -62,15 +62,17 @@ exports.getWebsite = function(req, res){
 };
 
 exports.createWebsite = function(req,res) {
-  if(req.session.kind != "publisher") {
+  console.log('SESSION',req.session.user);
+  if(!req.session.user || req.session.user.kind != "publisher") {
     res.redirect("/");
   } else {
-    WM.addWebsite(req.session.uid,req.body,function(e,createdWebsite) {
+    WM.addWebsite(req.session.user.id,req.body,function(e,createdWebsite) {
       if(!createdWebsite || e) {
         if(!e) {
           e = new Error('Unable to create website');
         }
-          res.send(e, 400);
+        console.log(e);
+        res.send(e, 400);
       }
       else {
         res.send(createdWebsite, 200);
