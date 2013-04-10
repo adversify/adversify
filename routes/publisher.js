@@ -3,14 +3,12 @@ var WM = require('../modules/website-manager.js');
 var ZM = require('../modules/zone-manager.js');
 
 exports.index = function(req, res){
-  if(req.cookies.username == undefined || req.cookies.password == undefined){
+  if(req.cookies.username === undefined || req.cookies.password === undefined){
     res.render('login-publisher.html', { title: 'Login to your Publisher account.' });
   } else {
     PM.autoLogin(req.cookies.username, req.cookies.password, function(o){
       if (o !== null){
-        req.session.username = o.username;
-        req.session.uid = o._id;
-        req.session.kind = "publisher";
+        req.session.user = {name: req.cookies.username, password: req.cookies.password, kind: 'publisher', id:o._id};
         res.redirect('/publisher/default');
       } else{
         res.render('login-publisher.html', { title: 'Login to your Publisher account.' });
@@ -20,7 +18,6 @@ exports.index = function(req, res){
 };
 
 exports.signin = function(req, res){
-  console.log(req.body);
   PM.login(req.param('username'),req.param('password'), function(e,o) {
       if (e || !o){
         if(!o) {
@@ -28,10 +25,10 @@ exports.signin = function(req, res){
         }
         res.send(e, 400);
       } else{
-        req.session.user = {name: req.params.username, password: req.params.password, kind: 'publisher'};
+        req.session.user = {name: req.param('username'), password: req.param('password'), kind: 'publisher', id:o._id};
         if (req.param('remember-me') == 'on'){
-          res.cookie('username', o.username, { maxAge: 900000 });
-          res.cookie('password', o.password, { maxAge: 900000 });
+          res.cookie('username', o.username);
+          res.cookie('password', o.password);
         }
         res.redirect("/publisher");
       }
@@ -39,15 +36,15 @@ exports.signin = function(req, res){
 };
 
 exports.default = function(req,res) {
-  var since;
-  if(req.session.kind != "publisher") {
+  if(!req.session.user || req.session.user.kind != "publisher") {
+    console.log("Redirect");
     res.redirect("/");
   } else {
-    console.log(req.session.uid);
+    console.log(req.session.user.id);
           res.render('publisher-default.html', {
             title: "Ad{versify}",
                 locals: {
-                  uid: req.session.uid
+                  uid: req.session.user.id
                 }
           });
   }
@@ -57,7 +54,7 @@ exports.default = function(req,res) {
 
 exports.createZone = function(req,res) {
   console.log("Publisher attempt to create Zone for website : "+req.body.url);
-  if(req.session.kind != "publisher") {
+  if(req.session.user.kind != "publisher") {
     res.redirect("/");
   } else {
         ZM.addZone(req.session.username,req.body,function(e,o) {
@@ -74,7 +71,7 @@ exports.createZone = function(req,res) {
 
 
 exports.profile = function(req,res) {
-    if(req.session.kind != "publisher") {
+    if(req.session.user.kind != "publisher") {
     res.redirect("/");
   } else {
     res.render('publisher-profile.html', { title: 'Publisher Profile'});
@@ -82,7 +79,7 @@ exports.profile = function(req,res) {
 };
 
 exports.updateProfile = function(req,res) {
-    if(req.session.kind != "publisher") {
+    if(req.session.user.kind != "publisher") {
     res.redirect("/");
   } else {
         PM.updateAccount(req.session.username,req.body,function(e,o) {
@@ -97,7 +94,7 @@ exports.updateProfile = function(req,res) {
 };
 
 exports.get = function(req,res) {
-    if(req.session.kind != "publisher") {
+    if(req.session.user.kind != "publisher") {
     res.redirect("/");
   } else {
     PM.get(req.session.username, function(e,o) {
@@ -111,7 +108,7 @@ exports.get = function(req,res) {
 };
 
 exports.getProfile = function(req,res) {
-    if(req.session.kind != "publisher") {
+    if(req.session.user.kind != "publisher") {
     res.redirect("/");
   } else {
     PM.getProfile(req.session.username, function(e,o) {
@@ -125,7 +122,7 @@ exports.getProfile = function(req,res) {
 };
 
 exports.getActions = function(req,res) {
-  if(req.session.kind != "publisher") {
+  if(req.session.user.kind != "publisher") {
     res.redirect("/");
   } else {
     ActionModel.find({userId:req.session.uid},function(e,o) {
@@ -151,7 +148,7 @@ exports.test = function(req,res) {
 
 
 exports.changePassword = function(req,res) {
-  if(req.session.kind != "publisher") {
+  if(req.session.user.kind != "publisher") {
     res.redirect("/");
   } else {
     PM.checkPassword(req.body.u,req.body.password,function(e) {

@@ -53,13 +53,11 @@ AM.loginPublisher = function(username, password, callback) {
 			callback('publisher-not-found');
 		}	else{
 			pwd.hash(password, o.salt, function(err, hash){
-				console.log('---');
-				console.log(hash);
-				console.log(o.salt);
   				if (o.password == hash) {
   					callback(null,o);
   				} else {
-  					callback('invalid-password',o);
+  					console.log("Invalid callback");
+  					callback('invalid-password', null);
   				}
 			});
 		}
