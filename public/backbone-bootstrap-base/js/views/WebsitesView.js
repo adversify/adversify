@@ -11,10 +11,7 @@ window.adversify.views.WebsitesView = (function() {
 		},
 
 		addOne : function(model, collection, options) {
-			console.log('So, you want to Add One ?');
-			console.log(model);
-			console.log(collection);
-			console.log(options);
+			consolelog('Adding one element to the DOM');
 			this.itemTemplate = _.template(this.getTemplate("websiteItem"));
 			this.$el.find("#websitesList").append(this.itemTemplate({website : model}));
 		},
@@ -22,7 +19,7 @@ window.adversify.views.WebsitesView = (function() {
 		setCollection : function(collection) {
 			this.collection = collection;
 			this.listenTo(this.collection, 'reset', this.render);
-			this.collection.bind('add', this.addOne, this);
+			this.listenTo(this.collection, 'add', this.addOne);
 			this.collection.bind("remove", function(model,collection,options) {
 				console.log('remove event on the collection');
 				this.render();
