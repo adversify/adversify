@@ -1,0 +1,34 @@
+<div>
+	<h1>Add a website</h1>
+</div>
+
+<div class="content">
+		<div class="well">
+		<form id='add-website'>
+		  <fieldset>
+		    <legend>Add a website</legend>
+		    <label class='control-label'>
+		    	Enter a name for this website:<br/>
+		    	<input type='text' name='name' placeholder="Website's name" required>
+		    	<div class='control-group error'>
+		    		<span class="help-inline">The name should not exceed 30 characters.</span>
+		    	</div>
+		    </label>
+		    <label class='control-label'>
+		    	Enter the url of this website:<br/>
+		    	<input type='text' placeholder="Website's URL" required>
+		    	<div class='control-group info'>
+		    		<span class="help-inline">This URL is already associated to a registered Website.</span>
+		    	</div>
+		    	<div class='control-group error' style='display:none'>
+		    		<span class="help-inline">This URL is not valid.</span>
+		    	</div>
+		    </label>
+		    <label class='control-label'>
+		    	<input type='text' placeholder="Website's URL" required>
+		    </label>
+		    <button type="submit" class="btn btn-primary">Submit</button>
+		  </fieldset>
+		</form>
+	</div>
+</div>

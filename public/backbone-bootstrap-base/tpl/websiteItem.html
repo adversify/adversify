@@ -1,0 +1,22 @@
+<% var websiteId = website.id ? website.id : website.cid; %>
+<li id="<%= websiteId%>">
+<a href="#<%= websiteId %>" class="linkTab">
+	<%= website.get('infos').name %> : 
+	<em><%= website.get('infos').url %></em>
+</a>
+<button class='btn add-zone-button'>Add a zone to this website</button>
+<button class='btn btn-warning'>Edit</button>
+<button class='btn btn-danger'>Delete</button>
+<ul>
+	<% if(website.get('zones') && website.get('zones').length > 0) {
+			_.each(website.get('zones'), function(zone, index) {
+			%>
+				<li><a href="#websites"><%=zone.name%></a></li>
+				<button class='btn btn-small btn-warning'>Edit</button>
+				<button class='btn btn-small btn-danger'>Delete</button>
+			<%
+			}); 
+		}	
+	%>
+</ul>
+</li>
