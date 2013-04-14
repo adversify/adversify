@@ -2,11 +2,11 @@ var WM = require('../modules/website-manager.js');
 
 exports.getListOfWebsites = function(req,res) {
   console.log("Publisher attempt to get all his websites");
-  if(!req.session.user || req.session.user.kind != "publisher") {
+  /*if(!req.session.user || req.session.user.kind != "publisher") {
     res.redirect("/");
-  } else {
-    WM.getListOfWebsites(req.session.user.id, null, null, function(e,o) {
-      if(!o || e || !o.length) {
+  } else {*/
+    WM.getListOfWebsites('5165B701457264A995000001', null, null, function(e,o) {
+      if(!o || e) {
         if(!e) {
           e = new Error('Unable to get the list of websites');
         }
@@ -16,11 +16,11 @@ exports.getListOfWebsites = function(req,res) {
         res.send(o, 200);
       }
     });
-  }
+ // }
 };
 
 exports.default = function(req, res) {
-  if(req.session.kind != 'publisher') {
+  if(req.session.user.kind != 'publisher') {
     res.redirect("/");
   } else {
     res.send(200, "OK");
@@ -28,7 +28,7 @@ exports.default = function(req, res) {
 };
 
 exports.deleteWebsite = function(req,res) {
-  if(req.session.kind != "publisher") {
+  if(req.session.user.kind != "publisher") {
     res.redirect("/");
   } else {
     WM.deleteWebsite(req.session.uid,req.param('id'),function(e,websiteWasDeleted){
@@ -45,7 +45,7 @@ exports.deleteWebsite = function(req,res) {
 };
 
 exports.getWebsite = function(req, res){
-  if(req.session.kind != "publisher") {
+  if(req.session.user.kind != "publisher") {
     res.redirect("/");
   } else {
     WM.getWebsite(req.param('id'),function(e,fetchedWebsite){
@@ -62,7 +62,16 @@ exports.getWebsite = function(req, res){
 };
 
 exports.createWebsite = function(req,res) {
-  console.log('SESSION',req.session.user);
+   WM.addWebsite('5165B701457264A995000001',req.body,function(e,createdWebsite) {
+      if(e) {
+        console.log('FROM ROUTER',e);
+        res.send(e, 400);
+      }
+      else {
+        res.send(createdWebsite, 200);
+      }
+    });
+ /* console.log('SESSION',req.session.user);
   if(!req.session.user || req.session.user.kind != "publisher") {
     res.redirect("/");
   } else {
@@ -78,7 +87,7 @@ exports.createWebsite = function(req,res) {
         res.send(createdWebsite, 200);
       }
     });
-  }
+  }*/
 };
 
 exports.updateWebsite = function(req, res) {

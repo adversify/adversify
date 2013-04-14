@@ -17,18 +17,16 @@ module.exports = WM; // WEBSITE MANAGER MODULE
 WM.getListOfWebsites = function(uId,nb,sort,callback) {
 	var websiteIds = [];
 	console.log('@ website-manager');
-	PublisherModel.findOne({_id:uId}, function(e,publisher) {
-		if(!publisher || e) {
-			callback(e);
+	WebsiteModel.find({owner: uId}, function(err, fetchedWebsites) {
+		if(err || !fetchedWebsites) {
+			if(!err) {
+				err = new Error('Unable to retrieve your websites');
+			}
+			console.log('halala');
+			callback(err);
 		} else {
-			websiteIds = publisher.websites;
-			WebsiteModel.find({_id:{$in: websiteIds}}, function(e, fetchedWebsites) {
-				if(e || !fetchedWebsites || !fetchedWebsites.length) {
-					callback(e);
-				} else {
-					callback(null, fetchedWebsites);
-				}
-			});
+			console.log('izi');
+			callback(null,fetchedWebsites);
 		}
 	});
 };
@@ -43,17 +41,13 @@ WM.getListOfWebsites = function(uId,nb,sort,callback) {
 */
 
 WM.updateWebsite = function(uId, websiteId, newData, callback) {
-	PublisherModel.findOne({_id:uId}, function(e, publisher) {
-		if(e || !publisher) {
-			callback(e);
+	WebsiteModel.findOneAndUpdate({_id : websiteId, owner: uId},{update : update}, function(err, websiteToUpdate) {
+		if(err || !websiteToUpdate) {
+			if(!err) {
+				err = new Error('Unable to update this website');
+			}
 		} else {
-			WebsiteModel.findOne({_id:websiteId}, function(e, updatedWebsite) {
-				if(e || !updatedWebsite) {
-					callback(e);
-				} else {
-					callback(null, updatedWebsite);
-				}
-			});
+			callback(null,websitoToUpdate);
 		}
 	});
 };
@@ -67,30 +61,29 @@ WM.updateWebsite = function(uId, websiteId, newData, callback) {
 */
 
 WM.getWebsite = function(uId, wId, callback) {
-	PublisherModel.findOne({_id: uId, websites: { '$in' : [wId] }}, function(e, publisher) {
-		if(e || !publisher) {
-			callback(e);
+	WebsiteModel.findOne({owner: uId, _id: wId}, function(err, fetchedWebsite) {
+		if(err || !fetchedWebsite) {
+			if(!err) {
+				err = fetchedWebsite;
+			}
+			callback(err);
 		} else {
-			WebsiteModel.findOne({_id:wId}, function(e,o) {
-				if(o) {
-					callback(null,o);
-				} else {
-					callback(e);
-				}
-			});
+			callback(null, fetchedWebsite);
 		}
 	});
 };
 
 
 /*
- * Deletes single website
+ * Deletes single website, and the zones that are related to it
  * @function
  * @param {String} uId userId from session
  * @param {String} wId websiteId of the website
  * @param {Function} callback(err, result) function that is used to give back results
 */
 
+
+// TODO : refactor completely this method, because at the time being, it kind of sucks
 WM.deleteWebsite = function(uId, wId, callback) {
 
 	ZM.deleteZonesByWebsite(uId, nId, function(e, deletedZones) {
@@ -125,37 +118,21 @@ WM.deleteWebsite = function(uId, wId, callback) {
 */
 
 WM.addWebsite = function(uId,newData,callback) {
-
-	WebsiteModel.findOne({"url":newData.url}, function(e, websiteAlreadyExists) {
-		if(e || websiteAlreadyExists) {
-			if(!e) {
-				e = new Error('Website already exists');
-			}
-			callback(e);
+	var newWebsite = new WebsiteModel({
+		'infos' : {
+			'name': newData.infos.name,
+			'url':newData.infos.url
+		},
+		'zones': (newData.zones) ? newData.zones : '',
+		'created':Date.now(),
+		'owner': uId
+	});
+	newWebsite.save(function(err) {
+		if(err) {
+			console.log(err);
+			callback((err.code !== 11000) ? err : 'website-already-exists');
 		} else {
-			var newWebsite = new WebsiteModel({
-				'name': newData.name,
-				'category': newData.category,
-				'description':newData.description,
-				'url':newData.url,
-				'created':Date.now()
-			});
-			newWebsite.save(function(e,savedWebsite) {
-				if(e || !savedWebsite) {
-					callback(e);
-				} else {
-					PublisherModel.findOne({'_id': uId}, function(e, publisher) {
-						publisher.websites.push(savedWebsite._id);
-						publisher.save(function(e) {
-							if(e) {
-								callback(e);
-							} else {
-								callback(null, savedWebsite);
-							}
-						});
-					});
-				}
-			});
+			callback(null, newWebsite);
 		}
 	});
 };

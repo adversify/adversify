@@ -5,7 +5,8 @@ ZM = {};
 module.exports = ZM;
 
 
-ZM.addZone = function(u,newData,callback) {
+ZM.addZone = function(uId,newData,callback) {
+	console.log("AddZone method");
 		var z = new ZoneModel({
 			"name":newData.name,
 			"created":Date.now(),
@@ -13,7 +14,8 @@ ZM.addZone = function(u,newData,callback) {
 			"format":newData.format,
 			"remuneration":newData.remuneration,
 			"kind":newData.kind,
-			"author":u.id
+			"owner":uId,
+			"website": '5165B71E457264A995000002'
 		});
 
 		z.save(function(e,zone) {
@@ -23,9 +25,10 @@ ZM.addZone = function(u,newData,callback) {
 				}
 				callback(e);
 			} else {
+				console.log("Zones saved, now search for publisher");
 				PublisherModel.findOneAndUpdate(
-					{ _id: u.id },
-					{ $push: { zones: zone._id }},
+					{ _id: uId },
+					{ $addToSet: { zones: zone._id }},
 					function(err, publisher) {
 						if(err || !publisher) {
 							if(!err) {
@@ -34,8 +37,8 @@ ZM.addZone = function(u,newData,callback) {
 							callback(err);
 						} else {
 							WebsiteModel.findOneAndUpdate(
-								{_id: newData.websiteId},
-								{ $push: { zones: zone._id }},
+								{_id: '5165B71E457264A995000002'},
+								{ $addToSet: { zones: zone._id }},
 								function(error, website) {
 									if(error || !website) {
 										if(!error) {

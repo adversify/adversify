@@ -1,28 +1,29 @@
 var ZM = require('../modules/zone-manager.js');
 
 exports.default = function(req, res){
-   if(req.session.kind != "publisher") {
+   if(!req.session.user || req.session.user.kind != "publisher") {
     res.redirect("/");
   } else {
-    ZM.getZones(req.session.uid, function(e,o) {
-      if(o) {
-        console.log(o);
-      res.render('zones.html', {
-        title: "Zones overview",
-          locals: {
-            zones: o
-          }
-      });
+    ZM.getZones(req.session.user.id, function(e,fetchedZones) {
+      if(!o || e || !fetchedZones.length) {
+      res.send(400, "no-zones-found");
     } else if(!o){
-      console.log(e);
-      console.log("------");
-      console.log(o);
-      res.send("no-zones-found-route");
+      res.send(200, fetchedZones);
     }
    });
   }
 };
 
 exports.createZone = function(req, res) {
-  res.send(null, 200);
-};
+  console.log(req.session.user);
+   if(!req.session.user || req.session.user.kind != "publisher") {
+    res.redirect("/");
+  } else {
+    ZM.addZone(req.session.user.id,req.body, function(e, createdZone) {
+      if(!createdZone || e) {
+        res.send(400, e);
+      } else {
+        res.send(200,createdZone);
+      }
+   });
+  }};

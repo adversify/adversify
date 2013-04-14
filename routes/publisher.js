@@ -36,18 +36,17 @@ exports.signin = function(req, res){
 };
 
 exports.default = function(req,res) {
-  if(!req.session.user || req.session.user.kind != "publisher") {
+  /*if(!req.session.user || req.session.user.kind != "publisher") {
     console.log("Redirect");
     res.redirect("/");
-  } else {
-    console.log(req.session.user.id);
+  } else {*/
           res.render('publisher-default.html', {
             title: "Ad{versify}",
                 locals: {
-                  uid: req.session.user.id
+                  uid: '5165B701457264A995000001'
                 }
           });
-  }
+  //}
 };
 
 
