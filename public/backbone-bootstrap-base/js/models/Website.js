@@ -6,11 +6,10 @@ window.adversify.models.website = (function() {
     },
 
     idAttribute: "_id",
-    url: '/publisher/websites',
     defaults: {
       infos: {
         name: "Joshfire",
-        url: "http://www.joshfire.com"      },
+        url: "http://www.joshfire.com"},
       zones:
         [
           {

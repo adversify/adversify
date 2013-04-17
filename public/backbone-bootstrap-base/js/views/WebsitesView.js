@@ -10,27 +10,33 @@ window.adversify.views.WebsitesView = (function() {
 			this.$el.html(this.template({websites : this.collection.models }));
 		},
 
-		addOne : function(model, collection, options) {
-			consolelog('Adding one element to the DOM');
+		addOneToDOM : function(model, collection, options) {
+			console.log('Adding one element to the DOM');
 			this.itemTemplate = _.template(this.getTemplate("websiteItem"));
 			this.$el.find("#websitesList").append(this.itemTemplate({website : model}));
+		},
+
+		removeOneFromDOM : function(model, collection, options) {
+			this.$el.find('#websitesList .website#'+model.id).remove();
 		},
 
 		setCollection : function(collection) {
 			this.collection = collection;
 			this.listenTo(this.collection, 'reset', this.render);
-			this.listenTo(this.collection, 'add', this.addOne);
-			this.collection.bind("remove", function(model,collection,options) {
-				console.log('remove event on the collection');
-				this.render();
-			}, this);
+			this.listenTo(this.collection, 'add', this.addOneToDOM);
+			this.listenTo(this.collection, 'remove', this.removeOneFromDOM);
 			console.log('Just set the collection with '+this.collection.length);
 		},
-
+		// TODO : clean events, don't bind to events that belong to subviews
 		events: {
 			'click .submit-add-website-form': 'submitWebsite',
 			'click #add-website-button': 'showAddWebsiteForm',
-			'click .close-add-website-form': 'hideAddWebsiteForm'
+			'click .close-add-website-form': 'hideAddWebsiteForm',
+			'click .add-zone-button': 'addZone',
+			'click  .edit-zone-button': 'editZone',
+			'click .delete-zone-button': 'deleteZone',
+			'click .edit-website-button': 'editWebsite',
+			'click .delete-website-button': 'deleteWebsite'
 		},
 
 		formCheck: {
@@ -44,6 +50,44 @@ window.adversify.views.WebsitesView = (function() {
 			}
 		},
 
+		addZone: function(evt) {
+			console.log(evt.currentTarget);
+		},
+
+		editZone: function(evt) {
+			var htmlEl = evt.currentTarget;
+			var zoneId = htmlEl.attributes['adversify-id'];
+		},
+
+		deleteZone: function(evt) {
+			var zoneId = evt.currentTarget.attributes['adversify-id'].nodeValue;
+			var websiteId = $('li#'+zoneId).closest('.website').attr('id');
+			console.log('WEBSITE ID', websiteId);
+			var websiteModel = this.collection.get(websiteId);
+			console.log(websiteModel.get('zones'));
+
+
+			/*
+
+$("table").delegate("input.chk", "click", function(){
+  $(this).closest('tr').find(".disabled").show();
+});
+
+
+			*/
+		},
+
+		editWebsite: function(evt) {
+			console.log(evt.currentTarget);
+		},
+
+		deleteWebsite: function(evt) {
+			var websiteId = $(evt.currentTarget).attr('adversify-id');
+			var websiteModel = this.collection.get(websiteId);
+			websiteModel.destroy();
+			console.log('@deleteWebsite');
+		},
+
 		submitWebsite: function(evt) {
 			evt.preventDefault();
 			console.log('Submit event on #add-website form');
@@ -53,7 +97,10 @@ window.adversify.views.WebsitesView = (function() {
 				websiteHash.infos[field] = formCheck[field]();
 			});
 			var newWebsite = new window.adversify.models.website(websiteHash);
-			newWebsite.save(null,{
+			if(this.collection.length === 0) {
+				this.collection.create(newWebsite);
+			} else if(this.collection.length >= 0){
+				newWebsite.save(null,{
 				success: function(model,response,options) {
 					window.adversify.websites.add(model);
 				},
@@ -74,6 +121,7 @@ window.adversify.views.WebsitesView = (function() {
 
 				}}}
 			);
+			}
 		},
 
 		showAddWebsiteForm: function(evt) {

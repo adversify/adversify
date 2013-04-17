@@ -28,10 +28,11 @@ exports.default = function(req, res) {
 };
 
 exports.deleteWebsite = function(req,res) {
-  if(req.session.user.kind != "publisher") {
+ /* if(req.session.user.kind != "publisher") {
     res.redirect("/");
-  } else {
-    WM.deleteWebsite(req.session.uid,req.param('id'),function(e,websiteWasDeleted){
+  } else { */
+    console.log("@deleteWebsite", req.param('id'));
+    WM.deleteWebsite('5165B701457264A995000001',req.param('id'),function(e,websiteWasDeleted){
       if(e || !websiteWasDeleted) {
         if(!e) {
           e = new Error('Unable to delete website');
@@ -41,7 +42,7 @@ exports.deleteWebsite = function(req,res) {
         res.send("OK", 200);
       }
     });
-  }
+  //}
 };
 
 exports.getWebsite = function(req, res){

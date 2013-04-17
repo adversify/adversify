@@ -29,7 +29,7 @@ module.exports = function(app) {
 	app.get('/publisher/websites', websites.getListOfWebsites);
 	app.get('/publisher/websites/default', websites.default);
 	app.get('/publisher/websites/:id', websites.getWebsite);
-	app.get('/publisher/websites/:id/delete', websites.deleteWebsite); // 
+	app.delete('/publisher/websites/:id', websites.deleteWebsite); // 
 	app.post('/publisher/websites', websites.createWebsite);
 
 	app.get('/publisher/zones/default', zones.default);

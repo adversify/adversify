@@ -82,32 +82,17 @@ WM.getWebsite = function(uId, wId, callback) {
  * @param {Function} callback(err, result) function that is used to give back results
 */
 
-
-// TODO : refactor completely this method, because at the time being, it kind of sucks
 WM.deleteWebsite = function(uId, wId, callback) {
-
-	ZM.deleteZonesByWebsite(uId, nId, function(e, deletedZones) {
-		if(e || !deletedZones) {
-			callback(e);
+	WebsiteModel.findOneAndRemove({_id : wId, owner: uId}, function(err, website) {
+		if(err || !website) {
+			callback(err ? err : 'Unable to find website');
 		} else {
-			WebsiteModel.remove({_id: wId}, function(e) {
-				if(e) {
-					callback(e);
-				} else {
-					PublisherModel.findOne({_id: uId}, function(e, publisher) {
-						if(e || !publisher) {
-							callback(e);
-						} else {
-							publisher.websites.pop(wId);
-							publisher.save();
-						}
-					});
-				}
-			});
+			callback(null,'OK');
 		}
 	});
 
 };
+
 
 /*
  * Create a website
