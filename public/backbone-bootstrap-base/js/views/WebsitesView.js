@@ -56,11 +56,11 @@ window.adversify.views.WebsitesView = (function() {
 
 		editZone: function(evt) {
 			var htmlEl = evt.currentTarget;
-			var zoneId = htmlEl.attributes['adversify-id'];
+			var zoneId = htmlEl.getAttribute('adversify-id');
 		},
 
 		deleteZone: function(evt) {
-			var zoneId = evt.currentTarget.attributes['adversify-id'].nodeValue;
+			var zoneId = evt.currentTarget.getAttribute('adversify-id');
 			var websiteId = $('li#'+zoneId).closest('.website').attr('id');
 			console.log('WEBSITE ID', websiteId);
 			var websiteModel = this.collection.get(websiteId);
@@ -82,7 +82,7 @@ $("table").delegate("input.chk", "click", function(){
 		},
 
 		deleteWebsite: function(evt) {
-			var websiteId = $(evt.currentTarget).attr('adversify-id');
+			var websiteId = evt.currentTarget.getAttribute('adversify-id');
 			var websiteModel = this.collection.get(websiteId);
 			websiteModel.destroy();
 			console.log('@deleteWebsite');
