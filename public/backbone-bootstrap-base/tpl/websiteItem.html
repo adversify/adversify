@@ -1,22 +1,53 @@
 <% var websiteId = website.id ? website.id : website.cid; %>
-<li id="<%= websiteId%>">
-<a href="#<%= websiteId %>" class="linkTab">
-	<%= website.get('infos').name %> : 
-	<em><%= website.get('infos').url %></em>
-</a>
-<button class='btn add-zone-button'>Add a zone to this website</button>
-<button class='btn btn-warning'>Edit</button>
-<button class='btn btn-danger'>Delete</button>
-<ul>
-	<% if(website.get('zones') && website.get('zones').length > 0) {
-			_.each(website.get('zones'), function(zone, index) {
-			%>
-				<li><a href="#websites"><%=zone.name%></a></li>
-				<button class='btn btn-small btn-warning'>Edit</button>
-				<button class='btn btn-small btn-danger'>Delete</button>
-			<%
-			}); 
-		}	
-	%>
-</ul>
+<li id="<%= websiteId%>" class='website slideToRight'>
+	<a href="#websites/<%= websiteId %>" class="linkTab">
+		<%= website.get('infos').name %> : 
+		<em><%= website.get('infos').url %></em>
+	</a>
+	<button class='btn add-zone-button'>Add a zone to this website</button>
+	<button class='btn btn-warning edit-website-button'>Edit</button>
+	<button class='btn btn-danger delete-website-button' adversify-id='<%= websiteId%>'>Delete</button>
+	<ul>
+		<% if(website.get('zones') && website.get('zones').length > 0) {
+				_.each(website.get('zones'), function(zone, index) {
+					var zoneId = zone._id;
+				%>
+					<li id="<%= zoneId %>" class="websiteZone">
+						<a adversify-id='<%= zoneId %>' href="#websites/zones/<%=zone.Id%>"><%=zone.name%></a>
+						<div class='zone-actions'>
+							<button adversify-id='<%= zoneId %>' class='btn btn-small btn-warning edit-zone-button'>Edit</button>
+							<button adversify-id='<%= zoneId %>'class='btn btn-small btn-danger delete-zone-button'>Delete</button>
+						</div>
+						<form class='well edit-zone-form' style='display:none;margin-top:20px'>
+						    <legend>Edit this zone<button adversify-id='<%= zoneId %>' class='pull-right btn btn-inverse close-edit-zone-form'>Close</button></legend>
+							<input type='text' placeholder='Zone name'/><br/>
+							<select class="zoneremuneration" name="zoneremuneration">
+                                <option value="">CPC or CPM?</option>
+                                <option value="cpc">CPC</option>
+                                <option value="cpm">CPM</option>
+                                <option value="*">Nevermind</option>
+                			</select><br/>
+                            <select class="zoneformat" name="zoneformat">
+                                <option value="">Image or Textual?</option>
+                                <option value="image">Image</option>
+                                <option value="text">Textual</option>
+                            </select><br/>
+                            <select class="zonedimensions" name="zonedimensions">
+                                <option value="">How big?</option>
+                                <option value="300x233">300x233</option>
+                                <option value="234x60">234x60</option>
+                                <option value="125x125">125x125</option>
+                                <option value="180x150">180x150</option>
+                                <option value="120x130">120x230</option>
+                                <option value="200x200">200x200</option>
+                                <option value="233x233">233x233</option>
+                        	</select><br/>
+							<button class='btn btn-success submit-edit-zone-form'>Save</button>
+						</form>
+					</li>
+				<%
+				}); 
+			}	
+		%>
+	</ul>
 </li>
