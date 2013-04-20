@@ -6,6 +6,7 @@ window.adversify.models.website = (function() {
     },
 
     idAttribute: "_id",
+    urlRoot: '/publisher/websites',
     defaults: {
       infos: {
         name: "Joshfire",
