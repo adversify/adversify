@@ -156,12 +156,14 @@ $("table").delegate("input.chk", "click", function(){
 			evt.preventDefault();
 		},
 
-		submitZone: function(evt) {
+		submitZoneEdit: function(evt) {
 			evt.preventDefault();
-			console.log('Submit event on .add-zone form');
+			var zoneId = htmlEl.getAttribute('adversify-id');
+			var editZoneForm = $('li#'+zoneId+' form.edit-zone-form');
+			console.log('Submit event on .edit-zone form');
 			if(this.collection.length === 0) {
 				this.collection.create(newWebsite, {wait: true});
-			} else if(this.collection.length >= 0){
+			} else if(this.collection.length > 0){
 				newWebsite.save(null,{
 				success: function(model,response,options) {
 					window.adversify.websites.add(model);

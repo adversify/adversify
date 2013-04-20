@@ -20,28 +20,29 @@
 						</div>
 						<form class='well edit-zone-form' style='display:none;margin-top:20px'>
 						    <legend>Edit this zone<button adversify-id='<%= zoneId %>' class='pull-right btn btn-inverse close-edit-zone-form'>Close</button></legend>
-							<input type='text' placeholder='Zone name'/><br/>
+							<input type='text' placeholder='Zone name' value='<%= zone.name %>'/><br/>
 							<select class="zoneremuneration" name="zoneremuneration">
-                                <option value="">CPC or CPM?</option>
-                                <option value="cpc">CPC</option>
-                                <option value="cpm">CPM</option>
-                                <option value="*">Nevermind</option>
-                			</select><br/>
-                            <select class="zoneformat" name="zoneformat">
-                                <option value="">Image or Textual?</option>
-                                <option value="image">Image</option>
-                                <option value="text">Textual</option>
-                            </select><br/>
-                            <select class="zonedimensions" name="zonedimensions">
-                                <option value="">How big?</option>
-                                <option value="300x233">300x233</option>
-                                <option value="234x60">234x60</option>
-                                <option value="125x125">125x125</option>
-                                <option value="180x150">180x150</option>
-                                <option value="120x130">120x230</option>
-                                <option value="200x200">200x200</option>
-                                <option value="233x233">233x233</option>
-                        	</select><br/>
+					            <option value="">CPC or CPM?</option>
+					            <option value="cpc" <%= (zone.options.remuneration === 'cpc') ? 'selected' : '' %>>CPC</option>
+					            <option value="cpm" <%= (zone.options.remuneration === 'cpm') ? 'selected' : '' %>>CPM</option>
+					            <option value="*" <%= (zone.options.remuneration === '*') ? 'selected' : '' %>>Nevermind</option>
+							</select><br/>
+					        <select class="zoneformat" name="zoneformat">
+					            <option value="">Image or Textual?</option>
+					            <option value="image" <%= (zone.options.type === 'image') ? 'selected' : '' %>>Image</option>
+					            <option value="text" <%= (zone.options.type === 'text') ? 'selected' : '' %>>Textual</option>
+					            <option value="*" <%= (zone.options.type === '*') ? 'selected' : '' %>>Nevermind</option>
+					        </select><br/>
+					        <select class="zonedimensions" name="zonedimensions">
+					            <option value="">How big?</option>
+					            <option value="300x233" <%= (zone.design.dimensions === '300x233') ? 'selected' : '' %>>300x233</option>
+					            <option value="234x60" <%= (zone.design.dimensions === '234x60') ? 'selected' : '' %>>234x60</option>
+					            <option value="125x125" <%= (zone.design.dimensions === '125x125') ? 'selected' : '' %>>125x125</option>
+					            <option value="180x150" <%= (zone.design.dimensions === '180x150') ? 'selected' : '' %>>180x150</option>
+					            <option value="120x130" <%= (zone.design.dimensions === '120x130') ? 'selected' : '' %>>120x230</option>
+					            <option value="200x200" <%= (zone.design.dimensions === '200x200') ? 'selected' : '' %>>200x200</option>
+					            <option value="233x233" <%= (zone.design.dimensions === '233x233') ? 'selected' : '' %>>233x233</option>
+					    	</select><br/>
 							<button class='btn btn-success submit-edit-zone-form'>Save</button>
 						</form>
 					</li>
