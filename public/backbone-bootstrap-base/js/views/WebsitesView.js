@@ -11,9 +11,15 @@ window.adversify.views.WebsitesView = (function() {
 		},
 
 		addOneToDOM : function(model, collection, options) {
-			console.log('Adding one element to the DOM');
+			console.log('Adding one websites to the DOM');
 			this.itemTemplate = _.template(this.getTemplate("websiteItem"));
 			this.$el.find("#websitesList").append(this.itemTemplate({website : model}));
+		},
+
+		addOneZoneToDOM : function(model, collection, options) {
+			console.log('Adding one zone to the DOM');
+			this.itemTemplate = _.template(this.getTemplate("ZoneItem"));
+			this.$el.find(".website .websiteZone#"+model.id).append(this.itemTemplate({zone : model}));
 		},
 
 		removeOneFromDOM : function(model, collection, options) {
@@ -148,6 +154,36 @@ $("table").delegate("input.chk", "click", function(){
 			var editZoneForm = $('li#'+zoneId+' form.edit-zone-form');
 			editZoneForm.show();
 			evt.preventDefault();
+		},
+
+		submitZone: function(evt) {
+			evt.preventDefault();
+			console.log('Submit event on .add-zone form');
+			if(this.collection.length === 0) {
+				this.collection.create(newWebsite, {wait: true});
+			} else if(this.collection.length >= 0){
+				newWebsite.save(null,{
+				success: function(model,response,options) {
+					window.adversify.websites.add(model);
+				},
+				error: function(model,xhr,options) {
+					if(xhr.responseText === 'website-already-exists') {
+						console.log('website already exists');
+					} else {
+						var responseText = JSON.parse(xhr.responseText);
+						if(responseText.name === 'ValidationError'){
+							if(responseText.errors['infos.url']){
+								console.log('Url validation failed');
+							} else if(responseText.errors['infos.name']) {
+								console.log('Name validation failed');
+							} else {
+								console.log('Validation failed ...', console.log(responseText.errors));
+							}
+					}
+
+				}}}
+			);
+			}
 		},
 
 		hideEditZoneForm: function(evt) {
