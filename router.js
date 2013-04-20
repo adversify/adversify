@@ -26,11 +26,13 @@ module.exports = function(app) {
 	app.get('/publisher/security', publisher.getActions);
 
 	app.get('/publisher/default', publisher.default);
-	app.get('/publisher/websites', websites.getListOfWebsites);
 	app.get('/publisher/websites/default', websites.default);
+
+	app.get('/publisher/websites', websites.getListOfWebsites);	
 	app.get('/publisher/websites/:id', websites.getWebsite);
 	app.delete('/publisher/websites/:id', websites.deleteWebsite); // 
 	app.post('/publisher/websites', websites.createWebsite);
+	app.put('/publisher/websites/:id', websites.updateWebsite);
 
 	app.get('/publisher/zones/default', zones.default);
 	app.post('/publisher/zones', zones.createZone);

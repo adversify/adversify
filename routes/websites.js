@@ -72,39 +72,18 @@ exports.createWebsite = function(req,res) {
         res.send(createdWebsite, 200);
       }
     });
- /* console.log('SESSION',req.session.user);
-  if(!req.session.user || req.session.user.kind != "publisher") {
-    res.redirect("/");
-  } else {
-    WM.addWebsite(req.session.user.id,req.body,function(e,createdWebsite) {
-      if(!createdWebsite || e) {
-        if(!e) {
-          e = new Error('Unable to create website');
-        }
-        console.log(e);
-        res.send(e, 400);
-      }
-      else {
-        res.send(createdWebsite, 200);
-      }
-    });
-  }*/
 };
 
 exports.updateWebsite = function(req, res) {
-  if(req.session.kind != "publisher") {
-    res.redirect("/");
-  } else {
-    WM.updateWebsite(req.session.uid,req.body,function(e,updatedWebsite) {
-      if(!updatedWebsite || e) {
-        if(!e) {
-          e = new Error('Unable to update website');
-        }
-          res.send(e, 400);
+  WM.updateWebsite('5165B701457264A995000001',req.param('id'),req.body,function(e,updatedWebsite) {
+    if(!updatedWebsite || e) {
+      if(!e) {
+        e = new Error('Unable to update website');
       }
-      else {
-        res.send(updatedWebsite, 200);
-      }
-    });
-  }
+        res.send(e, 400);
+    }
+    else {
+      res.send(updatedWebsite, 200);
+    }
+  });
 };

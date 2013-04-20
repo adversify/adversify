@@ -1,8 +1,10 @@
 var mongoose = require('mongoose'),
-ZM = require('../modules/zone-manager.js'),
+_ = require('underscore'),
 WM = {};
 
 module.exports = WM; // WEBSITE MANAGER MODULE
+
+
 
 /*
  * Retrieve publishers websites list
@@ -15,17 +17,13 @@ module.exports = WM; // WEBSITE MANAGER MODULE
 
 
 WM.getListOfWebsites = function(uId,nb,sort,callback) {
-	var websiteIds = [];
-	console.log('@ website-manager');
 	WebsiteModel.find({owner: uId}, function(err, fetchedWebsites) {
 		if(err || !fetchedWebsites) {
 			if(!err) {
 				err = new Error('Unable to retrieve your websites');
 			}
-			console.log('halala');
 			callback(err);
 		} else {
-			console.log('izi');
 			callback(null,fetchedWebsites);
 		}
 	});
@@ -41,13 +39,12 @@ WM.getListOfWebsites = function(uId,nb,sort,callback) {
 */
 
 WM.updateWebsite = function(uId, websiteId, newData, callback) {
-	WebsiteModel.findOneAndUpdate({_id : websiteId, owner: uId},{update : update}, function(err, websiteToUpdate) {
-		if(err || !websiteToUpdate) {
-			if(!err) {
-				err = new Error('Unable to update this website');
-			}
+	newData = _.omit(newData, '_id');
+	WebsiteModel.findOneAndUpdate({_id : websiteId, owner: uId},newData, function(err, updatedWebsite) {
+		if(err || !updatedWebsite) {
+			callback(err ? err : 'Unable to update this website.');
 		} else {
-			callback(null,websitoToUpdate);
+			callback(null, updatedWebsite);
 		}
 	});
 };
@@ -63,10 +60,7 @@ WM.updateWebsite = function(uId, websiteId, newData, callback) {
 WM.getWebsite = function(uId, wId, callback) {
 	WebsiteModel.findOne({owner: uId, _id: wId}, function(err, fetchedWebsite) {
 		if(err || !fetchedWebsite) {
-			if(!err) {
-				err = fetchedWebsite;
-			}
-			callback(err);
+			callback(err ? err : 'Unable to find this website');
 		} else {
 			callback(null, fetchedWebsite);
 		}
@@ -114,7 +108,6 @@ WM.addWebsite = function(uId,newData,callback) {
 	});
 	newWebsite.save(function(err) {
 		if(err) {
-			console.log(err);
 			callback((err.code !== 11000) ? err : 'website-already-exists');
 		} else {
 			callback(null, newWebsite);
