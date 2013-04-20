@@ -89,8 +89,10 @@ $("table").delegate("input.chk", "click", function(){
 
 		deleteWebsite: function(evt) {
 			var websiteId = evt.currentTarget.getAttribute('adversify-id');
+			console.log(websiteId);
 			var websiteModel = this.collection.get(websiteId);
 			websiteModel.destroy();
+			this.collection.remove(websiteModel);
 			console.log('@deleteWebsite');
 		},
 
@@ -104,7 +106,7 @@ $("table").delegate("input.chk", "click", function(){
 			});
 			var newWebsite = new window.adversify.models.website(websiteHash);
 			if(this.collection.length === 0) {
-				this.collection.create(newWebsite);
+				this.collection.create(newWebsite, {wait: true});
 			} else if(this.collection.length >= 0){
 				newWebsite.save(null,{
 				success: function(model,response,options) {
