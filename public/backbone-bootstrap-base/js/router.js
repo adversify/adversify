@@ -1,5 +1,5 @@
 
-window.adversify.router =  (function(HomeView, TestView, WebsitesView, AddWebsiteView) {
+window.adversify.router =  (function(HomeView, TestView, WebsitesPanelView, AddWebsiteView, WebsitesListView) {
 	return Backbone.Router.extend({
 		routes: {
 			"": "home",
@@ -21,7 +21,7 @@ window.adversify.router =  (function(HomeView, TestView, WebsitesView, AddWebsit
 		websites: function() {
 			window.adversify.websites = new window.adversify.collections.websites();
 			window.adversify.websites.fetch();
-			this.moveTo(new WebsitesView(window.adversify.websites));
+			this.moveTo(new WebsitesPanelView({websitesCollection:window.adversify.websites}));
 		},
 
 		addWebsite: function() {
@@ -29,13 +29,10 @@ window.adversify.router =  (function(HomeView, TestView, WebsitesView, AddWebsit
 		},
 
 		moveTo: function (view) {
-			console.log("MOVE TO");
 			view.render();
 			console.log('view rendered');
 			$('#page-content').html($(view.el));
-			this.lastView = this.currentView;
-			this.currentView = view;
 		}
 
 	});
-})(window.adversify.views.HomeView,window.adversify.views.TestView,window.adversify.views.WebsitesView,window.adversify.views.AddWebsiteView);
+})(window.adversify.views.HomeView,window.adversify.views.TestView,window.adversify.views.WebsitesPanelView,window.adversify.views.AddWebsiteView, window.adversify.views.WebsitesListView);
