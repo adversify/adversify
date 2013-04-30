@@ -25,20 +25,8 @@ window.adversify.views.AddWebsiteView = (function() {
 			}
 		},
 
-
 		addWebsiteForm: {
 			fields : ['name','url']
-		},
-
-		showAddWebsiteForm: function(evt) {
-			console.log('show addWebsite form');
-			$('#addWebsiteForm').removeClass('slideFromRight').addClass('slideToRight');
-			evt.preventDefault();
-		},
-
-		hideAddWebsiteForm: function(evt) {
-			$('#addWebsiteForm').removeClass('slideToRight').addClass('slideFromRight');
-			evt.preventDefault();
 		},
 
 		submitWebsite: function(evt) {

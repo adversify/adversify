@@ -30,7 +30,6 @@ window.adversify.router =  (function(HomeView, TestView, WebsitesPanelView, AddW
 
 		moveTo: function (view) {
 			view.render();
-			console.log('view rendered');
 			$('#page-content').html($(view.el));
 		}
 
