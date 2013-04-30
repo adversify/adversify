@@ -2,6 +2,7 @@ window.adversify.views.AddWebsiteView = (function() {
 	return Backbone.View.extend({
 		initialize: function(options) {
 			options = options || {};
+			this.parentView = options.parentView;
 			this.template = _.template(this.getTemplate("addWebsite"));
 			console.log('Add a website subview init');
 		},
@@ -17,11 +18,16 @@ window.adversify.views.AddWebsiteView = (function() {
 
 		formCheck: {
 			name: function() {
-				console.log($('#add-website input["name"]').val());
+				return $('#add-website input.name').val();
 			},
 			url: function() {
-				console.log($('#add-website input["url"]').val());
+				return $('#add-website input.url').val();
 			}
+		},
+
+
+		addWebsiteForm: {
+			fields : ['name','url']
 		},
 
 		showAddWebsiteForm: function(evt) {
@@ -44,9 +50,9 @@ window.adversify.views.AddWebsiteView = (function() {
 				websiteHash.infos[field] = formCheck[field]();
 			});
 			var newWebsite = new window.adversify.models.website(websiteHash);
-			if(this.collection.length === 0) {
-				this.collection.create(newWebsite, {wait: true});
-			} else if(this.collection.length >= 0){
+			if(this.parentView.subviews.websitesList.collection.length === 0) {
+				this.parentView.subviews.websitesList.collection.create(newWebsite, {wait: true});
+			} else if(this.parentView.subviews.websitesList.collection.length >= 0){
 				newWebsite.save(null,{
 					success: function(model,response,options) {
 						window.adversify.websites.add(model);
@@ -62,7 +68,7 @@ window.adversify.views.AddWebsiteView = (function() {
 								} else if(responseText.errors['infos.name']) {
 									console.log('Name validation failed');
 								} else {
-									console.log('Validation failed ...', console.log(responseText.errors));
+									console.log('Validation failed ...', responseText.errors);
 								}
 							}
 						}
@@ -70,10 +76,6 @@ window.adversify.views.AddWebsiteView = (function() {
 				}
 			);
 			}
-		},
-
-		addWebsiteForm: {
-			fields : ['name','url']
 		}
 
 	});
