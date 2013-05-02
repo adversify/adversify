@@ -23,7 +23,7 @@
 									</div>
 									<form class='well edit-zone-form' style='display:none;margin-top:20px'>
 									    <legend>Edit this zone<button adversify-id='<%= zoneId %>' class='pull-right btn btn-inverse close-edit-zone-form'>Close</button></legend>
-										<input type='text' placeholder='Zone name' value='<%= zone.name %>'/><br/>
+										<input type='text' name="zonename" class='zonename' placeholder='Zone name' value='<%= zone.name %>'/><br/>
 										<select class="zoneremuneration" name="zoneremuneration">
 								            <option value="">CPC or CPM?</option>
 								            <option value="cpc" <%= (zone.options.remuneration === 'cpc') ? 'selected' : '' %>>CPC</option>
@@ -46,7 +46,7 @@
 								            <option value="200x200" <%= (zone.design.dimensions === '200x200') ? 'selected' : '' %>>200x200</option>
 								            <option value="233x233" <%= (zone.design.dimensions === '233x233') ? 'selected' : '' %>>233x233</option>
 								    	</select><br/>
-										<button class='btn btn-success submit-edit-zone-form'>Save</button>
+										<button class='btn btn-success submit-edit-zone-form' adversify-id='<%= zoneId %>'>Save</button>
 									</form>
 								</li>
 					<%

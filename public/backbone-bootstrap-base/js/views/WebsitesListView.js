@@ -13,6 +13,7 @@ window.adversify.views.WebsitesListView = (function() {
 
 			'click .delete-zone-button': 'deleteZone',
 			'click .edit-zone-button': 'showEditZoneForm',
+			'click .submit-edit-zone-form': 'submitZoneEdit',
 
 			'click .close-edit-zone-form' : 'hideEditZoneForm'
 		},
@@ -36,10 +37,14 @@ window.adversify.views.WebsitesListView = (function() {
 
 		addOneZoneToDOM : function(model, collection, options) {
 			console.log('addOneZoneToDOM @WebsitesListView');
+			console.log(model);
+			console.log(collection);
+			console.log(options);
 		},
 
 		removeOneZoneFromDOM : function(model,collection,options) {
 			console.log('removeOneFromDOM @WebsitesListView');
+			this.$el.find('#websitesList .website #'+model.id).remove();
 		},
 
 		setZoneCollection : function(model, collection) {
@@ -80,26 +85,22 @@ window.adversify.views.WebsitesListView = (function() {
 			websiteModel.set({'zones':websiteModel.get('zones').models});
 			websiteModel.save();
 			console.log('@EndOfDeleteZone');
-			/*
-
-$("table").delegate("input.chk", "click", function(){
-  $(this).closest('tr').find(".disabled").show();
-});
-
-
-			*/
 		},
 
 		submitZoneEdit: function(evt) {
 			evt.preventDefault();
 			var htmlEl = evt.currentTarget;
 			var zoneId = htmlEl.getAttribute('adversify-id');
-			var editZoneForm = $('li#'+zoneId+' form.edit-zone-form');
+			var websiteId = this.$el.find('li#'+zoneId).closest('.website').attr('id');
+			var editZoneForm = this.$el.find('li#'+zoneId+' form.edit-zone-form');
 			var zoneHash = {'design': {}, 'options': {}};
 			_.each(this.editZoneForm.fields, function(field) {
 				zoneHash[field] = field;
 			});
-			console.log(zoneHash);
+			var websiteModel = this.collection.get(websiteId);
+			this.setZoneCollection(websiteModel, websiteModel.zoneListToCollection());
+			var zoneModel = websiteModel.get('zones').get(zoneId);
+			console.log(editZoneForm.serializeArray());
 		},
 
 		showEditZoneForm: function(evt) {
@@ -118,7 +119,11 @@ $("table").delegate("input.chk", "click", function(){
 			evt.preventDefault();
 		},
 
-		title: 'My websites'
+		title: 'My websites',
+
+		editZoneForm : {
+			fields: ['zonename', 'zoneremuneration', 'zoneformat', 'zonedimensions']
+		}
 
 	});
 })();
