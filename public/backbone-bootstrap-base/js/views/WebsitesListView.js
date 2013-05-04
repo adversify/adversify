@@ -21,6 +21,7 @@ window.adversify.views.WebsitesListView = (function() {
 		render : function () {
 			console.log("@websitesListView RENDER");
 			console.log('rendering with '+this.collection.models.length);
+			console.log(this.collection);
 			this.$el.html(this.template({websites : this.collection.models }));
 		},
 
@@ -48,7 +49,7 @@ window.adversify.views.WebsitesListView = (function() {
 		},
 
 		setZoneCollection : function(model, zoneCollection) {
-			model.set({zones : zoneCollection});
+			model.set({zones : zoneCollection}, {silent: true});
 			this.listenTo(zoneCollection, 'add', this.addOneZoneToDOM);
 			this.listenTo(zoneCollection, 'remove', this.removeOneZoneFromDOM);
 		},
@@ -56,6 +57,7 @@ window.adversify.views.WebsitesListView = (function() {
 		setCollection : function(collection) {
 			this.collection = collection;
 			this.listenTo(this.collection, 'reset', this.render);
+			this.listenTo(this.collection, 'change', this.render);
 			this.listenTo(this.collection, 'add', this.addOneWebsiteToDOM);
 			this.listenTo(this.collection, 'remove', this.removeOneWebsiteFromDOM);
 		},
@@ -105,9 +107,8 @@ window.adversify.views.WebsitesListView = (function() {
 			this.setZoneCollection(websiteModel, websiteModel.zoneListToCollection());
 			var zoneModel = websiteModel.get('zones').get(zoneId);
 			zoneModel.set(zoneHash);
-			console.log("Attempting to set zoneCollection as a List within the model");
-			console.log(websiteModel.zoneCollectionToList());
 			websiteModel.set('zones' , websiteModel.zoneCollectionToList());
+			console.log(websiteModel.get('zones'));
 			console.log("Zone collection wat put back as a list in the websiteModel");
 			websiteModel.save(null, {
 				success: function() {
