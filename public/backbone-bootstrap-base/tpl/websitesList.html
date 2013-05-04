@@ -23,20 +23,20 @@
 									</div>
 									<form class='well edit-zone-form' style='display:none;margin-top:20px'>
 									    <legend>Edit this zone<button adversify-id='<%= zoneId %>' class='pull-right btn btn-inverse close-edit-zone-form'>Close</button></legend>
-										<input type='text' name="zonename" class='zonename' placeholder='Zone name' value='<%= zone.name %>'/><br/>
-										<select class="zoneremuneration" name="zoneremuneration">
+										<input type='text' name="name" class='zonename' placeholder='Zone name' value='<%= zone.name %>'/><br/>
+										<select class="zoneremuneration" name="options.remuneration">
 								            <option value="">CPC or CPM?</option>
 								            <option value="cpc" <%= (zone.options.remuneration === 'cpc') ? 'selected' : '' %>>CPC</option>
 								            <option value="cpm" <%= (zone.options.remuneration === 'cpm') ? 'selected' : '' %>>CPM</option>
 								            <option value="*" <%= (zone.options.remuneration === '*') ? 'selected' : '' %>>Nevermind</option>
 										</select><br/>
-								        <select class="zoneformat" name="zoneformat">
+								        <select class="zonetype" name="options.type">
 								            <option value="">Image or Textual?</option>
 								            <option value="image" <%= (zone.options.type === 'image') ? 'selected' : '' %>>Image</option>
 								            <option value="text" <%= (zone.options.type === 'text') ? 'selected' : '' %>>Textual</option>
 								            <option value="*" <%= (zone.options.type === '*') ? 'selected' : '' %>>Nevermind</option>
 								        </select><br/>
-								        <select class="zonedimensions" name="zonedimensions">
+								        <select class="zonedimensions" name="design.dimensions">
 								            <option value="">How big?</option>
 								            <option value="300x233" <%= (zone.design.dimensions === '300x233') ? 'selected' : '' %>>300x233</option>
 								            <option value="234x60" <%= (zone.design.dimensions === '234x60') ? 'selected' : '' %>>234x60</option>

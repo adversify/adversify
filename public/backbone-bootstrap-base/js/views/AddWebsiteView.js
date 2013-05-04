@@ -30,6 +30,7 @@ window.adversify.views.AddWebsiteView = (function() {
 		},
 
 		submitWebsite: function(evt) {
+			var self = this;
 			evt.preventDefault();
 			console.log('Submit event on #add-website form FROM AddWebsiteView');
 			var formCheck = this.formCheck;
@@ -43,7 +44,7 @@ window.adversify.views.AddWebsiteView = (function() {
 			} else if(this.parentView.subviews.websitesList.collection.length >= 0){
 				newWebsite.save(null,{
 					success: function(model,response,options) {
-						window.adversify.websites.add(model);
+						self.collection.add(model);
 					},
 					error: function(model,xhr,options) {
 						if(xhr.responseText === 'website-already-exists') {

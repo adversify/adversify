@@ -47,10 +47,10 @@ window.adversify.views.WebsitesListView = (function() {
 			this.$el.find('#websitesList .website #'+model.id).remove();
 		},
 
-		setZoneCollection : function(model, collection) {
-			model.set({zones : collection});
-			this.listenTo(collection, 'add', this.addOneZoneToDOM);
-			this.listenTo(collection, 'remove', this.removeOneZoneFromDOM);
+		setZoneCollection : function(model, zoneCollection) {
+			model.set({zones : zoneCollection});
+			this.listenTo(zoneCollection, 'add', this.addOneZoneToDOM);
+			this.listenTo(zoneCollection, 'remove', this.removeOneZoneFromDOM);
 		},
 
 		setCollection : function(collection) {
@@ -78,7 +78,7 @@ window.adversify.views.WebsitesListView = (function() {
 
 		deleteZone: function(evt) {
 			var zoneId = evt.currentTarget.getAttribute('adversify-id');
-			var websiteId = $('li#'+zoneId).closest('.website').attr('id');
+			var websiteId = this.$el.find('li#'+zoneId).closest('.website').attr('id');
 			var websiteModel = this.collection.get(websiteId);
 			this.setZoneCollection(websiteModel, websiteModel.zoneListToCollection());
 			websiteModel.get('zones').remove(websiteModel.get('zones').get(zoneId));
@@ -92,21 +92,37 @@ window.adversify.views.WebsitesListView = (function() {
 			var htmlEl = evt.currentTarget;
 			var zoneId = htmlEl.getAttribute('adversify-id');
 			var websiteId = this.$el.find('li#'+zoneId).closest('.website').attr('id');
-			var editZoneForm = this.$el.find('li#'+zoneId+' form.edit-zone-form');
-			var zoneHash = {'design': {}, 'options': {}};
-			_.each(this.editZoneForm.fields, function(field) {
-				zoneHash[field] = field;
-			});
+			var editZoneForm = this.$el.find('li#'+zoneId+' form.edit-zone-form')[0];
+			var zoneHash = {
+			'name' : editZoneForm['name'].value,
+			'design': {
+				'dimensions' : editZoneForm['design.dimensions'].value
+			}, 'options': {
+				'type' : editZoneForm['options.type'].value,
+				'remuneration': editZoneForm['options.remuneration'].value
+			}};
 			var websiteModel = this.collection.get(websiteId);
 			this.setZoneCollection(websiteModel, websiteModel.zoneListToCollection());
 			var zoneModel = websiteModel.get('zones').get(zoneId);
-			console.log(editZoneForm.serializeArray());
+			zoneModel.set(zoneHash);
+			console.log("Attempting to set zoneCollection as a List within the model");
+			console.log(websiteModel.zoneCollectionToList());
+			websiteModel.set('zones' , websiteModel.zoneCollectionToList());
+			console.log("Zone collection wat put back as a list in the websiteModel");
+			websiteModel.save(null, {
+				success: function() {
+					this.$('li#'+zoneId+' form.edit-zone-form').hide();
+				},
+				error: function() {
+					alert("Unable to save your modifications.");
+				}
+			});
 		},
 
 		showEditZoneForm: function(evt) {
 			var htmlEl = evt.currentTarget;
 			var zoneId = htmlEl.getAttribute('adversify-id');
-			var editZoneForm = $('li#'+zoneId+' form.edit-zone-form');
+			var editZoneForm = this.$el.find('li#'+zoneId+' form.edit-zone-form');
 			editZoneForm.show();
 			evt.preventDefault();
 		},
@@ -114,8 +130,8 @@ window.adversify.views.WebsitesListView = (function() {
 		hideEditZoneForm: function(evt) {
 			var htmlEl = evt.currentTarget;
 			var zoneId = htmlEl.getAttribute('adversify-id');
-			var editZoneForm = $('li#'+zoneId+' form.edit-zone-form');
-			editZoneForm.hide();
+			var editZoneForm = this.$el.find('li#'+zoneId+' form.edit-zone-form');
+			$(editZoneForm).hide();
 			evt.preventDefault();
 		},
 

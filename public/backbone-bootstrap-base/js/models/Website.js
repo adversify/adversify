@@ -32,6 +32,11 @@ window.adversify.models.website = (function() {
       });
      var collection = new ZoneCollection(zoneList);
      return collection;
+    },
+
+    zoneCollectionToList: function() {
+      var zoneCollection = this.get('zones');
+      return zoneCollection.toJSON();
     }
 
   });
