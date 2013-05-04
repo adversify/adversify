@@ -41,7 +41,7 @@ window.adversify.views.AddWebsiteView = (function() {
 			var newWebsite = new window.adversify.models.website(websiteHash);
 			if(this.parentView.subviews.websitesList.collection.length === 0) {
 				this.parentView.subviews.websitesList.collection.create(newWebsite, {wait: true});
-			} else if(this.parentView.subviews.websitesList.collection.length >= 0){
+			} else if(this.parentView.subviews.websitesList.collection.length > 0){
 				newWebsite.save(null,{
 					success: function(model,response,options) {
 						self.collection.add(model);

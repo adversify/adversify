@@ -10,11 +10,11 @@ window.adversify.views.WebsitesListView = (function() {
 		events: {
 			'click .delete-website-button': 'deleteWebsite',
 			'click .edit-website-button': 'editWebsite',
+			'click .add-zone-button' : 'showAddZoneForm',
 
 			'click .delete-zone-button': 'deleteZone',
 			'click .edit-zone-button': 'showEditZoneForm',
 			'click .submit-edit-zone-form': 'submitZoneEdit',
-
 			'click .close-edit-zone-form' : 'hideEditZoneForm'
 		},
 
@@ -74,8 +74,23 @@ window.adversify.views.WebsitesListView = (function() {
 			console.log('edit website');
 		},
 
-		addZone: function(evt) {
-			console.log(evt.currentTarget);
+		showAddZoneForm: function(evt) {
+			var websiteId = evt.currentTarget.getAttribute('adversify-id');
+			var websiteModel = this.collection.get(websiteId);
+			var addZoneForm = this.$el.find('li#'+websiteId+' form.add-zone-form');
+			addZoneForm.show();
+
+		},
+
+		submitAddZone: function(evt) {
+			var websiteId = evt.currentTarget.getAttribute('adversify-id');
+			var websiteModel = this.collection.get(websiteId);
+			this.setZoneCollection(websiteModel, websiteModel.zoneListToCollection());
+			if(websiteModel.get('zones').length === 0) {
+				console.log("Zone will be added as a zone collection.create(zoneModel)");
+			} else if(websiteModel.get('zones').length > 0) {
+				console.log("Zone will be added as a zone.collection.add(zoneModel)");
+			}
 		},
 
 		deleteZone: function(evt) {
@@ -91,8 +106,7 @@ window.adversify.views.WebsitesListView = (function() {
 
 		submitZoneEdit: function(evt) {
 			evt.preventDefault();
-			var htmlEl = evt.currentTarget;
-			var zoneId = htmlEl.getAttribute('adversify-id');
+			var zoneId = evt.currentTarget.getAttribute('adversify-id');
 			var websiteId = this.$el.find('li#'+zoneId).closest('.website').attr('id');
 			var editZoneForm = this.$el.find('li#'+zoneId+' form.edit-zone-form')[0];
 			var zoneHash = {
@@ -108,8 +122,6 @@ window.adversify.views.WebsitesListView = (function() {
 			var zoneModel = websiteModel.get('zones').get(zoneId);
 			zoneModel.set(zoneHash);
 			websiteModel.set('zones' , websiteModel.zoneCollectionToList());
-			console.log(websiteModel.get('zones'));
-			console.log("Zone collection wat put back as a list in the websiteModel");
 			websiteModel.save(null, {
 				success: function() {
 					this.$('li#'+zoneId+' form.edit-zone-form').hide();

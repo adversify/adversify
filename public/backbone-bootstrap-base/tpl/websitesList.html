@@ -7,9 +7,16 @@
 					<%= website.get('infos').name %> : 
 					<em><%= website.get('infos').url %></em>
 				</a>
-				<button class='btn add-zone-button'>Add a zone to this website</button>
-				<button class='btn btn-warning edit-website-button'>Edit</button>
-				<button class='btn btn-danger delete-website-button' adversify-id='<%= websiteId%>'>Delete</button>
+				<div class="website-actions">
+					<button class='btn add-zone-button' adversify-id='<%= websiteId%>'>Add a zone to this website</button>
+					<button class='btn btn-warning edit-website-button' adversify-id='<%= websiteId%>'>Edit</button>
+					<button class='btn btn-danger delete-website-button' adversify-id='<%= websiteId%>'>Delete</button>
+				</div>
+				<form class='well add-zone-form' style='display:none;margin-top:20px'>
+				    <legend>Add a zone to this website<button adversify-id='<%= websiteId %>' class='pull-right btn btn-inverse close-add-zone-form'>Close</button></legend>
+					<input type='text' name="name" class='zonename' placeholder='Zone name' value=''/><br/>
+					<button class='btn btn-success submit-add-zone-form' adversify-id='<%= websiteId %>'>Save</button>
+				</form>
 				<ul>
 					<% if(website.get('zones') && website.get('zones').length > 0) {
 							_.each(website.get('zones'), function(zone, index) {
