@@ -24,8 +24,12 @@ window.adversify.models.website = (function() {
 
     zoneListToCollection: function() {
       var zoneList = this.get('zones');
+      var self = this;
       var ZoneModel = Backbone.Model.extend({
-        idAttribute: "_id"
+        idAttribute: "_id",
+        defaults: {
+          website: self.id
+        }
       });
       var ZoneCollection = Backbone.Collection.extend({
         model: ZoneModel

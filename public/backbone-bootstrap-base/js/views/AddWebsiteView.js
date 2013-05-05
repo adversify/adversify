@@ -44,7 +44,8 @@ window.adversify.views.AddWebsiteView = (function() {
 			} else if(this.parentView.subviews.websitesList.collection.length > 0){
 				newWebsite.save(null,{
 					success: function(model,response,options) {
-						self.collection.add(model);
+						self.parentView.subviews.websitesList.collection.add(newWebsite);
+						self.$el.hide();
 					},
 					error: function(model,xhr,options) {
 						if(xhr.responseText === 'website-already-exists') {
