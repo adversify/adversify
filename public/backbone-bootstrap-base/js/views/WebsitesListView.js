@@ -11,6 +11,8 @@ window.adversify.views.WebsitesListView = (function() {
 			'click .delete-website-button': 'deleteWebsite',
 			'click .edit-website-button': 'editWebsite',
 			'click .add-zone-button' : 'showAddZoneForm',
+			'click .close-add-zone-form' : 'hideAddZoneForm',
+			'click .submit-add-zone-form' : 'submitZoneAdd',
 
 			'click .delete-zone-button': 'deleteZone',
 			'click .edit-zone-button': 'showEditZoneForm',
@@ -75,25 +77,38 @@ window.adversify.views.WebsitesListView = (function() {
 		},
 
 		showAddZoneForm: function(evt) {
+			evt.preventDefault();
 			var websiteId = evt.currentTarget.getAttribute('adversify-id');
 			var websiteModel = this.collection.get(websiteId);
 			var addZoneForm = this.$el.find('li#'+websiteId+' form.add-zone-form');
 			addZoneForm.show();
-
 		},
 
-		submitAddZone: function(evt) {
+		hideAddZoneForm: function(evt) {
+			evt.preventDefault();
 			var websiteId = evt.currentTarget.getAttribute('adversify-id');
 			var websiteModel = this.collection.get(websiteId);
+			var addZoneForm = this.$el.find('li#'+websiteId+' form.add-zone-form');
+			addZoneForm.hide();
+		},
+
+		submitZoneAdd: function(evt) {
+			evt.preventDefault();
+			var websiteId = evt.currentTarget.getAttribute('adversify-id');
+			var websiteModel = this.collection.get(websiteId);
+			var addZoneForm = this.$el.find('li#'+websiteId+' form.add-zone-form')[0];
+			var zoneHash = {
+				name : addZoneForm['name'].value,
+				design: {},
+				options: {}
+			};
 			this.setZoneCollection(websiteModel, websiteModel.zoneListToCollection());
-			if(websiteModel.get('zones').length === 0) {
-				console.log("Zone will be added as a zone collection.create(zoneModel)");
-			} else if(websiteModel.get('zones').length > 0) {
-				console.log("Zone will be added as a zone.collection.add(zoneModel)");
-			}
+				websiteModel.get('zones').add(zoneHash);
+				websiteModel.save();
 		},
 
 		deleteZone: function(evt) {
+			evet.preventDefault();
 			var zoneId = evt.currentTarget.getAttribute('adversify-id');
 			var websiteId = this.$el.find('li#'+zoneId).closest('.website').attr('id');
 			var websiteModel = this.collection.get(websiteId);
