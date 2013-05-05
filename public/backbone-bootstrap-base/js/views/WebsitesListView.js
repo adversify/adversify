@@ -108,7 +108,7 @@ window.adversify.views.WebsitesListView = (function() {
 		},
 
 		deleteZone: function(evt) {
-			evet.preventDefault();
+			evt.preventDefault();
 			var zoneId = evt.currentTarget.getAttribute('adversify-id');
 			var websiteId = this.$el.find('li#'+zoneId).closest('.website').attr('id');
 			var websiteModel = this.collection.get(websiteId);
