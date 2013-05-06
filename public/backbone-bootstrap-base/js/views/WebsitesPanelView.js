@@ -3,7 +3,7 @@ window.adversify.views.WebsitesPanelView = (function() {
 		initialize: function(options) {
 			this.subviews = {};
 			this.setSubviews(options.websitesCollection);
-			this.template = _.template(this.getTemplate("WebsitesPanel"));
+			this.template = _.template(this.getTemplate("websitesPanel"));
 		},
 
 		setSubviews: function(websitesCollection) {
