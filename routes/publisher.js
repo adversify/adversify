@@ -94,17 +94,14 @@ exports.updateProfile = function(req,res) {
 };
 
 exports.get = function(req,res) {
-    if(req.session.user.kind != "publisher") {
-    res.redirect("/");
-  } else {
-    PM.get(req.session.username, function(e,o) {
+
+    PM.get("5165B701457264A995000001", function(e,o) {
       if(!o) {
           res.send(e,400);
       } else  {
           res.send(o,200);
       }
     });
-  }
 };
 
 exports.getProfile = function(req,res) {

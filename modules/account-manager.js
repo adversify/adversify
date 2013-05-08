@@ -210,13 +210,12 @@ AM.updatePublisher = function(u,newData, callback) {
 };
 
 
-AM.getPublisher = function(u, callback) {
-	PublisherModel.findOne({username:u}, function(e,o) {
-		console.log(o);
-		if(!e) {
-			callback(null,o);
-		} else {
+AM.getPublisher = function(uId, callback) {
+	PublisherModel.findById(uId, function(e,publisher) {
+		if(e || !publisher) {
 			callback(e);
+		} else {
+			callback(null, publisher);
 		}
 	});
 };
