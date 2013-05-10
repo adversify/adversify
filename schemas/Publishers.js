@@ -2,14 +2,12 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
-
 var Publisher = new Schema({
-    username: { type: String, required: true, match: /^[a-zA-Z0-9-_]+$/, unique: true },
+    username: { type: String, required: true, match: /^[a-zA-Z0-9-_]+$/, unique: true },  
     password: { type: String, required: true},
     salt: { type: String },
     modified: { type: Date, default: Date.now },
     joined: {type: Date},
-    balance: { type: Number, default:0 },
     infos : {
         streetadress: { type: String },
         city: { type: String },
@@ -19,5 +17,4 @@ var Publisher = new Schema({
     }
 });
 
-
-PublisherModel = mongoose.model('publishers', Publisher);
+AdvertiserModel = mongoose.model('publishers', Publisher);
