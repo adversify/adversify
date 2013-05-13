@@ -211,6 +211,7 @@ AM.updatePublisher = function(u,newData, callback) {
 
 
 AM.getPublisher = function(uId, callback) {
+	console.log(PublisherModel);
 	PublisherModel.findById(uId, function(e,publisher) {
 		if(e || !publisher) {
 			callback(e);

@@ -17,4 +17,4 @@ var Publisher = new Schema({
     }
 });
 
-AdvertiserModel = mongoose.model('publishers', Publisher);
+PublisherModel = mongoose.model('publishers', Publisher);
