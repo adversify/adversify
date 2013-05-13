@@ -1,0 +1,14 @@
+<% console.log("model", publisher.get('username')); %>
+<div class="content">
+		<h1>
+			Publisher Settings
+		</h1>
+		<div class="use-settings">
+			<p>
+				Username : <em><%= publisher.get('username') %></em> <br/>
+				Email adress : <em><%= publisher.get('email') %></em> <br/>
+				Account creation : <em><%= publisher.get('joined') %></em> <br/>
+				Account last modification : <em><%= publisher.get('modified') %></em>
+			</p>
+		</div>
+</div>
