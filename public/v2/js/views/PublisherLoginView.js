@@ -12,6 +12,28 @@ window.adversify.views.PublisherLoginView = (function() {
 
 		setModel : function(model) {
 			this.model = model;
+		},
+
+		events: {
+			'click .js-submit-publisher-login' : 'submitPublisherLogin'
+		},
+
+		submitPublisherLogin: function(evt) {
+			evt.preventDefault();
+			var publisherLoginForm = this.$('#publisher-login')[0];
+			var publisherCredentialsHash = {
+				login : publisherLoginForm['login'].value,
+				password : publisherLoginForm['password'].value
+			};
+			$.ajax({
+				type: "POST",
+				url: "/publisher/login",
+				data: publisherCredentialsHash
+			}).done(function(response) {
+				console.log(response);
+			}).fail(function(xhr) {
+				console.log(xhr);
+			});
 		}
 
 	});

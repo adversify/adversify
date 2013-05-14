@@ -19,7 +19,7 @@ module.exports = function(app) {
 	app.get('/publisher/get', publisher.get);
 	app.post('/publisher/changePassword' ,publisher.changePassword);
 	app.get('/publisher/getProfile', publisher.getProfile);
-	app.post('/publisher/signin', publisher.signin);
+	app.post('/publisher/login', publisher.login);
 
 	app.get('/publisher/profile', publisher.profile);
 	app.post('/publisher/profile', publisher.updateProfile);

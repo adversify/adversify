@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
 pwd = require('pwd'),
 AM = {};
+  mongoose.set('debug', true);
 
 module.exports = AM;
 
@@ -36,9 +37,9 @@ AM.autoLoginAdvertiser = function(username, password, callback) {
 AM.autoLoginPublisher = function(username, password, callback)
 {
 	PublisherModel.findOne({username:username}, function(e, o) {
-		if (o){
-			o.password == password ? callback(o) : callback(null);
-		}	else{
+		if (o && o === password){
+			callback(o);
+		} else {
 			callback(null);
 		}
 	});
@@ -46,19 +47,22 @@ AM.autoLoginPublisher = function(username, password, callback)
 
 
 
-AM.loginPublisher = function(username, password, callback) {
-	console.log(password);
-		PublisherModel.findOne({username:username}, function(e, o) {
-		if (o == null){
+AM.loginPublisher = function(login, password, callback) {
+	PublisherModel.findOne({'$or':[{username:login}, { email:login }]}, function(err, publisher) {
+		if (err || !publisher){
 			callback('publisher-not-found');
-		}	else{
-			pwd.hash(password, o.salt, function(err, hash){
-  				if (o.password == hash) {
-  					callback(null,o);
-  				} else {
-  					console.log("Invalid callback");
-  					callback('invalid-password', null);
-  				}
+		} else {
+			console.log('hash check', pwd);
+			// to do, replace with bcrypt
+			pwd.hash(password, publisher.salt, function(hashErr, hash){
+				if(hashErr) { callback(hashErr); }
+				else {
+					if (publisher.password === hash) {
+						callback(null,publisher);
+					} else {
+						callback('invalid-password');
+					}
+				}
 			});
 		}
 	});

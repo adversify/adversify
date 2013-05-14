@@ -19,7 +19,6 @@ exports.index = function(req, res){
 
 
 exports.register = function(req,res){
-  console.log("Publisher register");
   PM.register(req.body, function(e,o) {
     if(e || !o) {
       res.send(e, 400);
@@ -29,16 +28,16 @@ exports.register = function(req,res){
   });
 };
 
-exports.signin = function(req, res){
-  PM.login(req.param('username'),req.param('password'), function(e,o) {
-      if (e || !o){
+exports.login = function(req, res){
+  PM.login(req.param('login'),req.param('password'), function(e,o) {
+      if (e || !o) {
         if(!o) {
           e = new Error('Could not retrieve your account.');
         }
         res.send(e, 400);
-      } else{
+      } else {
         req.session.user = {name: req.param('username'), password: req.param('password'), kind: 'publisher', id:o._id};
-        if (req.param('remember-me') == 'on'){
+        if (req.param('remember-me') == 'on') {
           res.cookie('username', o.username);
           res.cookie('password', o.password);
         }

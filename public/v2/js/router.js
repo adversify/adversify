@@ -13,12 +13,12 @@ window.adversify.router =  (function(HomeView, TestView, WebsitesPanelView, AddW
 			"publisher/settings": "publisherSettings",
 			"publisher/default": "publisherDefault",
 			"publisher/login": "publisherLogin",
-			"publisher/signup": "publisherSignup",
+			"publisher/register": "publisherRegister",
 
 			"advertiser/settings": "advertiserSettings",
 			"advertiser/default": "advertiserDefault",
 			"advertiser/login": "advertiserLogin",
-			"advertiser/signup": "advertiserSignup"
+			"advertiser/register": "advertiserRegister"
 		},
 
 		initialize: function() {
@@ -68,7 +68,7 @@ window.adversify.router =  (function(HomeView, TestView, WebsitesPanelView, AddW
 			self.moveTo(new PublisherLoginView({publisherModel:window.adversify.publisher}));
 		},
 
-		publisherSignup : function() {
+		publisherRegister : function() {
 			var self = this;
 			window.adversify.publisher = new window.adversify.models.publisher();
 			self.moveTo(new PublisherSignupView({publisherModel:window.adversify.publisher}));
@@ -93,7 +93,7 @@ window.adversify.router =  (function(HomeView, TestView, WebsitesPanelView, AddW
 			self.moveTo(new AdvertiserLoginView({advertiserModel:window.adversify.advertiser}));
 		},
 
-		advertiserSignup : function() {
+		advertiserRegister : function() {
 			var self = this;
 			window.adversify.advertiser = new window.adversify.models.advertiser();
 			self.moveTo(new AdvertiserSignupView({advertiserModel:window.adversify.advertiser}));
