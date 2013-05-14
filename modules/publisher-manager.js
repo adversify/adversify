@@ -12,9 +12,10 @@ var PM = {};
 PM.register = function(publisherHash, callback) {
 	var publisher = new PublisherModel(publisherHash);
 	publisher.save(function(err, savedPublisher) {
-		if(err) callback(err);
+		console.log(err);
+		console.log(savedPublisher);
 
-		callback(null, savedPublisher);
+		//callback(null, savedPublisher);
 	});
 };
 

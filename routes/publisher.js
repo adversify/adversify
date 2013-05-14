@@ -19,6 +19,7 @@ exports.index = function(req, res){
 
 
 exports.register = function(req,res){
+  console.log("Publisher register");
   PM.register(req.body, function(e,o) {
     if(e || !o) {
       res.send(e, 400);

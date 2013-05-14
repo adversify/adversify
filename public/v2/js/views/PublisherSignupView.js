@@ -23,9 +23,11 @@ window.adversify.views.PublisherSignupView = (function() {
 			var publisherSignupForm = this.$('#publisher-signup')[0];
 			var publisherHash = {
 				username : publisherSignupForm['username'].value,
-				email : publisherSignupForm['email'].value,
 				password : publisherSignupForm['password'].value,
-				passwordConfirm : publisherSignupForm['password-confirm'].value
+				passwordConfirm : publisherSignupForm['password-confirm'].value,
+				infos: {
+					email : publisherSignupForm['email'].value
+				}
 			};
 			if(publisherHash.password === publisherHash.passwordConfirm) {
 				this.model.save(publisherHash, {
