@@ -15,6 +15,7 @@ module.exports = function(app) {
 	app.get('/signup/step2', signup.step2); // Signup step2
 
 	app.get('/publisher', publisher.index);
+	app.post('/publisher', publisher.register);
 	app.get('/publisher/get', publisher.get);
 	app.post('/publisher/changePassword' ,publisher.changePassword);
 	app.get('/publisher/getProfile', publisher.getProfile);

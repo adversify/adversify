@@ -17,6 +17,17 @@ exports.index = function(req, res){
   }
 };
 
+
+exports.register = function(req,res){
+  PM.register(req.body, function(e,o) {
+    if(e || !o) {
+      res.send(e, 400);
+    } else {
+      res.send(o, 200);
+    }
+  });
+};
+
 exports.signin = function(req, res){
   PM.login(req.param('username'),req.param('password'), function(e,o) {
       if (e || !o){

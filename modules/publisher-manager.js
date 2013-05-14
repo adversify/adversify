@@ -9,6 +9,15 @@ var AM = require('../modules/account-manager.js');
 
 var PM = {};
 
+PM.register = function(publisherHash, callback) {
+	var publisher = new PublisherModel(publisherHash);
+	publisher.save(function(err, savedPublisher) {
+		if(err) callback(err);
+
+		callback(null, savedPublisher);
+	});
+};
+
 module.exports = PM;
 
 PM.updateAccount = AM.updatePublisher;

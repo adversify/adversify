@@ -6,7 +6,7 @@ window.adversify.models.publisher = (function() {
     },
 
     idAttribute: "_id",
-    urlRoot: '/publisher/get'
+    urlRoot: '/publisher'
 
   });
 })();
