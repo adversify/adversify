@@ -13,7 +13,12 @@ var Publisher = new Schema({
         country: { type: String },
         phone: { type: String },
         email: { type: String, unique: true, match : /[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}/, required: true }
-    }
+    },
+    status: {
+        deleted: { type: Boolean, default: false},
+        suspended: {type: Boolean, default: false},
+        validated : { type : Boolean, default: false }
+    },
 });
 
 PublisherModel = mongoose.model('publishers', Publisher);

@@ -17,19 +17,25 @@ var WebsiteZone = new Schema({
         titleColor: {type:String,default: '#333'},
         dimensions : { type: String , enum: ['300x233','234x60','125x125','180x150','120x230','200x200','233x233'], default: '300x233'}
     },
-    validated : { type : Boolean, default: false }
+    status: {
+       deleted: { type: Boolean, default: false},
+        suspended: {type: Boolean, default: false},
+        validated : { type : Boolean, default: false }
+    },
 });
 
 var Website = new Schema({
-    validated : { type : Boolean, default: false },
     owner: {type: String},
     infos: {
         name: { type: String, required: true },
         url : { type : String, match : /((http:\/\/|https:\/\/)?(www.)?(([a-zA-Z0-9-]){2,}\.){1,4}([a-zA-Z]){2,6}(\/([a-zA-Z-_\/\.0-9#:?=&;,]*)?)?)/, required: true, unique: true}
     },
     zones: [WebsiteZone],
-    deleted: { type: Boolean, default: false},
-    suspended: {type: Boolean, default: false},
+    status: {
+       deleted: { type: Boolean, default: false},
+        suspended: {type: Boolean, default: false},
+        validated : { type : Boolean, default: false }
+    },
     ip: {}
 });
 
