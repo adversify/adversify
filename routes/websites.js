@@ -5,7 +5,7 @@ exports.getListOfWebsites = function(req,res) {
   /*if(!req.session.user || req.session.user.kind != "publisher") {
     res.redirect("/");
   } else {*/
-    WM.getListOfWebsites(req.session.user.id || '5165B701457264A995000001', null, null, function(e,o) {
+    WM.getListOfWebsites(req.session.user.id ? req.session.user.id : '5165B701457264A995000001', null, null, function(e,o) {
       if(!o || e) {
         if(!e) {
           e = new Error('Unable to get the list of websites');
