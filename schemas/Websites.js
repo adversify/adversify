@@ -9,6 +9,7 @@ var WebsiteZone = new Schema({
         type: { type : String, enum: ['image','text','*'], default: '*' },
         remuneration: { type: String ,enum: ['cpm', 'cpc', '*'], default: '*' }
     },
+    services : [{type: String}],
     design : {
         textColor: {type : String, default: '#444'},
         borderColor: {type: String, default: '#fff'},
@@ -26,7 +27,10 @@ var Website = new Schema({
         name: { type: String, required: true },
         url : { type : String, match : /((http:\/\/|https:\/\/)?(www.)?(([a-zA-Z0-9-]){2,}\.){1,4}([a-zA-Z]){2,6}(\/([a-zA-Z-_\/\.0-9#:?=&;,]*)?)?)/, required: true, unique: true}
     },
-    zones: [WebsiteZone]
+    zones: [WebsiteZone],
+    deleted: { type: Boolean, default: false},
+    suspended: {type: Boolean, default: false},
+    ip: {}
 });
 
 WebsiteModel = mongoose.model('websites', Website);

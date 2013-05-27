@@ -36,6 +36,7 @@ window.adversify.views.PublisherSignupView = (function() {
 					},
 					error: function(model, xhr, options) {
 						console.log("Error!");
+						console.log(xhr);
 					}
 				});
 			} else {

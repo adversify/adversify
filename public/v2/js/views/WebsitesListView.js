@@ -156,7 +156,17 @@ window.adversify.views.WebsitesListView = (function() {
 			}, 'options': {
 				'type' : editZoneForm['options.type'].value,
 				'remuneration': editZoneForm['options.remuneration'].value
-			}};
+			},
+			'services':
+				[
+					'acceptable-ads',
+					'google-analytics',
+					'crawling',
+					'social',
+					'do-not-track-us',
+					'adblock-fallback'
+				]
+			};
 			var websiteModel = this.collection.get(websiteId);
 			this.setZoneCollection(websiteModel, websiteModel.zoneListToCollection());
 			var zoneModel = websiteModel.get('zones').get(zoneId);

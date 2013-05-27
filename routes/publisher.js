@@ -19,8 +19,11 @@ exports.index = function(req, res){
 
 
 exports.register = function(req,res){
-  PM.register(req.body, function(e,o) {
+  var ipInfos = req.header('x-forwarded-for') ? {proxy : true, value : req.header('x-forwarded-for')} : {value : req.connection.remoteAddress};
+
+  PM.register(req.body, ipInfos, function(e,o) {
     if(e || !o) {
+      if(e)
       res.send(e, 400);
     } else {
       res.send(o, 200);
@@ -36,12 +39,12 @@ exports.login = function(req, res){
         }
         res.send(e, 400);
       } else {
-        req.session.user = {name: req.param('username'), password: req.param('password'), kind: 'publisher', id:o._id};
+        req.session.user = {name: o.username, password: o.password, kind: 'publisher', id:o._id};
         if (req.param('remember-me') == 'on') {
           res.cookie('username', o.username);
           res.cookie('password', o.password);
         }
-        res.redirect("/publisher");
+        res.send(o, 200); 
       }
   });
 };

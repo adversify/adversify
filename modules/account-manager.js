@@ -1,21 +1,20 @@
 var mongoose = require('mongoose'),
-pwd = require('pwd'),
+PasswordsUtil = require('../modules/utils/passwords.js');
 AM = {};
   mongoose.set('debug', true);
 
 module.exports = AM;
 
-AM.loginAdvertiser = function(u, password, callback) {
-		AdvertiserModel.findOne({username:u}, function(e, o) {
-		if (o === null){
-			callback('advertiser-not-found');
-		}	else{
-			pwd.hash(password, o.salt, function(err, hash){
-				if (o.password == hash) {
-					callback(null,o);
-					console.log("User Successfully logged in to Advertiser account ("+u+")");
+AM.loginAdvertiser = function(login, password, callback) {
+	AdvertiserModel.findOne({'$or':[{username:login}, { email:login }]}, function(err, advertiser) {
+		if (err || !advertiser){
+			callback('wrong-credentials');
+		} else {
+			bcrypt.compare(password, crypted, function(err, res) {
+				if(err || !res) {
+					callback('wrong-credentials');
 				} else {
-					callback('invalid-password');
+					callback(null, advertiser);
 				}
 			});
 		}
@@ -50,18 +49,13 @@ AM.autoLoginPublisher = function(username, password, callback)
 AM.loginPublisher = function(login, password, callback) {
 	PublisherModel.findOne({'$or':[{username:login}, { email:login }]}, function(err, publisher) {
 		if (err || !publisher){
-			callback('publisher-not-found');
+			callback('user-does-not-exist');
 		} else {
-			console.log('hash check', pwd);
-			// to do, replace with bcrypt
-			pwd.hash(password, publisher.salt, function(hashErr, hash){
-				if(hashErr) { callback(hashErr); }
-				else {
-					if (publisher.password === hash) {
-						callback(null,publisher);
-					} else {
-						callback('invalid-password');
-					}
+			PasswordsUtil.compare(password, publisher.password, function(err, isMatch) {
+				if(err || !isMatch) {
+					callback('wrong-credentials');
+				} else {
+					callback(null, publisher);
 				}
 			});
 		}

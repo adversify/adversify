@@ -1,22 +1,41 @@
-/* This module is so not ready for production!*/
-/* e -> error
-/* o -> object
+var mongoose = require('mongoose'),
+AM = require('../modules/account-manager.js'),
+PasswordsUtil = require('../modules/utils/passwords.js');
 
-*/
-var mongoose = require('mongoose');
-var AM = require('../modules/account-manager.js');
-  mongoose.set('debug', true);
 
 var PM = {};
 
-PM.register = function(publisherHash, callback) {
-	var publisher = new PublisherModel(publisherHash);
-	publisher.save(function(err, savedPublisher) {
-		console.log(err);
-		console.log(savedPublisher);
-
-		//callback(null, savedPublisher);
+PM.register = function(publisherHash, ipInfos, callback) {
+	var self = this;
+	publisherHash.ip = ipInfos;
+	console.log(publisherHash);
+	self.registerCheck(publisherHash, function(err, checkedPublisherHash) {
+		if(err || !checkedPublisherHash) {
+			callback(err && err.message ? err.message : 'invalid-data');
+		} else {
+			var checkedPublisher = new PublisherModel(checkedPublisherHash);
+			PasswordsUtil.saltAndHash(checkedPublisher.password, function(error, hashedPassword) {
+				if(error || !hashedPassword) {
+					callback('something-went-wrong');
+				} else {
+					checkedPublisher.password = hashedPassword;
+					checkedPublisher.save(function(err, savedPublisher) {
+						if(err || !savedPublisher) {
+							callback(err ? err : 'something-went-wrong');
+						} else {
+							callback(null, savedPublisher);
+						}
+					});
+				}
+			});
+		}
 	});
+};
+
+PM.registerCheck = function(publisher, callback) {
+	if(publisher.password !== publisher.password) {
+		callback('passwords-do-not-match');
+	} else callback(null, publisher);
 };
 
 module.exports = PM;
