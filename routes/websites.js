@@ -32,7 +32,7 @@ exports.deleteWebsite = function(req,res) {
     res.redirect("/");
   } else { */
     console.log("@deleteWebsite", req.param('id'));
-    WM.deleteWebsite(req.session.user.id || '5165B701457264A995000001',req.param('id'),function(e,websiteWasDeleted){
+    WM.deleteWebsite(req.session.user.id ? req.session.user.id : '5165B701457264A995000001',req.param('id'),function(e,websiteWasDeleted){
       if(e || !websiteWasDeleted) {
         if(!e) {
           e = new Error('Unable to delete website');
@@ -63,7 +63,7 @@ exports.getWebsite = function(req, res){
 };
 
 exports.createWebsite = function(req,res) {
-   WM.addWebsite(req.session.user.id || '5165B701457264A995000001',req.body,function(e,createdWebsite) {
+   WM.addWebsite(req.session.user.id ? req.session.user.id : '5165B701457264A995000001',req.body,function(e,createdWebsite) {
       if(e) {
         res.send(e, 400);
       }
@@ -74,7 +74,7 @@ exports.createWebsite = function(req,res) {
 };
 
 exports.updateWebsite = function(req, res) {
-  WM.updateWebsite(req.session.user.id || '5165B701457264A995000001',req.param('id'),req.body,function(e,updatedWebsite) {
+  WM.updateWebsite(req.session.user.id ? req.session.user.id : '5165B701457264A995000001',req.param('id'),req.body,function(e,updatedWebsite) {
     if(!updatedWebsite || e) {
       if(!e) {
         e = new Error('Unable to update website');
