@@ -149,24 +149,43 @@ window.adversify.views.WebsitesListView = (function() {
 			var zoneId = evt.currentTarget.getAttribute('adversify-id');
 			var websiteId = this.$el.find('li#'+zoneId).closest('.website').attr('id');
 			var editZoneForm = this.$el.find('li#'+zoneId+' form.edit-zone-form')[0];
+			console.log('Submit zone edit with services');
 			var zoneHash = {
-			'name' : editZoneForm['name'].value,
-			'design': {
-				'dimensions' : editZoneForm['design.dimensions'].value
-			}, 'options': {
-				'type' : editZoneForm['options.type'].value,
-				'remuneration': editZoneForm['options.remuneration'].value
-			},
-			'services':
-				[
-					'acceptable-ads',
-					'google-analytics',
-					'crawling',
-					'social',
-					'do-not-track-us',
-					'adblock-fallback'
-				]
+				'name' : editZoneForm['name'].value,
+				'design': {
+					'dimensions' : editZoneForm['design.dimensions'].value
+				}, 'options': {
+					'type' : editZoneForm['options.type'].value,
+					'remuneration': editZoneForm['options.remuneration'].value,
+					'services' : {
+						'adblockFallback' : {
+							'enabled' : true
+						},
+						'googleAnalytics' : {
+							'enabled' : true
+						},
+						'crawling' : {
+							'enabled' : true
+						},
+						'social' : {
+							'enabled' : true,
+							'facebook' : {
+								'enabled' : true
+							},
+							'twitter' : {
+								'enabled' : true
+							}
+						},
+						'doNotTrackUs' : {
+							'enabled' : true
+						},
+						'acceptableAds' : {
+							'enabled' : true
+						}
+					}
+				}
 			};
+
 			var websiteModel = this.collection.get(websiteId);
 			this.setZoneCollection(websiteModel, websiteModel.zoneListToCollection());
 			var zoneModel = websiteModel.get('zones').get(zoneId);

@@ -7,9 +7,9 @@ var WebsiteZone = new Schema({
     name: {type: String},
     options: {
         type: { type : String, enum: ['image','text','*'], default: '*' },
-        remuneration: { type: String ,enum: ['cpm', 'cpc', '*'], default: '*' }
+        remuneration: { type: String ,enum: ['cpm', 'cpc', '*'], default: '*' },
+        services : {}
     },
-    services : [{type: String}],
     design : {
         textColor: {type : String, default: '#444'},
         borderColor: {type: String, default: '#fff'},
@@ -36,7 +36,6 @@ var Website = new Schema({
         suspended: {type: Boolean, default: false},
         validated : { type : Boolean, default: false }
     },
-    ip: {}
 });
 
 WebsiteModel = mongoose.model('websites', Website);

@@ -8,7 +8,6 @@ var PM = {};
 PM.register = function(publisherHash, ipInfos, callback) {
 	var self = this;
 	publisherHash.ip = ipInfos;
-	console.log(publisherHash);
 	self.registerCheck(publisherHash, function(err, checkedPublisherHash) {
 		if(err || !checkedPublisherHash) {
 			callback(err && err.message ? err.message : 'invalid-data');
