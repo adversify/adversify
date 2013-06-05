@@ -1,5 +1,19 @@
 
-window.adversify.router =  (function(HomeView, TestView, WebsitesPanelView, AddWebsiteView, WebsitesListView, PublisherSettingsView, PublisherLoginView, PublisherSignupView) {
+window.adversify.router =  (function(
+	HomeView,
+
+	WebsitesPanelView,
+	AddWebsiteView,
+	WebsitesListView,
+
+	PublisherSettingsView,
+	PublisherLoginView,
+	PublisherSignupView,
+
+	AdvertiserSettingsView,
+	AdvertiserLoginView,
+	AdvertiserSignupView
+) {
 	return Backbone.Router.extend({
 		routes: {
 			"": "home",
@@ -81,14 +95,15 @@ window.adversify.router =  (function(HomeView, TestView, WebsitesPanelView, AddW
 
 		advertiserSettings : function() {
 			var self = this;
-			window.adversify.publisher = new window.adversify.models.publisher();
-			window.adversify.publisher.fetch({success: function(model, response, options) {
-				self.moveTo(new AdvertiserSettingsView({publisherModel:window.adversify.publisher}));
+			window.adversify.advertiser = new window.adversify.models.advertiser();
+			window.adversify.advertiser.fetch({success: function(model, response, options) {
+				self.moveTo(new AdvertiserSettingsView({advertiserModel:window.adversify.advertiser}));
 			}});
 		},
 
 		advertiserLogin : function() {
 			var self = this;
+			console.log(window.adversify.models);
 			window.adversify.advertiser = new window.adversify.models.advertiser();
 			self.moveTo(new AdvertiserLoginView({advertiserModel:window.adversify.advertiser}));
 		},
@@ -109,4 +124,18 @@ window.adversify.router =  (function(HomeView, TestView, WebsitesPanelView, AddW
 		}
 
 	});
-})(window.adversify.views.HomeView,window.adversify.views.TestView,window.adversify.views.WebsitesPanelView,window.adversify.views.AddWebsiteView, window.adversify.views.WebsitesListView, window.adversify.views.PublisherSettingsView, window.adversify.views.PublisherLoginView, window.adversify.views.PublisherSignupView);
+})(
+	window.adversify.views.HomeView,
+
+	window.adversify.views.WebsitesPanelView,
+	window.adversify.views.AddWebsiteView,
+	window.adversify.views.WebsitesListView,
+
+	window.adversify.views.PublisherSettingsView,
+	window.adversify.views.PublisherLoginView,
+	window.adversify.views.PublisherSignupView,
+
+	window.adversify.views.AdvertiserSettingsView,
+	window.adversify.views.AdvertiserLoginView,
+	window.adversify.views.AdvertiserSignupView
+);

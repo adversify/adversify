@@ -17,6 +17,19 @@ exports.index = function(req, res){
   }
 };
 
+exports.register = function(req,res){
+  var ipInfos = req.header('x-forwarded-for') ? {proxy : true, value : req.header('x-forwarded-for')} : {value : req.connection.remoteAddress};
+
+  AdM.register(req.body, ipInfos, function(e,o) {
+    if(e || !o) {
+      if(e)
+      res.send(e, 400);
+    } else {
+      res.send(o, 200);
+    }
+  });
+};
+
 exports.signin = function(req, res){
   console.log(req.body);
   AdM.login(req.param('username'),req.param('password'), function(e,o) {

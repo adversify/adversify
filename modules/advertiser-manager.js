@@ -5,10 +5,46 @@
 */
 var mongoose = require('mongoose');
 var AM = require('../modules/account-manager.js');
+var PasswordsUtil = require('../modules/utils/passwords.js');
+
 
 var AdM = {};
 
 module.exports = AdM;
+
+
+AdM.register = function(advertiserHash, ipInfos, callback) {
+  var self = this;
+  advertiserHash.ip = ipInfos;
+  self.registerCheck(advertiserHash, function(err, checkedAdvertiserHash) {
+    if(err || !checkedAdvertiserHash) {
+      callback(err && err.message ? err.message : 'invalid-data');
+    } else {
+      var checkedAdvertiser = new AdvertiserModel(checkedAdvertiserHash);
+      PasswordsUtil.saltAndHash(checkedAdvertiser.password, function(error, hashedPassword) {
+        if(error || !hashedPassword) {
+          callback('something-went-wrong');
+        } else {
+          checkedAdvertiser.password = hashedPassword;
+          checkedAdvertiser.save(function(err, savedAdvertiser) {
+            if(err || !savedAdvertiser) {
+              callback(err ? err : 'something-went-wrong');
+            } else {
+              callback(null, savedAdvertiser);
+            }
+          });
+        }
+      });
+    }
+  });
+};
+
+AdM.registerCheck = function(advertiser, callback) {
+  if(advertiser.password !== advertiser.password) {
+    callback('passwords-do-not-match');
+  } else callback(null, advertiser);
+};
+
 
 AdM.addAd = function(u,newData,callback) {
     var a = new AdModel({
@@ -30,7 +66,7 @@ AdM.addAd = function(u,newData,callback) {
             } else {
               callback(null,o);
             }
-        }); 
+        });
       } else {
         callback(e);
       }
@@ -38,7 +74,7 @@ AdM.addAd = function(u,newData,callback) {
 
 
       //http://stackoverflow.com/questions/13412579/node-express-mongoose-sub-collection-document-insert?rq=1
-}
+};
 
 AdM.getAds = function(u,nb,sort,callback) {
   AdvertiserModel.findOne({username:u}, function(e,o) {
@@ -47,8 +83,8 @@ AdM.getAds = function(u,nb,sort,callback) {
     } else {
       callback(e);
     }
-  })
-}
+  });
+};
 
 AdM.addAd = function(u,newData,callback) {
       console.log(newData);
