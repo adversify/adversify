@@ -6,6 +6,10 @@ window.adversify.router =  (function(
 	AddWebsiteView,
 	WebsitesListView,
 
+	AdsPanelView,
+	AddAdView,
+	AdsListView,
+
 	PublisherSettingsView,
 	PublisherLoginView,
 	PublisherSignupView,
@@ -58,13 +62,13 @@ window.adversify.router =  (function(
 
 
 		ads: function() {
-			window.adversify.websites = new window.adversify.collections.websites();
-			window.adversify.websites.fetch();
-			this.moveTo(new WebsitesPanelView({websitesCollection:window.adversify.websites}));
+			window.adversify.ads = new window.adversify.collections.ads();
+			window.adversify.ads.fetch();
+			this.moveTo(new AdsPanelView({adsCollection:window.adversify.ads}));
 		},
 
 		newAdd: function() {
-			this.moveTo(new AddWebsiteView());
+			this.moveTo(new AddAdView());
 		},
 
 
@@ -130,6 +134,10 @@ window.adversify.router =  (function(
 	window.adversify.views.WebsitesPanelView,
 	window.adversify.views.AddWebsiteView,
 	window.adversify.views.WebsitesListView,
+
+	window.adversify.views.AdsPanelView,
+	window.adversify.views.AddAdView,
+	window.adversify.views.AdsListView,
 
 	window.adversify.views.PublisherSettingsView,
 	window.adversify.views.PublisherLoginView,

@@ -1,0 +1,96 @@
+	<ul style="margin-top: 20px;" id="websitesList">
+		<% _.each(websites, function (website, i) {
+			var websiteId = website.id ? website.id : website.cid;
+		 %>
+			<li id="<%= websiteId%>" class='website slideToRight'>
+				<a href="#websites/<%= websiteId %>" class="linkTab">
+					<%= website.get('infos').name %> : 
+					<em><%= website.get('infos').url %></em>
+				</a>
+				<div class="website-actions">
+					<button class='btn add-zone-button' adversify-id='<%= websiteId%>'>Add a zone to this website</button>
+					<button class='btn btn-warning edit-website-button' adversify-id='<%= websiteId%>'>Edit</button>
+					<button class='btn btn-danger delete-website-button' adversify-id='<%= websiteId%>'>Delete</button>
+				</div>
+				<form class='well edit-website-form' style='display:none;margin-top:20px'>
+				    <legend>Edit this website<button adversify-id='<%= websiteId %>' class='pull-right btn btn-inverse close-edit-website-form'>Close</button></legend>
+					<input type='text' name="name" class='websitename' placeholder='Website name' value='<%= website.get('infos').name %>'/><br/>
+					<input type='text' name="url" class='websiteurl' placeholder="Website's URL" value='<%= website.get('infos').url %> '/><br/>
+					<button class='btn btn-success submit-edit-website-form' adversify-id='<%= websiteId %>'>Save</button>
+				</form>
+				<form class='well add-zone-form' style='display:none;margin-top:20px'>
+				    <legend>Add a zone to this website<button adversify-id='<%= websiteId %>' class='pull-right btn btn-inverse close-add-zone-form'>Close</button></legend>
+					<input type='text' name="name" class='zonename' placeholder='Zone name' value=''/><br/>
+					<button class='btn btn-success submit-add-zone-form' adversify-id='<%= websiteId %>'>Save</button>
+				</form>
+				<ul>
+					<% if(website.get('zones') && website.get('zones').length > 0) {
+							_.each(website.get('zones'), function(zone, index) {
+								var zoneId = zone._id;
+					%>
+								<li id="<%= zoneId %>" class="websiteZone">
+									<a adversify-id='<%= zoneId %>' href="#websites/zones/<%=zone.Id%>"><%=zone.name%></a>
+									<div class='zone-actions'>
+										<button adversify-id='<%= zoneId %>' class='btn btn-small btn-warning edit-zone-button'>Edit</button>
+										<button adversify-id='<%= zoneId %>'class='btn btn-small btn-danger delete-zone-button'>Delete</button>
+									</div>
+									<form class='well edit-zone-form' style='display:none;margin-top:20px'>
+									    <legend>Edit this zone<button adversify-id='<%= zoneId %>' class='pull-right btn btn-inverse close-edit-zone-form'>Close</button></legend>
+									    <label>
+									    	This ad will only serve <a href="http://adblockplus.org/fr/acceptable-ads">Acceptable Ads</a> content.
+									    	<input type="checkbox" class="zonese" name="zoneservice" value="acceptable-ads" <%= (zone.options && zone.options.services &&  zone.options.services.acceptableAds && zone.options.services.acceptableAds.enabled) ? 'checked' : '' %> />
+										</label>
+									    <label>
+									    	This ad will implement <a href="" title="Learn about the DoNotTrackUs">Do Not Track Us.</a>
+    										<input type="checkbox" class="zoneservice" name="zoneservice" value="do-not-track" <%= (zone.options && zone.options.services &&  zone.options.services.DoNotTrackUs && zone.options.services.DoNotTrackUs.enabled) ? 'checked' : '' %>/>
+    									</label>
+    									<label>
+    										This ad will only be used as an AdBlock+ fallback. <a href="#adBlockFallback" title="Learn more about the ">Learn more.</a>
+									    	<input type="checkbox" zone-id="<%= zoneId %>" class="js-zone-fallback zoneservice" name="zoneservice" value="fallback" <%= (zone.options && zone.options.services &&  zone.options.services.adblockFallback && zone.options.services.adblockFallback.enabled) ? 'checked' : '' %>/>
+										</label>
+    									<label>
+    										This ad will use data from your Google Analytics Account and make the most of it. <a href="#adBlockFallback" title="Learn more about the ">Learn more.</a>
+									    	<input type="checkbox" zone-id="<%= zoneId %>" class="js-zone-fallback zoneservice" name="zoneservice" value="fallback" <%= (zone.options && zone.options.services &&  zone.options.services.googleAnalytics && zone.options.services.googleAnalytics.enabled) ? 'checked' : '' %>/>
+										</label>
+    									<label>
+    										This ad will use data from Facebook Fanpage and make of the most of it.<a href="#facebook" title="Learn more about the ">Learn more.</a>
+									    	<input type="checkbox" zone-id="<%= zoneId %>" class="js-zone-fallback zoneservice" name="zoneservice" value="facebook" <%= (zone.options && zone.options.services && zone.options.services.social && zone.options.services.social.facebook && zone.options.services.social.facebook.enabled) ? 'checked' : '' %>/>
+										</label>
+    									<label>
+    										Enable contextual smart ad serving.<a href="#adBlockFallback" title="Learn more about the ">Learn more.</a>
+									    	<input type="checkbox" zone-id="<%= zoneId %>" class="js-zone-fallback zoneservice" name="zoneservice" value="fallback" <%= (zone.options && zone.options.services &&  zone.options.services.crawling && zone.options.services.crawling.enabled) ? 'checked' : '' %>/>
+										</label>
+										<input type='text' name="name" class='zonename' placeholder='Zone name' value='<%= zone.name %>'/><br/>
+										<select class="zoneremuneration" name="options.remuneration">
+								            <option value="">CPC or CPM?</option>
+								            <option value="cpc" <%= (zone.options.remuneration === 'cpc') ? 'selected' : '' %>>CPC</option>
+								            <option value="cpm" <%= (zone.options.remuneration === 'cpm') ? 'selected' : '' %>>CPM</option>
+								            <option value="*" <%= (zone.options.remuneration === '*') ? 'selected' : '' %>>Nevermind</option>
+										</select><br/>
+								        <select class="zonetype" name="options.type">
+								            <option value="">Image or Textual?</option>
+								            <option value="image" <%= (zone.options.type === 'image') ? 'selected' : '' %>>Image</option>
+								            <option value="text" <%= (zone.options.type === 'text') ? 'selected' : '' %>>Textual</option>
+								            <option value="*" <%= (zone.options.type === '*') ? 'selected' : '' %>>Nevermind</option>
+								        </select><br/>
+								        <select class="zonedimensions" name="design.dimensions">
+								            <option value="">How big?</option>
+								            <option value="300x233" <%= (zone.design.dimensions === '300x233') ? 'selected' : '' %>>300x233</option>
+								            <option value="234x60" <%= (zone.design.dimensions === '234x60') ? 'selected' : '' %>>234x60</option>
+								            <option value="125x125" <%= (zone.design.dimensions === '125x125') ? 'selected' : '' %>>125x125</option>
+								            <option value="180x150" <%= (zone.design.dimensions === '180x150') ? 'selected' : '' %>>180x150</option>
+								            <option value="120x130" <%= (zone.design.dimensions === '120x130') ? 'selected' : '' %>>120x230</option>
+								            <option value="200x200" <%= (zone.design.dimensions === '200x200') ? 'selected' : '' %>>200x200</option>
+								            <option value="233x233" <%= (zone.design.dimensions === '233x233') ? 'selected' : '' %>>233x233</option>
+								    	</select><br/>
+										<button class='btn btn-large btn-success submit-edit-zone-form' adversify-id='<%= zoneId %>'>Submit changes</button>
+									</form>
+								</li>
+					<%
+							}); 
+						}	
+					%>
+				</ul>
+			</li>    	
+		<% }); %>
+	</ul>

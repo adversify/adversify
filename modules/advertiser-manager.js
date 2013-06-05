@@ -28,6 +28,7 @@ AdM.register = function(advertiserHash, ipInfos, callback) {
           checkedAdvertiser.password = hashedPassword;
           checkedAdvertiser.save(function(err, savedAdvertiser) {
             if(err || !savedAdvertiser) {
+              console.log('Unable to save user', err);
               callback(err ? err : 'something-went-wrong');
             } else {
               callback(null, savedAdvertiser);
