@@ -4,6 +4,7 @@
   , websites = require('./routes/websites')
   , zones = require('./routes/zones')
   , advertiser = require('./routes/advertiser')
+  , ads = require('./routes/ads')
   , delivery = require('./routes/delivery');
 
 module.exports = function(app) {
@@ -50,6 +51,7 @@ module.exports = function(app) {
 
 	app.get('/advertiser/default', advertiser.default);
 	//	app.get('/advertiser/ads', advertiser.getAds); // TO DO
+	app.get('/advertiser/ads', ads.getListOfAds);
 	app.post('/advertiser/ads', advertiser.createAd);
 
 

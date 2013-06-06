@@ -5,9 +5,6 @@
 */
 var mongoose = require('mongoose');
 
-// use moment.js for pretty date-stamping //
-var moment = require('moment');
-
 var BOM = {}; // BACK OFFICE Manager
 
 module.exports = BOM;
