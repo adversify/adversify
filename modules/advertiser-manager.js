@@ -4,7 +4,8 @@
 
 */
 var mongoose = require('mongoose');
-var AM = require('../modules/account-manager.js');
+var AM = require('../modules/account-manager.js'),
+AdvertiserModel = require('../schemas/Advertisers.js');
 var PasswordsUtil = require('../modules/utils/passwords.js');
 
 

@@ -71,7 +71,6 @@ window.adversify.router =  (function(
 			this.moveTo(new AddAdView());
 		},
 
-
 		publisherSettings : function() {
 			var self = this;
 			window.adversify.publisher = new window.adversify.models.publisher();

@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'),
 AM = require('../modules/account-manager.js'),
+PublisherModel = require('../schemas/Publishers.js'),
 PasswordsUtil = require('../modules/utils/passwords.js');
 
 

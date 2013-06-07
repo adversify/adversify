@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'),
 _ = require('underscore'),
+WebsiteModel = require('../schemas/Websites.js');
 WM = {};
 
 module.exports = WM; // WEBSITE MANAGER MODULE

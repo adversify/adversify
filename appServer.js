@@ -100,6 +100,7 @@ require('./schemas/Advertisers.js');
 require('./schemas/Publishers.js');
 require('./schemas/Actions.js');
 require('./schemas/Websites.js');
+require('./schemas/Ads.js');
 
 
 

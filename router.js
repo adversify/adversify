@@ -42,7 +42,6 @@ module.exports = function(app) {
 
 	app.get('/advertiser', advertiser.index);
 	//app.get('/advertiser/get', advertiser.get); TODO
-	console.log(advertiser.register);
 	app.post('/advertiser', advertiser.register);
 	//app.post('/advertiser/login', advertiser.login);
 

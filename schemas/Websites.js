@@ -1,11 +1,11 @@
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
-
+var WebsiteModel;
 
 var WebsiteZone = new Schema({
     name: {type: String},
-    options: {
+    zoneOptions: {
         type: { type : String, enum: ['image','text','*'], default: '*' },
         remuneration: { type: String ,enum: ['cpm', 'cpc', '*'], default: '*' },
         services : {}
@@ -18,10 +18,10 @@ var WebsiteZone = new Schema({
         dimensions : { type: String , enum: ['300x233','234x60','125x125','180x150','120x230','200x200','233x233'], default: '300x233'}
     },
     status: {
-       deleted: { type: Boolean, default: false},
+        deleted: { type: Boolean, default: false},
         suspended: {type: Boolean, default: false},
         validated : { type : Boolean, default: false }
-    },
+    }
 });
 
 var Website = new Schema({
@@ -35,7 +35,7 @@ var Website = new Schema({
        deleted: { type: Boolean, default: false},
         suspended: {type: Boolean, default: false},
         validated : { type : Boolean, default: false }
-    },
+    }
 });
 
-WebsiteModel = mongoose.model('websites', Website);
+module.exports = WebsiteModel = mongoose.model('websites', Website);

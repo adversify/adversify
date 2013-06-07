@@ -3,7 +3,9 @@
 /* o -> object
 
 */
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+PublisherModel = require('../schemas/Publishers.js'),
+AdvertiserModel = require('../schemas/Advertisers.js');
 
 var BOM = {}; // BACK OFFICE Manager
 

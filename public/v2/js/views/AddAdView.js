@@ -20,38 +20,31 @@ window.adversify.views.AddAdView = (function() {
 			this.$('.error, .success').hide();
 			var self = this;
 			evt.preventDefault();
-			console.log('Submit event on #add-website form FROM AddWebsiteView');
-			var formCheck = this.formCheck;
-			var websiteHash = {'infos':{}};
-			_.each(this.addWebsiteForm.fields, function(field) {
-				websiteHash.infos[field] = formCheck[field]();
-			});
-			var newWebsite = new window.adversify.models.website(websiteHash);
-			if(this.parentView && this.parentView.subviews.websitesList.collection.length === 0) {
-				this.parentView.subviews.websitesList.collection.create(newWebsite, {wait: true});
+			var adForm = $(evt.currentTarget);
+			var adHash = {'infos':{ 'name' : adForm.find('.name').val() }};
+			var newAd = new window.adversify.models.ad(adHash);
+			if(this.parentView && this.parentView.subviews.adsList.collection.length === 0) {
+				console.log('Creating the collection');
+				this.parentView.subviews.adsList.collection.create(newAd, {wait: true});
 			} else {
-				newWebsite.save(null,{
+				newAd.save(null,{
 					success: function(model,response,options) {
 						if(self.parentView) {
-							self.parentView.subviews.websitesList.collection.add(newWebsite);
+							self.parentView.subviews.adsList.collection.add(newAd);
 							self.$el.hide();
 						}
-						self.$('.success').html("Website successfully added").show();
+						self.$('.success').html("Ad successfully added").show();
 					},
 					error: function(model,xhr,options) {
-						if(xhr.responseText === 'website-already-exists') {
-							self.$('.error').html("Sorry, this website already exsits").show();
-						} else {
-							var responseText = JSON.parse(xhr.responseText);
-							if(responseText.name === 'ValidationError'){
-								if(responseText.errors['infos.url']){
-									self.$('.error').html("Sorry, this website already exists").hide();
-								} else if(responseText.errors['infos.name']) {
-									self.$('.error').html("Sorry, the name of the website is not valid.").hide();
-								} else {
-									self.$('.error').html("Sorry, an error occured").hide();
-								}
+						var responseText = JSON.parse(xhr.responseText);
+						if(responseText.name === 'ValidationError'){
+							if(responseText.errors['infos.name']) {
+								self.$('.error').html("Sorry, the name of the website is not valid.").hide();
+							} else {
+								self.$('.error').html("Sorry, an error occured").hide();
 							}
+						} else {
+							self.$('.error').html("Sorry, an error occured").hide();
 						}
 					}
 				}

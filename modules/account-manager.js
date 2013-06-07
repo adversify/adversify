@@ -1,7 +1,9 @@
 var mongoose = require('mongoose'),
+AdvertiserModel = require('../schemas/Advertisers.js'),
+PublisherModel = require('../schemas/Publishers.js'),
 PasswordsUtil = require('../modules/utils/passwords.js');
 AM = {};
-  mongoose.set('debug', true);
+mongoose.set('debug', true);
 
 module.exports = AM;
 

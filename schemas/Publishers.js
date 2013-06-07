@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
+var PublisherModel;
 
 var Publisher = new Schema({
     username: { type: String, required: true, match: /^[a-zA-Z0-9-_]+$/, unique: true },  
@@ -21,4 +22,4 @@ var Publisher = new Schema({
     },
 });
 
-PublisherModel = mongoose.model('publishers', Publisher);
+module.exports = PublisherModel = mongoose.model('publishers', Publisher);

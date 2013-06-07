@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
+var AdvertiserModel;
 
 var Advertiser = new Schema({
     username: { type: String, required: true, match: /^[a-zA-Z0-9-_]+$/, unique: true },  
@@ -17,4 +18,4 @@ var Advertiser = new Schema({
     }
 });
 
-AdvertiserModel = mongoose.model('advertisers', Advertiser);
+module.exports = AdvertiserModel = mongoose.model('advertisers', Advertiser);

@@ -1,4 +1,6 @@
 var HashIds = require("hashids");
+var mongoose = require('mongoose');
+var PublisherModel = require('../schemas/Publishers.js');
 var DV = {}; // Delivery Module, requests from the client on the publisher website.
 module.exports = DV;
 
@@ -8,7 +10,7 @@ DV.generateHashFromRandom = function(r,callback) {
 
   var hash = hashids.encrypt(r);
   callback(hash);
-}
+};
 
 
 DV.generateClientSideJS = function(publisherId,websiteId,randomNumber,callback) {

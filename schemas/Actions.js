@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
+var ActionModel;
 
 
 var Action = new Schema({
@@ -11,4 +12,4 @@ var Action = new Schema({
     occured: {type: Date, default: Date.now},
 });
 
-ActionModel = mongoose.model('actions', Action);
+module.exports = ActionModel = mongoose.model('actions', Action);

@@ -1,4 +1,5 @@
 var mongoose = require('mongoose'),
+AdModel = require('../schemas/Ads.js'),
 _ = require('underscore'),
 AdsM = {};
 
@@ -16,8 +17,8 @@ module.exports = AdsM; // Ads Manager module
 */
 
 
-WM.getListOfAds = function(uId,nb,sort,callback) {
-	WebsiteModel.find({owner: uId}, function(err, fetchedWebsites) {
+AdsM.getListOfAds = function(uId,nb,sort,callback) {
+	AdModel.find({owner: uId}, function(err, fetchedWebsites) {
 		if(err || !fetchedWebsites) {
 			if(!err) {
 				err = new Error('Unable to retrieve your websites');
@@ -38,7 +39,7 @@ WM.getListOfAds = function(uId,nb,sort,callback) {
  * @param {Function} callback(err,result) function that is used to give back results or error
 */
 
-WM.updateAd = function(uId, adId, newData, callback) {
+AdsM.updateAd = function(uId, adId, newData, callback) {
 	newData = _.omit(newData, '_id');
 	console.log(newData.options ? newData.options.services : newData);
 	console.log("--- ENd of new datya");
@@ -59,7 +60,7 @@ WM.updateAd = function(uId, adId, newData, callback) {
  * @param {Function} callback function that is used to give back results
 */
 
-WM.getAd = function(uId, adId, callback) {
+AdsM.getAd = function(uId, adId, callback) {
 	WebsiteModel.findOne({owner: uId, _id: wId}, function(err, fetchedWebsite) {
 		if(err || !fetchedWebsite) {
 			callback(err ? err : 'Unable to find this website');
@@ -78,7 +79,7 @@ WM.getAd = function(uId, adId, callback) {
  * @param {Function} callback(err, result) function that is used to give back results
 */
 
-WM.deleteAd = function(uId, adId, callback) {
+AdsM.deleteAd = function(uId, adId, callback) {
 	WebsiteModel.findOneAndRemove({_id : wId, owner: uId}, function(err, website) {
 		if(err || !website) {
 			callback(err ? err : 'Unable to find website');
@@ -98,7 +99,7 @@ WM.deleteAd = function(uId, adId, callback) {
  * @param {Function} callback(err, result) function that is used to give back results
 */
 
-WM.addAd = function(uId,newData,callback) {
+AdsM.addAd = function(uId,newData,callback) {
 	var newAd = new AdModel({
 		'infos' : {
 			'name': newData.infos.name,
