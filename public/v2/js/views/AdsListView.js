@@ -8,81 +8,70 @@ window.adversify.views.AdsListView = (function() {
 		},
 
 		events: {
-			'click .delete-website-button': 'deleteWebsite',
-			'click .edit-website-button': 'showEditWebsiteForm',
-			'click .close-edit-website-form': 'hideEditWebsiteForm',
-			'click .submit-edit-website-form': 'submitWebsiteEdit',
-			'click .add-zone-button' : 'showAddZoneForm',
-			'click .close-add-zone-form' : 'hideAddZoneForm',
-			'click .submit-add-zone-form' : 'submitZoneAdd',
-
-			'click .delete-zone-button': 'deleteZone',
-			'click .edit-zone-button': 'showEditZoneForm',
-			'click .submit-edit-zone-form': 'submitZoneEdit',
-			'click .close-edit-zone-form' : 'hideEditZoneForm'
+			'click .delete-ad-button': 'deleteAd',
+			'click .edit-ad-button': 'showEditAdForm',
+			'click .close-edit-ad-form': 'hideEditAdForm',
+			'click .submit-edit-ad-form': 'submitAdEdit'
 		},
 
 		render : function () {
 			this.$el.html(this.template({ads : this.collection.models }));
 		},
 
-		addOneWebsiteToDOM : function(model, collection, options) {
-			console.log('addOneToDOM @WebsitesListView');
-			this.itemTemplate = _.template(this.getTemplate("websiteItem"));
-			this.$("#websitesList").append(this.itemTemplate({website : model}));
+		addOneAdToDOM : function(model, collection, options) {
+			console.log('addOneToDOM @AdListView');
+			this.itemTemplate = _.template(this.getTemplate("adItem"));
+			this.$("#adsList").append(this.itemTemplate({ad : model}));
 		},
 
-		removeOneWebsiteFromDOM : function(model, collection, options) {
-			console.log('removeOneFromDOM @WebsitesListView');
-			this.$('#websitesList .website#'+model.id).remove();
+		removeOneAdFromDOM : function(model, collection, options) {
+			console.log('removeOneFromDOM @AdsListView');
+			this.$('#addsList .add#'+model.id).remove();
 		},
 
-		addOneZoneToDOM : function(model, collection, options) {
-			console.log('addOneZoneToDOM @WebsitesListView');
-			var zoneItemTemplate = _.template(this.getTemplate("zoneItem"));
-			this.$el.find("#websitesList .website#"+model.get('website')+" ul").append(zoneItemTemplate({zone : model}));
-		},
-
-		removeOneZoneFromDOM : function(model,collection,options) {
-			console.log('removeOneFromDOM @WebsitesListView');
-			this.$el.find('#websitesList .website #'+model.id).remove();
-		},
-
-		setZoneCollection : function(model, zoneCollection) {
-			model.set({zones : zoneCollection}, {silent: true});
-			this.listenTo(zoneCollection, 'add', this.addOneZoneToDOM);
-			this.listenTo(zoneCollection, 'remove', this.removeOneZoneFromDOM);
+		deleteAd: function(evt) {
+			var websiteId = evt.currentTarget.getAttribute('adversify-ad-id');
+			var websiteModel = this.collection.get(adId);
+			websiteModel.destroy();
+			this.collection.remove(websiteModel);
+			console.log('@deleteAd FROM AdsListView');
 		},
 
 		setCollection : function(collection) {
 			this.collection = collection;
 			this.listenTo(this.collection, 'reset', this.render);
 			this.listenTo(this.collection, 'change', this.render);
-			this.listenTo(this.collection, 'add', this.addOneWebsiteToDOM);
-			this.listenTo(this.collection, 'remove', this.removeOneWebsiteFromDOM);
+			this.listenTo(this.collection, 'add', this.addOneAdToDOM);
+			this.listenTo(this.collection, 'remove', this.removeOneAdFromDOM);
 		},
 
-		deleteWebsite: function(evt) {
-			var websiteId = evt.currentTarget.getAttribute('adversify-id');
-			var websiteModel = this.collection.get(websiteId);
-			websiteModel.destroy();
-			this.collection.remove(websiteModel);
-			console.log('@deleteWebsite FROM WebsitesListView');
+		showEditAdForm: function(evt) {
+			evt.preventDefault();
+			var websiteId = evt.currentTarget.getAttribute('adversify-ad-id');
+			var editWebsiteForm = this.$('.website#'+websiteId+' form.edit-ad-form');
+			editAdForm.show();
 		},
 
-		submitWebsiteEdit: function(evt) {
+		hideEditAdForm: function(evt) {
+			evt.preventDefault();
+			var adId = evt.currentTarget.getAttribute('adversify-ad-id');
+			var editAdForm = this.$('.website#'+websiteId+' form.edit-ad-form');
+			editAdForm.hide();
+		},
+
+
+		submitAdEdit: function(evt) {
 			evt.preventDefault();
 			var self = this;
-			var websiteId = evt.currentTarget.getAttribute('adversify-id');
-			var websiteModel = this.collection.get(websiteId);
-			var editWebsiteForm = this.$('li#'+websiteId+' form.edit-website-form')[0];
-			var websiteHash = {
+			var adId = evt.currentTarget.getAttribute('adversify-ad-id');
+			var adModel = this.collection.get(adId);
+			var hideEditAdFormForm = this.$('li#'+adId+' form.edit-ad-form')[0];
+			var adHash = {
 				infos: {
-					'name' : editWebsiteForm['name'].value,
-					'url' : editWebsiteForm['url'].value
+					'name' : editAshForm['name'].value
 				}
 			};
-			websiteModel.save(websiteHash, {
+			AdModel.save(adHash, {
 				success: function(model, response, options) {
 					console.log("SUCCESS EDIT WEBSITE");
 				},
@@ -92,150 +81,7 @@ window.adversify.views.AdsListView = (function() {
 			});
 		},
 
-		showAddZoneForm: function(evt) {
-			evt.preventDefault();
-			var websiteId = evt.currentTarget.getAttribute('adversify-id');
-			var websiteModel = this.collection.get(websiteId);
-			var addZoneForm = this.$el.find('li#'+websiteId+' form.add-zone-form');
-			addZoneForm.show();
-		},
-
-		hideAddZoneForm: function(evt) {
-			evt.preventDefault();
-			var websiteId = evt.currentTarget.getAttribute('adversify-id');
-			var websiteModel = this.collection.get(websiteId);
-			var addZoneForm = this.$el.find('li#'+websiteId+' form.add-zone-form');
-			addZoneForm.hide();
-		},
-
-		submitZoneAdd: function(evt) {
-			evt.preventDefault();
-			var self = this;
-			var websiteId = evt.currentTarget.getAttribute('adversify-id');
-			var websiteModel = this.collection.get(websiteId);
-			var addZoneForm = this.$el.find('li#'+websiteId+' form.add-zone-form')[0];
-			var zoneHash = {
-				name : addZoneForm['name'].value,
-				design: {},
-				options: {}
-			};
-			this.setZoneCollection(websiteModel, websiteModel.zoneListToCollection());
-				websiteModel.get('zones').add(zoneHash);
-				websiteModel.set({'zones':websiteModel.get('zones').models}, {silent:true});
-				websiteModel.save(null, {
-					success: function(model, response, options) {
-						self.$el.find(".website#"+model.get('website')+" ul li#"+model.cid).attr('id',model.id);
-					},
-					error: function() {
-						alert('Could not save zone ...');
-					}
-				});
-		},
-
-		deleteZone: function(evt) {
-			evt.preventDefault();
-			var zoneId = evt.currentTarget.getAttribute('adversify-id');
-			var websiteId = this.$el.find('li#'+zoneId).closest('.website').attr('id');
-			var websiteModel = this.collection.get(websiteId);
-			this.setZoneCollection(websiteModel, websiteModel.zoneListToCollection());
-			websiteModel.get('zones').remove(websiteModel.get('zones').get(zoneId));
-			websiteModel.set({'zones':websiteModel.get('zones').models}, {silent:true});
-			websiteModel.save();
-			console.log('@EndOfDeleteZone');
-		},
-
-		submitZoneEdit: function(evt) {
-			evt.preventDefault();
-			var zoneId = evt.currentTarget.getAttribute('adversify-id');
-			var websiteId = this.$el.find('li#'+zoneId).closest('.website').attr('id');
-			var editZoneForm = this.$el.find('li#'+zoneId+' form.edit-zone-form')[0];
-			console.log('Submit zone edit with services');
-			var zoneHash = {
-				'name' : editZoneForm['name'].value,
-				'design': {
-					'dimensions' : editZoneForm['design.dimensions'].value
-				}, 'options': {
-					'type' : editZoneForm['options.type'].value,
-					'remuneration': editZoneForm['options.remuneration'].value,
-					'services' : {
-						'adblockFallback' : {
-							'enabled' : true
-						},
-						'googleAnalytics' : {
-							'enabled' : true
-						},
-						'crawling' : {
-							'enabled' : true
-						},
-						'social' : {
-							'enabled' : true,
-							'facebook' : {
-								'enabled' : true
-							},
-							'twitter' : {
-								'enabled' : true
-							}
-						},
-						'doNotTrackUs' : {
-							'enabled' : true
-						},
-						'acceptableAds' : {
-							'enabled' : true
-						}
-					}
-				}
-			};
-
-			var websiteModel = this.collection.get(websiteId);
-			this.setZoneCollection(websiteModel, websiteModel.zoneListToCollection());
-			var zoneModel = websiteModel.get('zones').get(zoneId);
-			zoneModel.set(zoneHash);
-			websiteModel.set('zones' , websiteModel.zoneCollectionToList());
-			websiteModel.save(null, {
-				success: function() {
-					this.$('li#'+zoneId+' form.edit-zone-form').hide();
-				},
-				error: function() {
-					alert("Unable to save your modifications.");
-				}
-			});
-		},
-
-		showEditZoneForm: function(evt) {
-			var htmlEl = evt.currentTarget;
-			var zoneId = htmlEl.getAttribute('adversify-id');
-			var editZoneForm = this.$el.find('li#'+zoneId+' form.edit-zone-form');
-			editZoneForm.show();
-			evt.preventDefault();
-		},
-
-		hideEditZoneForm: function(evt) {
-			var htmlEl = evt.currentTarget;
-			var zoneId = htmlEl.getAttribute('adversify-id');
-			var editZoneForm = this.$el.find('li#'+zoneId+' form.edit-zone-form');
-			$(editZoneForm).hide();
-			evt.preventDefault();
-		},
-
-		showEditWebsiteForm: function(evt) {
-			evt.preventDefault();
-			var websiteId = evt.currentTarget.getAttribute('adversify-id');
-			var editWebsiteForm = this.$('.website#'+websiteId+' form.edit-website-form');
-			editWebsiteForm.show();
-		},
-
-		hideEditWebsiteForm: function(evt) {
-			evt.preventDefault();
-			var websiteId = evt.currentTarget.getAttribute('adversify-id');
-			var editWebsiteForm = this.$('.website#'+websiteId+' form.edit-website-form');
-			editWebsiteForm.hide();
-		},
-
-		title: 'My websites',
-
-		editZoneForm : {
-			fields: ['zonename', 'zoneremuneration', 'zoneformat', 'zonedimensions']
-		}
+		title: 'Ads List'
 
 	});
 })();
