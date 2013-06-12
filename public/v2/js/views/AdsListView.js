@@ -32,7 +32,8 @@ define([
 		},
 
 		render : function () {
-			this.$el.html(this.template({ads : this.collection.models }));
+			var self = this;
+			this.$el.html(self.template({ads : self.collection.models }));
 		},
 
 		addOneAdToDOM : function(model, collection, options) {

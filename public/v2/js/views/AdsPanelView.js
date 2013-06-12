@@ -24,17 +24,18 @@ define([
 		},
 
 		setSubviews: function() {
-			this.subviews.addAd = AddAdView({parentView:this});
-			this.subviews.adsList = AdsListView({parentView:this});
+			this.subviews.addAd = new AddAdView({parentView:this});
+			this.subviews.adsList = new AdsListView({parentView:this});
 		},
 
 		render : function () {
+			var self = this;
 			console.log('AdsPanelView render', this.$el);
-			this.$el.html(this.template);
+			this.$el.html(self.template);
 			this.subviews.addAd.render();
-			this.$('.content').append(this.subviews.addAd.el);
-			this.$(this.subviews.addAd.el).hide().addClass('slideFromRight');
-			this.$('.content').append(this.subviews.adsList.el);
+			this.$('.content').append(self.subviews.addAd.el);
+			this.$(self.subviews.addAd.el).hide().addClass('slideFromRight');
+			this.$('.content').append(self.subviews.adsList.el);
 		},
 
 		events: {
