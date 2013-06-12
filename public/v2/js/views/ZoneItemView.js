@@ -1,8 +1,17 @@
-window.adversify.views.WebsitesView = (function() {
-	return Backbone.View.extend({
+define([
+	'jquery',
+	'underscore',
+	'backbone',
+	'text!../../templates/home.html'
+], function(
+	$,
+	_,
+	Backbone,
+	zoneListItemTemplate
+){	return Backbone.View.extend({
 		initialize: function(websitesCollection) {
 			this.setCollection(websitesCollection);
-			this.template = _.template(this.getTemplate("zoneListInWebsites"));
+			this.template = _.template(zoneListItemTemplate);
 		},
 
 		render : function () {
@@ -38,4 +47,4 @@ window.adversify.views.WebsitesView = (function() {
 		title: 'My websites'
 
 	});
-})();
+});

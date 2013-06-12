@@ -1,4 +1,4 @@
-window.adversify.models.publisher = (function() {
+define(["backbone"], function(Backbone) {
   return Backbone.Model.extend({
     initialize: function() {
       console.log('new Publisher model');
@@ -9,4 +9,4 @@ window.adversify.models.publisher = (function() {
     urlRoot: '/publisher'
 
   });
-})();
+});

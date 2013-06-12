@@ -13,3 +13,14 @@ exports.getListOfAds = function(req,res) {
     }
   });
 };
+
+exports.createAd = function(req,res) {
+   AdsM.newAd(req.session.user ? req.session.user.id : '5165B701457264A995000001',req.body,function(e, newAd) {
+      if(e) {
+        res.send(e, 400);
+      }
+      else {
+        res.send(newAd, 200);
+      }
+    });
+};

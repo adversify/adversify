@@ -54,4 +54,4 @@ window.adversify.views.WebsitesPanelView = (function() {
 		title: 'My websites'
 
 	});
-})();
+});

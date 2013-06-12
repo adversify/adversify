@@ -1,4 +1,4 @@
-window.adversify.models.ad = (function() {
+define(["backbone"], function(Backbone) {
   return Backbone.Model.extend({
     initialize: function() {
       console.log('new AD model', this);
@@ -8,4 +8,4 @@ window.adversify.models.ad = (function() {
     urlRoot: '/advertiser/ads'
 
   });
-})();
+});

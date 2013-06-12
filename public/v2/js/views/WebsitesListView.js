@@ -1,10 +1,32 @@
-window.adversify.views.WebsitesListView = (function() {
-	return Backbone.View.extend({
+define([
+	'jquery',
+	'underscore',
+	'backbone',
+
+	'../models/Website',
+	'../collections/Websites',
+
+	'text!../../templates/websitesList.html',
+	'text!../../templates/websiteListItem.html',
+	'text!../../templates/zoneListItem.html'
+], function(
+	$,
+	_,
+	Backbone,
+
+	WebsiteModel,
+	WebsiteCollection,
+
+	websitesListTemplate,
+	websiteListItemTemplate,
+	zoneListItemTemplate
+){	return Backbone.View.extend({
 		initialize: function(options) {
 			console.log('Init WebsitesListView');
-			this.setCollection(options.websitesCollection);
+			this.setCollection(new WebsiteCollection());
+			this.collection.fetch();
 			this.parentView = options.parentView;
-			this.template = _.template(this.getTemplate("websitesList"));
+			this.template = _.template(websitesListTemplate);
 		},
 
 		events: {
@@ -28,7 +50,7 @@ window.adversify.views.WebsitesListView = (function() {
 
 		addOneWebsiteToDOM : function(model, collection, options) {
 			console.log('addOneToDOM @WebsitesListView');
-			this.itemTemplate = _.template(this.getTemplate("websiteItem"));
+			this.itemTemplate = _.template(websiteListItemTemplate);
 			this.$el.find("#websitesList").append(this.itemTemplate({website : model}));
 		},
 
@@ -39,7 +61,7 @@ window.adversify.views.WebsitesListView = (function() {
 
 		addOneZoneToDOM : function(model, collection, options) {
 			console.log('addOneZoneToDOM @WebsitesListView');
-			var zoneItemTemplate = _.template(this.getTemplate("zoneItem"));
+			var zoneItemTemplate = _.template(zoneListItemTemplate);
 			this.$el.find("#websitesList .website#"+model.get('website')+" ul").append(zoneItemTemplate({zone : model}));
 		},
 
@@ -238,4 +260,4 @@ window.adversify.views.WebsitesListView = (function() {
 		}
 
 	});
-})();
+});

@@ -1,148 +1,136 @@
 
-window.adversify.router =  (function(
-	HomeView,
+define([
+	'backbone',
 
-	WebsitesPanelView,
-	AddWebsiteView,
-	WebsitesListView,
+	'views/HomeView',
+	'views/WebsitesPanelView',
+	'views/AddWebsiteView',
+	'views/WebsitesListView',
 
-	AdsPanelView,
-	AddAdView,
-	AdsListView,
+	'views/AdsPanelView',
+	'views/AddAdView',
+	'views/AdsListView',
 
-	PublisherSettingsView,
-	PublisherLoginView,
-	PublisherSignupView,
+	'views/PublisherSettingsView',
+	'views/PublisherLoginView',
+	'views/PublisherSignupView',
 
-	AdvertiserSettingsView,
-	AdvertiserLoginView,
-	AdvertiserSignupView
-) {
-	return Backbone.Router.extend({
-		routes: {
-			"": "home",
+	'views/AdvertiserSettingsView',
+	'views/AdvertiserLoginView',
+	'views/AdvertiserSignupView'
+	], function(
+		Backbone,
 
-			"websites": "websites",
-			"website/new": "newWebsite",
+		HomeView,
 
-			"ads": "ads",
-			"ad/new": "newAd",
+		WebsitesPanelView,
+		AddWebsiteView,
+		WebsitesListView,
 
-			"publisher/settings": "publisherSettings",
-			"publisher/default": "publisherDefault",
-			"publisher/login": "publisherLogin",
-			"publisher/register": "publisherRegister",
+		AdsPanelView,
+		AddAdView,
+		AdsListView,
 
-			"advertiser/settings": "advertiserSettings",
-			"advertiser/default": "advertiserDefault",
-			"advertiser/login": "advertiserLogin",
-			"advertiser/register": "advertiserRegister"
-		},
+		PublisherSettingsView,
+		PublisherLoginView,
+		PublisherSignupView,
 
-		initialize: function() {
-			console.log('Router init');
-			this.firstView = true;
-		},
+		AdvertiserSettingsView,
+		AdvertiserLoginView,
+		AdvertiserSignupView
+	) {
+		return Backbone.Router.extend({
+			routes: {
+				"": "home",
 
+				"websites": "websites",
+				"website/new": "newWebsite",
 
-		home: function() {
-			this.moveTo(new HomeView());
-		},
+				"ads": "ads",
+				"ad/new": "newAd",
 
+				"publisher/settings": "publisherSettings",
+				"publisher/default": "publisherDefault",
+				"publisher/login": "publisherLogin",
+				"publisher/register": "publisherRegister",
 
-		websites: function() {
-			window.adversify.websites = new window.adversify.collections.websites();
-			window.adversify.websites.fetch();
-			this.moveTo(new WebsitesPanelView({websitesCollection:window.adversify.websites}));
-		},
+				"advertiser/settings": "advertiserSettings",
+				"advertiser/default": "advertiserDefault",
+				"advertiser/login": "advertiserLogin",
+				"advertiser/register": "advertiserRegister"
+			},
 
-		newWebsite: function() {
-			this.moveTo(new AddWebsiteView());
-		},
-
-
-		ads: function() {
-			window.adversify.ads = new window.adversify.collections.ads();
-			window.adversify.ads.fetch();
-			this.moveTo(new AdsPanelView({adsCollection:window.adversify.ads}));
-		},
-
-		newAdd: function() {
-			this.moveTo(new AddAdView());
-		},
-
-		publisherSettings : function() {
-			var self = this;
-			window.adversify.publisher = new window.adversify.models.publisher();
-			window.adversify.publisher.fetch({success: function(model, response, options) {
-				self.moveTo(new PublisherSettingsView({publisherModel:window.adversify.publisher}));
-			}});
-		},
-
-		publisherLogin : function() {
-			var self = this;
-			window.adversify.publisher = new window.adversify.models.publisher();
-			self.moveTo(new PublisherLoginView({publisherModel:window.adversify.publisher}));
-		},
-
-		publisherRegister : function() {
-			var self = this;
-			window.adversify.publisher = new window.adversify.models.publisher();
-			self.moveTo(new PublisherSignupView({publisherModel:window.adversify.publisher}));
-		},
-
-		publisherDefault : function() {
-			var self = this;
-		},
+			initialize: function() {
+				console.log('Router init');
+				this.firstView = true;
+			},
 
 
-		advertiserSettings : function() {
-			var self = this;
-			window.adversify.advertiser = new window.adversify.models.advertiser();
-			window.adversify.advertiser.fetch({success: function(model, response, options) {
-				self.moveTo(new AdvertiserSettingsView({advertiserModel:window.adversify.advertiser}));
-			}});
-		},
+			home: function() {
+				this.moveTo(new HomeView());
+			},
 
-		advertiserLogin : function() {
-			var self = this;
-			console.log(window.adversify.models);
-			window.adversify.advertiser = new window.adversify.models.advertiser();
-			self.moveTo(new AdvertiserLoginView({advertiserModel:window.adversify.advertiser}));
-		},
 
-		advertiserRegister : function() {
-			var self = this;
-			window.adversify.advertiser = new window.adversify.models.advertiser();
-			self.moveTo(new AdvertiserSignupView({advertiserModel:window.adversify.advertiser}));
-		},
+			websites: function() {
+				this.moveTo(new WebsitesPanelView());
+			},
 
-		advertiserDefault : function() {
-			var self = this;
-		},
+			newWebsite: function() {
+				this.moveTo(new AddWebsiteView());
+			},
 
-		moveTo: function (view) {
-			view.render();
-			$('#page-content').html($(view.el));
-		}
 
-	});
-})(
-	window.adversify.views.HomeView,
+			ads: function() {
+				this.moveTo(new AdsPanelView());
+			},
 
-	window.adversify.views.WebsitesPanelView,
-	window.adversify.views.AddWebsiteView,
-	window.adversify.views.WebsitesListView,
+			newAdd: function() {
+				this.moveTo(new AddAdView());
+			},
 
-	window.adversify.views.AdsPanelView,
-	window.adversify.views.AddAdView,
-	window.adversify.views.AdsListView,
+			publisherSettings : function() {
+				var self = this;
+				self.moveTo(new PublisherSettingsView());
+			},
 
-	window.adversify.views.PublisherSettingsView,
-	window.adversify.views.PublisherLoginView,
-	window.adversify.views.PublisherSignupView,
+			publisherLogin : function() {
+				var self = this;
+				self.moveTo(new PublisherLoginView());
+			},
 
-	window.adversify.views.AdvertiserSettingsView,
-	window.adversify.views.AdvertiserLoginView,
-	window.adversify.views.AdvertiserSignupView
-);
+			publisherRegister : function() {
+				var self = this;
+				self.moveTo(new PublisherSignupView());
+			},
+
+			publisherDefault : function() {
+				var self = this;
+			},
+
+
+			advertiserSettings : function() {
+				var self = this;
+				self.moveTo(new AdvertiserSettingsView());
+			},
+
+			advertiserLogin : function() {
+				var self = this;
+				self.moveTo(new AdvertiserLoginView());
+			},
+
+			advertiserRegister : function() {
+				var self = this;
+				self.moveTo(new AdvertiserSignupView());
+			},
+
+			advertiserDefault : function() {
+				var self = this;
+			},
+
+			moveTo: function (view) {
+				view.render();
+				$('#page-content').html($(view.el));
+			}
+
+		});
+});

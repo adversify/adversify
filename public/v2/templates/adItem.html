@@ -1,0 +1,16 @@
+<li id="<%= adId%>" class='ad slideToRight'>
+	<a href="#ads/<%= adId %>" class="linkTab">
+		<%= ad.get('infos').name %> : 
+	</a>
+	<div class="ad-actions">
+		<button class='btn add-zone-button' adversify-id='<%= adId%>'>Add a zone to this ad</button>
+		<button class='btn btn-warning edit-ad-button' adversify-id='<%= adId%>'>Edit</button>
+		<button class='btn btn-danger delete-ad-button' adversify-id='<%= adId%>'>Delete</button>
+	</div>
+	<form class='well edit-ad-form' style='display:none;margin-top:20px'>
+	    <legend>Edit this ad<button adversify-id='<%= adId %>' class='pull-right btn btn-inverse close-edit-ad-form'>Close</button></legend>
+		<input type='text' name="name" class='adname' placeholder='ad name' value='<%= ad.get('infos').name %>'/><br/>
+		<input type='text' name="url" class='adurl' placeholder="ad's URL" value='<%= ad.get('infos').url %> '/><br/>
+		<button class='btn btn-success submit-edit-ad-form' adversify-id='<%= adId %>'>Save</button>
+	</form>
+</li>

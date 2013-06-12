@@ -1,9 +1,9 @@
-window.adversify.collections.ads = (function() {
+define(["backbone", "../models/Ad"], function(Backbone, AdModel) {
 	return Backbone.Collection.extend({
 
 		url:'/advertiser/ads',
-		model: window.adversify.models.ad
+		model: AdModel
+
+	});
 
 });
-
-})();

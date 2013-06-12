@@ -1,4 +1,4 @@
-window.adversify.models.website = (function() {
+define(["backbone"], function(Backbone) {
   return Backbone.Model.extend({
     initialize: function() {
       console.log('new model');
@@ -44,4 +44,4 @@ window.adversify.models.website = (function() {
     }
 
   });
-})();
+});

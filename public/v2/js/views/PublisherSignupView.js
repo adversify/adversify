@@ -1,8 +1,23 @@
-window.adversify.views.PublisherSignupView = (function() {
-	return Backbone.View.extend({
+define([
+	'jquery',
+	'underscore',
+	'backbone',
+
+	'../models/Publisher',
+
+	'text!../../templates/publisherSignup.html'
+], function(
+	$,
+	_,
+	Backbone,
+
+	PublisherModel,
+
+	publisherSignupTemplate
+){	return Backbone.View.extend({
 		initialize: function(options) {
-			this.setModel(options.publisherModel);
-			this.template = _.template(this.getTemplate("publisherSignup"));
+			this.setModel(new PublisherModel());
+			this.template = _.template(publisherSignupTemplate);
 		},
 
 		events: {
@@ -45,4 +60,4 @@ window.adversify.views.PublisherSignupView = (function() {
 		}
 
 	});
-})();
+});

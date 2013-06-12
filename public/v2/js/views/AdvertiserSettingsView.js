@@ -1,8 +1,24 @@
-window.adversify.views.AdvertiserSettingsView = (function() {
-	return Backbone.View.extend({
+define([
+	'jquery',
+	'underscore',
+	'backbone',
+
+	'../models/Advertiser',
+
+	'text!../../templates/advertiserSettings.html'
+], function(
+	$,
+	_,
+	Backbone,
+
+	AdvertiserModel,
+
+	advertiserSettingsTemplate
+){	return Backbone.View.extend({
 		initialize: function(options) {
-			this.setModel(options.advertiserModel);
-			this.template = _.template(this.getTemplate("advertiserSettings"));
+			this.setModel(new AdvertiserModel({_id: 1234567890}));
+			this.model.fetch();
+			this.template = _.template(advertiserSettingsTemplate);
 		},
 
 		render : function () {
@@ -15,4 +31,4 @@ window.adversify.views.AdvertiserSettingsView = (function() {
 		}
 
 	});
-})();
+});

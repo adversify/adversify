@@ -1,14 +1,31 @@
-window.adversify.views.AdsPanelView = (function() {
-	return Backbone.View.extend({
+define([
+	'jquery',
+	'underscore',
+	'backbone',
+
+	'../views/AddAdView',
+	'../views/AdsListView',
+
+	'text!../../templates/adsPanel.html'
+], function(
+	$,
+	_,
+	Backbone,
+
+	AddAdView,
+	AdsListView,
+
+	adsPanelTemplate
+){	return Backbone.View.extend({
 		initialize: function(options) {
 			this.subviews = {};
-			this.setSubviews(options.adsCollection);
-			this.template = _.template(this.getTemplate("adsPanel"));
+			this.setSubviews();
+			this.template = _.template(adsPanelTemplate);
 		},
 
-		setSubviews: function(adsCollection) {
-			this.subviews.addAd = new window.adversify.views.AddAdView({parentView:this});
-			this.subviews.adsList = new window.adversify.views.AdsListView({parentView:this, adsCollection:adsCollection});
+		setSubviews: function() {
+			this.subviews.addAd = AddAdView({parentView:this});
+			this.subviews.adsList = AdsListView({parentView:this});
 		},
 
 		render : function () {
@@ -42,4 +59,4 @@ window.adversify.views.AdsPanelView = (function() {
 		title: 'Ads management'
 
 	});
-})();
+});

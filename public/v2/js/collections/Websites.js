@@ -1,9 +1,9 @@
-window.adversify.collections.websites = (function() {
+define(["backbone", "../models/Website"], function(Backbone, WebsiteModel) {
 	return Backbone.Collection.extend({
 
 		url:'/publisher/websites',
-		model: window.adversify.models.website
+		model: WebsiteModel
 
 });
 
-})();
+});

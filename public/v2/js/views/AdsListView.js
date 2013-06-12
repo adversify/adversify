@@ -1,10 +1,27 @@
-window.adversify.views.AdsListView = (function() {
-	return Backbone.View.extend({
+define([
+	'jquery',
+	'underscore',
+	'backbone',
+
+	'../collections/Ads',
+
+	'text!../../templates/adsList.html',
+	'text!../../temaplates/adsListItem.html'
+], function(
+	$,
+	_,
+	Backbone,
+
+	AdsCollection,
+
+	adsListTemplate,
+	adsListItemTemplate
+){	return Backbone.View.extend({
 		initialize: function(options) {
 			console.log('Init AdsListView');
-			this.setCollection(options.adsCollection);
+			this.setCollection(new AdsCollection());
 			this.parentView = options.parentView;
-			this.template = _.template(this.getTemplate("adsList"));
+			this.template = _.template(adsListTemplate);
 		},
 
 		events: {
@@ -20,7 +37,7 @@ window.adversify.views.AdsListView = (function() {
 
 		addOneAdToDOM : function(model, collection, options) {
 			console.log('addOneToDOM @AdListView');
-			this.itemTemplate = _.template(this.getTemplate("adItem"));
+			this.itemTemplate = _.template(adsListItemTemplate);
 			this.$("#adsList").append(this.itemTemplate({ad : model}));
 		},
 
@@ -84,4 +101,4 @@ window.adversify.views.AdsListView = (function() {
 		title: 'Ads List'
 
 	});
-})();
+});

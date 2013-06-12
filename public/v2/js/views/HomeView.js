@@ -1,7 +1,19 @@
-window.adversify.views.HomeView = (function() {
+define([
+	'jquery',
+	'underscore',
+	'backbone',
+	'text!../../templates/home.html'
+], function(
+	$,
+	_,
+	Backbone,
+	homeTemplate
+){
+
 	return Backbone.View.extend({
 		initialize: function() {
-			this.template = _.template(this.getTemplate("home"));
+			console.log(this);
+			this.template = _.template(homeTemplate);
 		},
 
 		render: function() {
@@ -10,4 +22,5 @@ window.adversify.views.HomeView = (function() {
 
 		title: 'Home'
 	});
-})();
+
+});

@@ -1,9 +1,24 @@
-window.adversify.views.AdvertiserLoginView = (function() {
-	return Backbone.View.extend({
+define([
+	'jquery',
+	'underscore',
+	'backbone',
+
+	'../models/Advertiser',
+
+	'text!../../templates/advertiserLogin.html'
+], function(
+	$,
+	_,
+	Backbone,
+
+	AdvertiserModel,
+
+	advertiserLoginTemplate
+){	return Backbone.View.extend({
 		initialize: function(options) {
 			this.options = options || {};
-			this.setModel(this.options.advertiserModel);
-			this.template = _.template(this.getTemplate("advertiserLogin"));
+			this.setModel(new AdvertiserModel());
+			this.template = _.template(advertiserLoginTemplate);
 		},
 
 		render : function () {
@@ -19,7 +34,7 @@ window.adversify.views.AdvertiserLoginView = (function() {
 			'click .js-submit-advertiser-login' : 'submitAdvertiserLogin'
 		},
 
-		submitPublisherLogin: function(evt) {
+		submitAdvertiserLogin: function(evt) {
 			evt.preventDefault();
 			var advertiserLoginForm = this.$('#advertiser-login')[0];
 			var advertiserCredentialsHash = {
@@ -40,4 +55,4 @@ window.adversify.views.AdvertiserLoginView = (function() {
 		}
 
 	});
-})();
+});

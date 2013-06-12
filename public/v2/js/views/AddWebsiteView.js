@@ -1,9 +1,25 @@
-window.adversify.views.AddWebsiteView = (function() {
+define([
+	'jquery',
+	'underscore',
+	'backbone',
+
+	'../models/Website',
+
+	'text!../../templates/addWebsite.html'
+], function(
+	$,
+	_,
+	Backbone,
+
+	WebsiteModel,
+
+	addWebsiteTemplate
+){
 	return Backbone.View.extend({
 		initialize: function(options) {
 			options = options || {};
 			this.parentView = options.parentView;
-			this.template = _.template(this.getTemplate("addWebsite"));
+			this.template = _.template(addWebsiteTemplate);
 			console.log('Add a website subview init');
 		},
 
@@ -39,7 +55,7 @@ window.adversify.views.AddWebsiteView = (function() {
 			_.each(this.addWebsiteForm.fields, function(field) {
 				websiteHash.infos[field] = formCheck[field]();
 			});
-			var newWebsite = new window.adversify.models.website(websiteHash);
+			var newWebsite = new WebsiteModel(websiteHash);
 			if(this.parentView && this.parentView.subviews.websitesList.collection.length === 0) {
 				this.parentView.subviews.websitesList.collection.create(newWebsite, {wait: true});
 			} else {
@@ -73,4 +89,4 @@ window.adversify.views.AddWebsiteView = (function() {
 		}
 
 	});
-})();
+});

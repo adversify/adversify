@@ -99,11 +99,10 @@ AdsM.deleteAd = function(uId, adId, callback) {
  * @param {Function} callback(err, result) function that is used to give back results
 */
 
-AdsM.addAd = function(uId,newData,callback) {
+AdsM.newAd = function(uId,newData,callback) {
 	var newAd = new AdModel({
 		'infos' : {
-			'name': newData.infos.name,
-			'url':newData.infos.url
+			'name': newData.infos.name
 		},
 		'created':Date.now(),
 		'owner': uId

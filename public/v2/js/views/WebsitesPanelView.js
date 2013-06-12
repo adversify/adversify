@@ -1,14 +1,31 @@
-window.adversify.views.WebsitesPanelView = (function() {
-	return Backbone.View.extend({
+define([
+	'jquery',
+	'underscore',
+	'backbone',
+
+	'../views/AddWebsiteView',
+	'../views/WebsitesListView',
+
+	'text!../../templates/websitesPanel.html'
+], function(
+	$,
+	_,
+	Backbone,
+
+	AddWebsiteView,
+	WebsitesListView,
+
+	websitesPanelTemplate
+){	return Backbone.View.extend({
 		initialize: function(options) {
 			this.subviews = {};
-			this.setSubviews(options.websitesCollection);
-			this.template = _.template(this.getTemplate("websitesPanel"));
+			this.setSubviews();
+			this.template = _.template(websitesPanelTemplate);
 		},
 
-		setSubviews: function(websitesCollection) {
-			this.subviews.addWebsite = new window.adversify.views.AddWebsiteView({parentView:this});
-			this.subviews.websitesList = new window.adversify.views.WebsitesListView({parentView:this, websitesCollection:websitesCollection});
+		setSubviews: function() {
+			this.subviews.addWebsite = new AddWebsiteView({parentView:this});
+			this.subviews.websitesList = new WebsitesListView({parentView:this});
 		},
 
 		render : function () {
@@ -54,4 +71,4 @@ window.adversify.views.WebsitesPanelView = (function() {
 		title: 'My websites'
 
 	});
-})();
+});

@@ -1,8 +1,23 @@
-window.adversify.views.PublisherLoginView = (function() {
-	return Backbone.View.extend({
+define([
+	'jquery',
+	'underscore',
+	'backbone',
+
+	'../models/Publisher',
+
+	'text!../../templates/publisherLogin.html'
+], function(
+	$,
+	_,
+	Backbone,
+
+	PublisherModel,
+
+	publisherLoginTemplate
+){	return Backbone.View.extend({
 		initialize: function(options) {
-			this.setModel(options.publisherModel);
-			this.template = _.template(this.getTemplate("publisherLogin"));
+			this.setModel(new PublisherModel());
+			this.template = _.template(publisherLoginTemplate);
 		},
 
 		render : function () {
@@ -37,4 +52,4 @@ window.adversify.views.PublisherLoginView = (function() {
 		}
 
 	});
-})();
+});

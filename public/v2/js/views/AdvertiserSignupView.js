@@ -1,8 +1,23 @@
-window.adversify.views.AdvertiserSignupView = (function() {
-	return Backbone.View.extend({
+define([
+	'jquery',
+	'underscore',
+	'backbone',
+
+	'../models/Advertiser',
+
+	'text!../../templates/advertiserSignup.html'
+], function(
+	$,
+	_,
+	Backbone,
+
+	AdvertiserModel,
+
+	advertiserSignupTemplate
+){	return Backbone.View.extend({
 		initialize: function(options) {
-			this.setModel(options.advertiserModel);
-			this.template = _.template(this.getTemplate("advertiserSignup"));
+			this.setModel(new AdvertiserModel());
+			this.template = _.template(advertiserSignupTemplate);
 		},
 
 		events: {
@@ -46,4 +61,4 @@ window.adversify.views.AdvertiserSignupView = (function() {
 		}
 
 	});
-})();
+});

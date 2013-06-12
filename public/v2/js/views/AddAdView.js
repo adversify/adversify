@@ -1,9 +1,18 @@
-window.adversify.views.AddAdView = (function() {
-	return Backbone.View.extend({
+define([
+	'jquery',
+	'underscore',
+	'backbone',
+	'text!../../templates/addAd.html'
+], function(
+	$,
+	_,
+	Backbone,
+	addAdTemplate
+){	return Backbone.View.extend({
 		initialize: function(options) {
 			options = options || {};
 			this.parentView = options.parentView;
-			this.template = _.template(this.getTemplate("addAd"));
+			this.template = _.template(addAdTemplate);
 			console.log('Add an ad');
 		},
 
@@ -25,6 +34,7 @@ window.adversify.views.AddAdView = (function() {
 			var newAd = new window.adversify.models.ad(adHash);
 			if(this.parentView && this.parentView.subviews.adsList.collection.length === 0) {
 				console.log('Creating the collection');
+				console.log(this.parentView.subviews.adsList.collection);
 				this.parentView.subviews.adsList.collection.create(newAd, {wait: true});
 			} else {
 				newAd.save(null,{
@@ -53,4 +63,4 @@ window.adversify.views.AddAdView = (function() {
 		}
 
 	});
-})();
+});
