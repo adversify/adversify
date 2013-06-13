@@ -44,10 +44,10 @@ define([
 				"": "home",
 
 				"websites": "websites",
-				"website/new": "newWebsite",
+				"websites/new": "newWebsite",
 
 				"ads": "ads",
-				"ad/new": "newAd",
+				"ads/new": "newAd",
 
 				"publisher/settings": "publisherSettings",
 				"publisher/default": "publisherDefault",
@@ -84,7 +84,7 @@ define([
 				this.moveTo(new AdsPanelView());
 			},
 
-			newAdd: function() {
+			newAd: function() {
 				this.moveTo(new AddAdView());
 			},
 

@@ -2,18 +2,24 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
+
+	'../models/Ad',
+
 	'text!../../templates/addAd.html'
 ], function(
 	$,
 	_,
 	Backbone,
+
+	AdModel,
+
 	addAdTemplate
 ){	return Backbone.View.extend({
 		initialize: function(options) {
 			options = options || {};
 			this.parentView = options.parentView;
 			this.template = _.template(addAdTemplate);
-			console.log('Add an ad');
+			console.log('Add an ad view');
 		},
 
 		render : function () {
@@ -31,7 +37,7 @@ define([
 			evt.preventDefault();
 			var adForm = $(evt.currentTarget);
 			var adHash = {'infos':{ 'name' : adForm.find('.name').val() }};
-			var newAd = new window.adversify.models.ad(adHash);
+			var newAd = new AdModel(adHash);
 			if(this.parentView && this.parentView.subviews.adsList.collection.length === 0) {
 				console.log('Creating the collection');
 				console.log(this.parentView.subviews.adsList.collection);
