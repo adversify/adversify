@@ -30,23 +30,23 @@ exports.register = function(req,res){
   });
 };
 
-exports.signin = function(req, res){
-  console.log(req.body);
-  AdM.login(req.param('username'),req.param('password'), function(e,o) {
-      if (!o){
-        res.send(e, 400);
-        res.render('login-error.html', { title : 'Login error!'});
-      } else{
-        req.session.username = o.username;
-        req.session.kind = "advertiser";
-        if (req.param('remember-me') == 'on'){
-          res.cookie('username', o.username, { maxAge: 900000 });
-          res.cookie('password', o.password, { maxAge: 900000 });
+exports.login = function(req, res){
+  AdM.login(req.param('login'),req.param('password'), function(e,o) {
+      if (e || !o) {
+        if(!o) {
+          e = new Error('Could not retrieve your account.');
         }
-        res.redirect('/advertiser');
+        res.send(e, 400);
+      } else {
+        req.session.user = {name: o.username, password: o.password, kind: 'advertiser', id:o._id};
+        if (req.param('remember-me') == 'on') {
+          res.cookie('username', o.username);
+          res.cookie('password', o.password);
+        }
+        res.send(o, 200);
       }
   });
-}
+};
 
 exports.default = function(req,res) {
   if(req.session.kind != "advertiser") {

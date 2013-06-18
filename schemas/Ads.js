@@ -6,7 +6,7 @@ var AdModel;
 var Ad = new Schema({
     owner: { type: String },
     infos: {
-        name: { type: String, required: true },
+        name: { type: String, required: true, default: 'Ad name' },
         description: { type: String }
     },
     design : {

@@ -12,7 +12,7 @@ module.exports = function(app) {
 	app.get('/', routes.index);
 	app.get('/logout', routes.logout);
 
-	app.post('/signup', signup.create); 
+	app.post('/signup', signup.create);
 	app.get('/signup/step2', signup.step2); // Signup step2
 
 	app.get('/publisher', publisher.index);
@@ -43,7 +43,7 @@ module.exports = function(app) {
 	app.get('/advertiser', advertiser.index);
 	//app.get('/advertiser/get', advertiser.get); TODO
 	app.post('/advertiser', advertiser.register);
-	//app.post('/advertiser/login', advertiser.login);
+	app.post('/advertiser/login', advertiser.login);
 
 	app.get('/advertiser/profile', advertiser.profile);
 	app.post('/advertiser/profile', advertiser.updateProfile);

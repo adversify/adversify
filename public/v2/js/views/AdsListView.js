@@ -6,7 +6,7 @@ define([
 	'../collections/Ads',
 
 	'text!../../templates/adsList.html',
-	'text!../../temaplates/adsListItem.html'
+	'text!../../templates/adListItem.html'
 ], function(
 	$,
 	_,
@@ -20,6 +20,7 @@ define([
 		initialize: function(options) {
 			console.log('Init AdsListView');
 			this.setCollection(new AdsCollection());
+			this.collection.fetch();
 			this.parentView = options.parentView;
 			this.template = _.template(adsListTemplate);
 		},
