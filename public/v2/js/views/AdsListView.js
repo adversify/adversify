@@ -29,7 +29,8 @@ define([
 			'click .delete-ad-button': 'deleteAd',
 			'click .edit-ad-button': 'showEditAdForm',
 			'click .close-edit-ad-form': 'hideEditAdForm',
-			'click .submit-edit-ad-form': 'submitAdEdit'
+			'click .submit-edit-ad-form': 'submitAdEdit',
+			'change .adtype' : 'adTypeFromEditAdFormChanged'
 		},
 
 		render : function () {
@@ -66,15 +67,15 @@ define([
 
 		showEditAdForm: function(evt) {
 			evt.preventDefault();
-			var websiteId = evt.currentTarget.getAttribute('adversify-ad-id');
-			var editWebsiteForm = this.$('.website#'+websiteId+' form.edit-ad-form');
+			var adId = evt.currentTarget.getAttribute('adversify-ad-id');
+			var editAdForm = this.$('.ad#'+adId+' form.edit-ad-form');
 			editAdForm.show();
 		},
 
 		hideEditAdForm: function(evt) {
 			evt.preventDefault();
 			var adId = evt.currentTarget.getAttribute('adversify-ad-id');
-			var editAdForm = this.$('.website#'+websiteId+' form.edit-ad-form');
+			var editAdForm = this.$('.ad#'+adId+' form.edit-ad-form');
 			editAdForm.hide();
 		},
 
@@ -84,20 +85,40 @@ define([
 			var self = this;
 			var adId = evt.currentTarget.getAttribute('adversify-ad-id');
 			var adModel = this.collection.get(adId);
-			var hideEditAdFormForm = this.$('li#'+adId+' form.edit-ad-form')[0];
+			var editAdForm = this.$('.ad#'+adId+' form.edit-ad-form');
+			var editAdFormSerialized = editAdForm.serializeArray();
+			var editAdFormRaw = {};
+			for(var i=0; i < editAdFormSerialized.length; i++) {
+				editAdFormRaw[editAdFormSerialized[i].name] = editAdFormSerialized[i].value;
+			}
+			console.log(editAdFormRaw);
 			var adHash = {
 				infos: {
-					'name' : editAshForm['name'].value
+					name: editAdFormRaw['name'],
+					description: editAdFormRaw['description']
+				},
+				design: {
+					dimensions: editAdFormRaw['ad.dimensions']
+				},
+				adOptions: {
+					remuneration: editAdFormSerialized['ad.remuneration'],
+					type: editAdFormSerialized['ad.type']
 				}
 			};
+			console.log(adHash);
+			return false;
 			AdModel.save(adHash, {
 				success: function(model, response, options) {
-					console.log("SUCCESS EDIT WEBSITE");
+					console.log("SUCCESS EDIT AD");
 				},
 				error : function(model, xhr, options) {
-					alert("Unable to save your modifications on this website");
+					alert("Unable to save your modifications on this ad ("+self.model.id+")");
 				}
 			});
+		},
+
+		adTypeFromEditAdFormChanged: function(evt) {
+			console.log(evt);
 		},
 
 		title: 'Ads List'

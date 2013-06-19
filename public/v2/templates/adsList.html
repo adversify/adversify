@@ -1,20 +1,42 @@
 	<ul style="margin-top: 20px;" id="adsList">
 		<% _.each(ads, function (ad, i) {
 			var adId = ad.id ? ad.id : ad.cid;
+			console.log(ad);
 		 %>
 			<li id="<%= adId%>" class='ad slideToRight'>
 				<a href="#ads/<%= adId %>" class="linkTab">
 					<%= ad.get('infos').name %> : 
 				</a>
 				<div class="ad-actions">
-					<button class='btn btn-warning edit-ad-button' adversify-id='<%= adId%>'>Edit</button>
-					<button class='btn btn-danger delete-ad-button' adversify-id='<%= adId%>'>Delete</button>
+					<button class='btn btn-warning edit-ad-button' adversify-ad-id='<%= adId%>'>Edit</button>
+					<button class='btn btn-danger delete-ad-button' adversify-ad-id='<%= adId%>'>Delete</button>
 				</div>
 				<form class='well edit-ad-form' style='display:none;margin-top:20px'>
-				    <legend>Edit this ad<button adversify-id='<%= adId %>' class='pull-right btn btn-inverse close-edit-ad-form'>Close</button></legend>
+				    <legend>Edit this ad<button adversify-ad-id='<%= adId %>' class='pull-right btn btn-inverse close-edit-ad-form'>Close</button></legend>
 					<input type='text' name="name" class='adname' placeholder='ad name' value='<%= ad.get('infos').name %>'/><br/>
-					<input type='text' name="url" class='adurl' placeholder="ad's URL" value='<%= ad.get('infos').url %> '/><br/>
-					<button class='btn btn-success submit-edit-ad-form' adversify-id='<%= adId %>'>Save</button>
+					<textarea name="description" class='addescription' placeholder="Description for your ad"><%= ad.get('infos').description %></textarea><br/>
+					<select class="adremuneration" name="ad.remuneration">
+			            <option value="">CPC or CPM?</option>
+			            <option value="cpc" <%= (ad.get('adOptions').remuneration === 'cpc') ? 'selected' : '' %>>CPC</option>
+			            <option value="cpm" <%= (ad.get('adOptions').remuneration === 'cpm') ? 'selected' : '' %>>CPM</option>
+			            <option value="*" <%= (ad.get('adOptions').remuneration === '*') ? 'selected' : '' %>>Nevermind</option>
+					</select><br/>
+			        <select class="adtype" name="ad.type">
+			            <option value="">Image or Textual?</option>
+			            <option value="image" <%= (ad.get('adOptions').type === 'image') ? 'selected' : '' %>>Image</option>
+			            <option value="text" <%= (ad.get('adOptions').type === 'text') ? 'selected' : '' %>>Textual</option>
+			        </select><br/>
+			        <select class="addimensions" name="ad.dimensions">
+			            <option value="">How big?</option>
+			            <option value="300x233" <%= (ad.get('design').dimensions === '300x233') ? 'selected' : '' %>>300x233</option>
+			            <option value="234x60" <%= (ad.get('design').dimensions === '234x60') ? 'selected' : '' %>>234x60</option>
+			            <option value="125x125" <%= (ad.get('design').dimensions === '125x125') ? 'selected' : '' %>>125x125</option>
+			            <option value="180x150" <%= (ad.get('design').dimensions === '180x150') ? 'selected' : '' %>>180x150</option>
+			            <option value="120x130" <%= (ad.get('design').dimensions === '120x130') ? 'selected' : '' %>>120x230</option>
+			            <option value="200x200" <%= (ad.get('design').dimensions === '200x200') ? 'selected' : '' %>>200x200</option>
+			            <option value="233x233" <%= (ad.get('design').dimensions === '233x233') ? 'selected' : '' %>>233x233</option>
+			    	</select><br/>
+					<button class='btn btn-large btn-success submit-edit-ad-form' adversify-ad-id='<%= adId %>'>Submit modifications</button>
 				</form>
 			</li>
 		<% }); %>
