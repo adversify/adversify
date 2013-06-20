@@ -24,3 +24,14 @@ exports.createAd = function(req,res) {
       }
     });
 };
+
+exports.updateAd = function(req,res) {
+   AdsM.updateAd(req.session.user ? req.session.user.id : '5165B701457264A995000001',req.param('id'),req.body,function(e, updatedAd) {
+      if(e) {
+        res.send(e, 400);
+      }
+      else {
+        res.send(updatedAd, 200);
+      }
+    });
+};

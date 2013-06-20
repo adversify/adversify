@@ -101,18 +101,16 @@ define([
 					dimensions: editAdFormRaw['ad.dimensions']
 				},
 				adOptions: {
-					remuneration: editAdFormSerialized['ad.remuneration'],
-					type: editAdFormSerialized['ad.type']
+					remuneration: editAdFormRaw['ad.remuneration'],
+					type: editAdFormRaw['ad.type']
 				}
 			};
-			console.log(adHash);
-			return false;
-			AdModel.save(adHash, {
+			adModel.save(adHash, {
 				success: function(model, response, options) {
 					console.log("SUCCESS EDIT AD");
 				},
 				error : function(model, xhr, options) {
-					alert("Unable to save your modifications on this ad ("+self.model.id+")");
+					alert("Unable to save your modifications on this ad ("+adModel.id+")");
 				}
 			});
 		},

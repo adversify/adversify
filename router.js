@@ -52,6 +52,7 @@ module.exports = function(app) {
 	//	app.get('/advertiser/ads', advertiser.getAds); // TO DO
 	app.get('/advertiser/ads', ads.getListOfAds);
 	app.post('/advertiser/ads', ads.createAd);
+	app.put('/advertiser/ads/:id', ads.updateAd);
 
 
 	//app.get('/socket', routes.socket);

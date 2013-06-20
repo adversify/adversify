@@ -115,3 +115,24 @@ AdsM.newAd = function(uId,newData,callback) {
 		}
 	});
 };
+
+
+/*
+ * Update an ad
+ * @function
+ * @param {String} uId userId from session
+ * @param {String} adId ID of the targeted Ad
+ * @param [{String}] newData : data hash containing updated ad
+ * @param {Function} callback(err, result) function that is used to give back results
+*/
+
+AdsM.updateAd = function(uId,adId,newData,callback) {
+	newData = _.omit(newData, '_id');
+	AdModel.findOneAndUpdate({_id : adId, owner: uId},newData, function(err, updatedAd) {
+		if(err || !updatedAd) {
+			callback(err ? err : 'Unable to update this ad.');
+		} else {
+			callback(null, updatedAd);
+		}
+	});
+};
