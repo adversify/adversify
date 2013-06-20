@@ -120,7 +120,7 @@ define([
 			var adId = evt.currentTarget.getAttribute('adversify-ad-id');
 			var methodMap = {};
 			methodMap['text'] = 'You choosed Text';
-			mrthodMap['image'] = 'You choosed Image';
+			methodMap['image'] = 'You choosed Image';
 		},
 
 		title: 'Ads List'
