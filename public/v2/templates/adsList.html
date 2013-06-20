@@ -21,7 +21,7 @@
 			            <option value="cpm" <%= (ad.get('adOptions').remuneration === 'cpm') ? 'selected' : '' %>>CPM</option>
 			            <option value="*" <%= (ad.get('adOptions').remuneration === '*') ? 'selected' : '' %>>Nevermind</option>
 					</select><br/>
-			        <select class="adtype" name="ad.type">
+			        <select class="adtype" name="ad.type" adversify-ad-id="<%= adId %>">
 			            <option value="">Image or Textual?</option>
 			            <option value="image" <%= (ad.get('adOptions').type === 'image') ? 'selected' : '' %>>Image</option>
 			            <option value="text" <%= (ad.get('adOptions').type === 'text') ? 'selected' : '' %>>Textual</option>

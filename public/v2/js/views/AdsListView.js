@@ -116,7 +116,11 @@ define([
 		},
 
 		adTypeFromEditAdFormChanged: function(evt) {
-			console.log(evt);
+			console.log(this.$(evt.currentTarget).serializeArray());
+			var adId = evt.currentTarget.getAttribute('adversify-ad-id');
+			var methodMap = {};
+			methodMap['text'] = 'You choosed Text';
+			mrthodMap['image'] = 'You choosed Image';
 		},
 
 		title: 'Ads List'
