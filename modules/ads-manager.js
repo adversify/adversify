@@ -30,27 +30,6 @@ AdsM.getListOfAds = function(uId,nb,sort,callback) {
 	});
 };
 
-/*
- * Update a single ad
- * @function
- * @param {String} uId userId from session
- * @param {String} adId _id of the targeted ad
- * @param [{String}] newData ad data to be updated via POST or PUT request 
- * @param {Function} callback(err,result) function that is used to give back results or error
-*/
-
-AdsM.updateAd = function(uId, adId, newData, callback) {
-	newData = _.omit(newData, '_id');
-	console.log(newData.options ? newData.options.services : newData);
-	console.log("--- ENd of new datya");
-	WebsiteModel.findOneAndUpdate({_id : websiteId, owner: uId},newData, function(err, updatedWebsite) {
-		if(err || !updatedWebsite) {
-			callback(err ? err : 'Unable to update this website.');
-		} else {
-			callback(null, updatedWebsite);
-		}
-	});
-};
 
 /*
  * Retrieve single ad
@@ -80,9 +59,9 @@ AdsM.getAd = function(uId, adId, callback) {
 */
 
 AdsM.deleteAd = function(uId, adId, callback) {
-	WebsiteModel.findOneAndRemove({_id : wId, owner: uId}, function(err, website) {
-		if(err || !website) {
-			callback(err ? err : 'Unable to find website');
+	AdModel.findOneAndRemove({_id : adId, owner: uId}, function(err, adWasDeleted) {
+		if(err || !adWasDeleted) {
+			callback(err ? err : 'Unable to delete ad.');
 		} else {
 			callback(null,'OK');
 		}

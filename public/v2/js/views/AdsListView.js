@@ -46,14 +46,14 @@ define([
 
 		removeOneAdFromDOM : function(model, collection, options) {
 			console.log('removeOneFromDOM @AdsListView');
-			this.$('#addsList .add#'+model.id).remove();
+			this.$('#adsList .ad#'+model.id).remove();
 		},
 
 		deleteAd: function(evt) {
-			var websiteId = evt.currentTarget.getAttribute('adversify-ad-id');
-			var websiteModel = this.collection.get(adId);
-			websiteModel.destroy();
-			this.collection.remove(websiteModel);
+			var adId = evt.currentTarget.getAttribute('adversify-ad-id');
+			var adModel = this.collection.get(adId);
+			adModel.destroy();
+			this.collection.remove(adModel);
 			console.log('@deleteAd FROM AdsListView');
 		},
 

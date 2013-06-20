@@ -35,3 +35,16 @@ exports.updateAd = function(req,res) {
       }
     });
 };
+
+exports.deleteAd = function(req,res) {
+    AdsM.deleteAd(req.session.user ? req.session.user.id : '5165B701457264A995000001',req.param('id'),function(e,adWasDeleted){
+      if(e || !adWasDeleted) {
+        if(!e) {
+          e = new Error('Unable to delete Ad');
+        }
+        res.send(e, 400);
+      } else if(adWasDeleted) {
+        res.send("OK", 200);
+      }
+    });
+};
