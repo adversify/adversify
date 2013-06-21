@@ -30,7 +30,7 @@ define([
 			'click .edit-ad-button': 'showEditAdForm',
 			'click .close-edit-ad-form': 'hideEditAdForm',
 			'click .submit-edit-ad-form': 'submitAdEdit',
-			'change .adtype' : 'adTypeFromEditAdFormChanged'
+			'change .adtype' : 'adTypeFromEditAdFormHasChanged'
 		},
 
 		render : function () {
@@ -91,7 +91,6 @@ define([
 			for(var i=0; i < editAdFormSerialized.length; i++) {
 				editAdFormRaw[editAdFormSerialized[i].name] = editAdFormSerialized[i].value;
 			}
-			console.log(editAdFormRaw);
 			var adHash = {
 				infos: {
 					name: editAdFormRaw['name'],
@@ -115,12 +114,22 @@ define([
 			});
 		},
 
-		adTypeFromEditAdFormChanged: function(evt) {
-			console.log(this.$(evt.currentTarget).serializeArray());
+		adTypeFromEditAdFormHasChanged: function(evt) {
 			var adId = evt.currentTarget.getAttribute('adversify-ad-id');
 			var methodMap = {};
-			methodMap['text'] = 'You choosed Text';
-			methodMap['image'] = 'You choosed Image';
+			methodMap['text'] = function() {
+				console.log('text lolz');
+			};
+			methodMap['image'] = function() {
+				console.log('image lolz');
+			};
+			var editAdForm = this.$('.ad#'+adId+' form.edit-ad-form');
+			var editAdFormRaw = {};
+			var editAdFormSerialized = editAdForm.serializeArray();
+			for(var i=0; i < editAdFormSerialized.length; i++) {
+				editAdFormRaw[editAdFormSerialized[i].name] = editAdFormSerialized[i].value;
+			}
+			methodMap[editAdFormRaw['ad.type']]();
 		},
 
 		title: 'Ads List'
