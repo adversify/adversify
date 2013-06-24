@@ -5,3 +5,44 @@
 .slideToRight {
 	position:relative;right:0;top:0;transition: all 0.5s linear;
 }
+
+.fullWidth {
+	width:100%;
+}
+
+.fullHeight {
+	height:100;
+}
+
+.marginAuto {
+	margin: 0 auto;
+}
+
+
+.midWidth {
+	width:49.9%;
+}
+
+.ad-fieldset {
+	width:45%;
+}
+
+
+.vsmallMarginLeft {
+	margin-left: 4px;
+}
+
+.fifthWidth {
+	width:20% !important;
+}
+
+
+.ad-fieldset input, .ad-fieldset textarea, .ad-fieldset select {
+	width:100%;
+}
+
+.colorPickerTextInput {
+	width:70% !important;
+	margin-left:5px;
+	float:right;
+}

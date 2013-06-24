@@ -11,15 +11,24 @@
 				<button class='btn btn-warning edit-ad-button' adversify-ad-id='<%= adId%>'>Edit</button>
 				<button class='btn btn-danger delete-ad-button' adversify-ad-id='<%= adId%>'>Delete</button>
 			</div>
-			<form class='well edit-ad-form' style='display:none;margin-top:20px'>
-			    <legend>Edit this ad<button adversify-ad-id='<%= adId %>' class='pull-right btn btn-inverse close-edit-ad-form'>Close</button></legend>
-		        <fieldset style="float:right;display:none;">
+			<form class='well edit-ad-form' style='display:none;margin-top:20px; height:320px;'>
+			    <legend>Edit this ad <button class='btn btn-success submit-edit-ad-form pull-right vsmallMargin' adversify-ad-id='<%= adId %>'>Submit modifications</button><button adversify-ad-id='<%= adId %>' class='pull-right btn btn-inverse close-edit-ad-form'>Close</button></legend>
+		        <fieldset class="image-ad-fieldset ad-fieldset pull-right" style="<%=(ad.get('adOptions').type === 'image') ? '' : 'display:none;'%>">
+			    	<legend>Image based Ad</legend>
 		            <input type="file"/>
 		        </fieldset>
-		        <fieldset style="float:right;display:none;">
-		            <textarea></textarea>
+		        <fieldset class="text-ad-fieldset ad-fieldset pull-right" style="<%=(ad.get('adOptions').type === 'text') ? '' : 'display:none;'%>">
+			    	<legend>Text based Ad</legend>
+			        	<input type="text" name="title" placeholder="Title of the ad to be displayed" value=""/>
+			            <textarea name="content" placeholder="Content of the ad"></textarea>
+			        	<input name="design.bordercolor" class="fifthWidth" type="color" value="" />
+			        	<input class="colorPickerTextInput" type="text" placeholder="Border Color. Click to edit.">
+			        	<input name="design.contentcolor" class="fifthWidth" type="color" value="" />
+			        	<input class="colorPickerTextInput" type="text" placeholder="Color of the content. Click to edit.">
+			        	<input name="design.backgroundcolor" class="fifthWidth" type="color" value=""/>
+			        	<input class="colorPickerTextInput" type="text" placeholder="Background Color. Click to edit.">
 		        </fieldset>
-		        <fieldset>
+		        <fieldset class="general-ad-fieldset ad-fieldset">
 		    		<input type='text' name="name" class='adname' placeholder='ad name' value='<%= ad.get('infos').name %>'/><br/>
 		    		<textarea name="description" class='addescription' placeholder="Description for your ad"><%= ad.get('infos').description %></textarea><br/>
 		    		<select class="adremuneration" name="ad.remuneration">
@@ -44,7 +53,6 @@
 		                <option value="233x233" <%= (ad.get('design').dimensions === '233x233') ? 'selected' : '' %>>233x233</option>
 		        	</select><br/>
 		        </fieldset>
-				<button class='btn btn-large btn-success submit-edit-ad-form' adversify-ad-id='<%= adId %>'>Submit modifications</button>
 			</form>
 		</li>
 		<% }); %>

@@ -115,13 +115,18 @@ define([
 		},
 
 		adTypeFromEditAdFormHasChanged: function(evt) {
+			var self = this;
 			var adId = evt.currentTarget.getAttribute('adversify-ad-id');
 			var methodMap = {};
+			var imageAdFieldset = this.$('.ad#'+adId+' form.edit-ad-form .image-ad-fieldset');
+			var textAdFieldset = this.$('.ad#'+adId+' form.edit-ad-form .text-ad-fieldset');
 			methodMap['text'] = function() {
-				console.log('text lolz');
+				imageAdFieldset.hide();
+				textAdFieldset.show();
 			};
 			methodMap['image'] = function() {
-				console.log('image lolz');
+				textAdFieldset.hide();
+				imageAdFieldset.show();
 			};
 			var editAdForm = this.$('.ad#'+adId+' form.edit-ad-form');
 			var editAdFormRaw = {};
