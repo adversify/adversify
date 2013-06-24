@@ -30,7 +30,10 @@ define([
 			'click .edit-ad-button': 'showEditAdForm',
 			'click .close-edit-ad-form': 'hideEditAdForm',
 			'click .submit-edit-ad-form': 'submitAdEdit',
-			'change .adtype' : 'adTypeFromEditAdFormHasChanged'
+			'change .adtype' : 'adTypeFromEditAdFormHasChanged',
+			'change .bordercolorpicker' : 'handleBordercolorInput',
+			'change .backgroundcolorpicker' : 'handleBackgroundcolorInput',
+			'change .contentcolorpicker' : 'handleContentcolorInput'
 		},
 
 		render : function () {
@@ -135,6 +138,27 @@ define([
 				editAdFormRaw[editAdFormSerialized[i].name] = editAdFormSerialized[i].value;
 			}
 			methodMap[editAdFormRaw['ad.type']]();
+		},
+
+		handleBordercolorInput: function(evt) {
+			var borderColorPickerValue = evt.currentTarget.value;
+			var adId = evt.currentTarget.getAttribute('adversify-ad-id');
+			var colorInput = this.$('.ad#'+adId+' .bordercolorinput');
+			colorInput.val(borderColorPickerValue);
+		},
+
+		handleContentcolorInput: function(evt) {
+			var contentColorPickerValue = evt.currentTarget.value;
+			var adId = evt.currentTarget.getAttribute('adversify-ad-id');
+			var colorInput = this.$('.ad#'+adId+' .bordercolorinput');
+			colorInput.val(contentColorPickerValue);
+		},
+
+		handleBackgroundcolorInput: function(evt) {
+			var backgroundColorPickerValue = evt.currentTarget.value;
+			var adId = evt.currentTarget.getAttribute('adversify-ad-id');
+			var colorInput = this.$('.ad#'+adId+' .bordercolorinput');
+			colorInput.val(backgroundColorPickerValue);
 		},
 
 		title: 'Ads List'
