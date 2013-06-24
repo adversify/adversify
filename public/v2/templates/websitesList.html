@@ -16,6 +16,8 @@
 				    <legend>Edit this website<button adversify-id='<%= websiteId %>' class='pull-right btn btn-inverse close-edit-website-form'>Close</button></legend>
 					<input type='text' name="name" class='websitename' placeholder='Website name' value='<%= website.get('infos').name %>'/><br/>
 					<input type='text' name="url" class='websiteurl' placeholder="Website's URL" value='<%= website.get('infos').url %> '/><br/>
+					<input type='text' name="url" class='websitetwitter' placeholder="Website's Twitter Account @YourWebsite" value=''/><br/>
+					<input type='text' name="url" class='websitefanpage' placeholder="Website's Facebook Fanpage" value=''/><br/>
 					<button class='btn btn-success submit-edit-website-form' adversify-id='<%= websiteId %>'>Save</button>
 				</form>
 				<form class='well add-zone-form' style='display:none;margin-top:20px'>

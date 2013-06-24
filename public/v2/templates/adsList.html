@@ -11,7 +11,7 @@
 				<button class='btn btn-warning edit-ad-button' adversify-ad-id='<%= adId%>'>Edit</button>
 				<button class='btn btn-danger delete-ad-button' adversify-ad-id='<%= adId%>'>Delete</button>
 			</div>
-			<form class='well edit-ad-form' style='display:none;margin-top:20px; height:320px;'>
+			<form class='well edit-ad-form' style='display:none;margin-top:20px; min-height:320px;'>
 			    <legend>Edit this ad <button class='btn btn-success submit-edit-ad-form pull-right vsmallMargin' adversify-ad-id='<%= adId %>'>Submit modifications</button><button adversify-ad-id='<%= adId %>' class='pull-right btn btn-inverse close-edit-ad-form'>Close</button></legend>
 		        <fieldset class="image-ad-fieldset ad-fieldset pull-right" style="<%=(ad.get('adOptions').type === 'image') ? '' : 'display:none;'%>">
 			    	<legend>Image based Ad</legend>
@@ -52,6 +52,9 @@
 		                <option value="200x200" <%= (ad.get('design').dimensions === '200x200') ? 'selected' : '' %>>200x200</option>
 		                <option value="233x233" <%= (ad.get('design').dimensions === '233x233') ? 'selected' : '' %>>233x233</option>
 		        	</select><br/>
+		        	<input type="text" value="" placeholder="Twitter Account @yourCompanyOrProduct"/>
+		        	<input type="text" value="" placeholder="Social Hashtag #yourCompanyOrProduct"/>
+		        	<input type="text" value="" placeholder="Your company's Facebook Fanpage"/>
 		        </fieldset>
 			</form>
 		</li>
