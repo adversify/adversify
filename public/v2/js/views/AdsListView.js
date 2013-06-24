@@ -150,14 +150,14 @@ define([
 		handleContentcolorInput: function(evt) {
 			var contentColorPickerValue = evt.currentTarget.value;
 			var adId = evt.currentTarget.getAttribute('adversify-ad-id');
-			var colorInput = this.$('.ad#'+adId+' .bordercolorinput');
+			var colorInput = this.$('.ad#'+adId+' .contentcolorinput');
 			colorInput.val(contentColorPickerValue);
 		},
 
 		handleBackgroundcolorInput: function(evt) {
 			var backgroundColorPickerValue = evt.currentTarget.value;
 			var adId = evt.currentTarget.getAttribute('adversify-ad-id');
-			var colorInput = this.$('.ad#'+adId+' .bordercolorinput');
+			var colorInput = this.$('.ad#'+adId+' .backgroundcolorinput');
 			colorInput.val(backgroundColorPickerValue);
 		},
 
