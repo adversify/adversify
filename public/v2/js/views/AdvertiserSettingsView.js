@@ -2,9 +2,7 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-
 	'../models/Advertiser',
-
 	'text!../../templates/advertiserSettings.html'
 ], function(
 	$,

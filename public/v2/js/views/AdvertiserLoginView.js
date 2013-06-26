@@ -2,17 +2,13 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-
 	'../models/Advertiser',
-
 	'text!../../templates/advertiserLogin.html'
 ], function(
 	$,
 	_,
 	Backbone,
-
 	AdvertiserModel,
-
 	advertiserLoginTemplate
 ){	return Backbone.View.extend({
 		initialize: function(options) {

@@ -23,7 +23,7 @@
 	width:49.9%;
 }
 
-.ad-fieldset {
+.ad-fieldset, .website-fieldset, .zone-fieldset {
 	width:45%;
 }
 
@@ -37,8 +37,14 @@
 }
 
 
-.ad-fieldset input, .ad-fieldset textarea, .ad-fieldset select {
+.ad-fieldset input, .ad-fieldset textarea, .ad-fieldset select,
+.website-fieldset input, .website-fieldset textarea, .website-fieldset select,
+.zone-fieldset input, .zone-fieldset textarea, .zone-fieldset select {
 	width:100%;
+}
+
+.zone-fieldset textarea.adProviderScript {
+	height:100px;
 }
 
 .colorPickerTextInput {

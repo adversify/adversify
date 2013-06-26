@@ -34,6 +34,9 @@ define([
 			'click .edit-website-button': 'showEditWebsiteForm',
 			'click .close-edit-website-form': 'hideEditWebsiteForm',
 			'click .submit-edit-website-form': 'submitWebsiteEdit',
+
+			'change .js-zone-fallback' : 'toggleZoneFallback',
+
 			'click .add-zone-button' : 'showAddZoneForm',
 			'click .close-add-zone-form' : 'hideAddZoneForm',
 			'click .submit-add-zone-form' : 'submitZoneAdd',
@@ -251,6 +254,17 @@ define([
 			var websiteId = evt.currentTarget.getAttribute('adversify-id');
 			var editWebsiteForm = this.$('.website#'+websiteId+' form.edit-website-form');
 			editWebsiteForm.hide();
+		},
+
+		toggleZoneFallback: function(evt) {
+			var target = evt.currentTarget;
+			var zoneId = target.getAttribute('zone-id');
+			var adProviderScriptInput = this.$('.websiteZone#'+zoneId+' .ad-provider-fieldset');
+			if(target.checked) {
+				adProviderScriptInput.show();
+			} else {
+				adProviderScriptInput.hide();
+			}
 		},
 
 		title: 'My websites',
