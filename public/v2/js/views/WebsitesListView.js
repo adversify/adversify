@@ -36,6 +36,10 @@ define([
 			'click .submit-edit-website-form': 'submitWebsiteEdit',
 
 			'change .js-zone-fallback' : 'toggleZoneFallback',
+			'change .zonetype' : 'zoneTypeHasChanged',
+			'change .bordercolorpicker' : 'handleBordercolorInput',
+			'change .backgroundcolorpicker' : 'handleBackgroundcolorInput',
+			'change .contentcolorpicker' : 'handleContentcolorInput',
 
 			'click .add-zone-button' : 'showAddZoneForm',
 			'click .close-add-zone-form' : 'hideAddZoneForm',
@@ -266,6 +270,52 @@ define([
 				adProviderScriptInput.hide();
 			}
 		},
+
+		zoneTypeHasChanged: function(evt) {
+			var self = this;
+			var zoneId = evt.currentTarget.getAttribute('adversify-zone-id');
+			var methodMap = {};
+			var imageZoneFieldset = this.$('.websiteZone#'+zoneId+' form.edit-zone-form .image-zone-fieldset');
+			var textZoneFieldset = this.$('.websiteZone#'+zoneId+' form.edit-zone-form .text-zone-fieldset');
+			methodMap['text'] = function() {
+				imageZoneFieldset.hide();
+				textZoneFieldset.show();
+			};
+			methodMap['image'] = function() {
+				textZoneFieldset.hide();
+				imageZoneFieldset.show();
+			};
+			var editZoneForm = this.$('.websiteZone#'+zoneId+' form.edit-zone-form');
+			var editZoneFormRaw = {};
+			var editZoneFormSerialized = editZoneForm.serializeArray();
+			for(var i=0; i < editZoneFormSerialized.length; i++) {
+				editZoneFormRaw[editZoneFormSerialized[i].name] = editZoneFormSerialized[i].value;
+			}
+			methodMap[editZoneFormRaw['options.type']]();
+		},
+
+		handleBordercolorInput: function(evt) {
+			var borderColorPickerValue = evt.currentTarget.value;
+			var zoneId = evt.currentTarget.getAttribute('adversify-zone-id');
+			var colorInput = this.$('.websiteZone#'+zoneId+' .bordercolorinput');
+			colorInput.val(borderColorPickerValue);
+		},
+
+		handleContentcolorInput: function(evt) {
+			var contentColorPickerValue = evt.currentTarget.value;
+			var zoneId = evt.currentTarget.getAttribute('adversify-zone-id');
+			var colorInput = this.$('.websiteZone#'+zoneId+' .contentcolorinput');
+			colorInput.val(contentColorPickerValue);
+		},
+
+		handleBackgroundcolorInput: function(evt) {
+			var backgroundColorPickerValue = evt.currentTarget.value;
+			var zoneId = evt.currentTarget.getAttribute('adversify-zone-id');
+			var colorInput = this.$('.websiteZone#'+zoneId+' .backgroundcolorinput');
+			colorInput.val(backgroundColorPickerValue);
+		},
+
+
 
 		title: 'My websites',
 

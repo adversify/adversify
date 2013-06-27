@@ -11,7 +11,7 @@
 }
 
 .fullHeight {
-	height:100;
+	height:100%;
 }
 
 .marginAuto {
@@ -51,4 +51,20 @@
 	width:70% !important;
 	margin-left:5px;
 	float:right;
+}
+
+input[type="checkbox"] {
+	width:auto;
+}
+
+.colorpicker {
+	float:left;
+}
+
+.ad-provider-fieldset {
+	clear:right;
+}
+
+.edit-zone-form {
+	height:420px;
 }

@@ -30,10 +30,6 @@ define([
 			'click .edit-ad-button': 'showEditAdForm',
 			'click .close-edit-ad-form': 'hideEditAdForm',
 			'click .submit-edit-ad-form': 'submitAdEdit',
-			'change .adtype' : 'adTypeFromEditAdFormHasChanged',
-			'change .bordercolorpicker' : 'handleBordercolorInput',
-			'change .backgroundcolorpicker' : 'handleBackgroundcolorInput',
-			'change .contentcolorpicker' : 'handleContentcolorInput'
 		},
 
 		render : function () {
@@ -115,50 +111,6 @@ define([
 					alert("Unable to save your modifications on this ad ("+adModel.id+")");
 				}
 			});
-		},
-
-		adTypeFromEditAdFormHasChanged: function(evt) {
-			var self = this;
-			var adId = evt.currentTarget.getAttribute('adversify-ad-id');
-			var methodMap = {};
-			var imageAdFieldset = this.$('.ad#'+adId+' form.edit-ad-form .image-ad-fieldset');
-			var textAdFieldset = this.$('.ad#'+adId+' form.edit-ad-form .text-ad-fieldset');
-			methodMap['text'] = function() {
-				imageAdFieldset.hide();
-				textAdFieldset.show();
-			};
-			methodMap['image'] = function() {
-				textAdFieldset.hide();
-				imageAdFieldset.show();
-			};
-			var editAdForm = this.$('.ad#'+adId+' form.edit-ad-form');
-			var editAdFormRaw = {};
-			var editAdFormSerialized = editAdForm.serializeArray();
-			for(var i=0; i < editAdFormSerialized.length; i++) {
-				editAdFormRaw[editAdFormSerialized[i].name] = editAdFormSerialized[i].value;
-			}
-			methodMap[editAdFormRaw['ad.type']]();
-		},
-
-		handleBordercolorInput: function(evt) {
-			var borderColorPickerValue = evt.currentTarget.value;
-			var adId = evt.currentTarget.getAttribute('adversify-ad-id');
-			var colorInput = this.$('.ad#'+adId+' .bordercolorinput');
-			colorInput.val(borderColorPickerValue);
-		},
-
-		handleContentcolorInput: function(evt) {
-			var contentColorPickerValue = evt.currentTarget.value;
-			var adId = evt.currentTarget.getAttribute('adversify-ad-id');
-			var colorInput = this.$('.ad#'+adId+' .contentcolorinput');
-			colorInput.val(contentColorPickerValue);
-		},
-
-		handleBackgroundcolorInput: function(evt) {
-			var backgroundColorPickerValue = evt.currentTarget.value;
-			var adId = evt.currentTarget.getAttribute('adversify-ad-id');
-			var colorInput = this.$('.ad#'+adId+' .backgroundcolorinput');
-			colorInput.val(backgroundColorPickerValue);
 		},
 
 		title: 'Ads List'
