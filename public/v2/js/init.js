@@ -1,4 +1,5 @@
 var requirejsConfig = {
+	baseUrl: "/v2/js",
     paths: {
       "jquery": "../lib/jquery-2.0.2.min",
       "underscore": "../lib/underscore-min",
