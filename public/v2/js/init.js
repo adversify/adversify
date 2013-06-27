@@ -1,4 +1,4 @@
-requirejs.config({
+var requirejsConfig = {
     paths: {
       "jquery": "../lib/jquery-2.0.2.min",
       "underscore": "../lib/underscore-min",
@@ -14,7 +14,9 @@ requirejs.config({
             exports: '_'
         }
 	}
-});
+};
+
+requirejs.config(requirejsConfig);
 
 
 define(["jquery", "backbone", "router"], function($, Backbone, Router) {
