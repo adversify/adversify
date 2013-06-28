@@ -81,6 +81,7 @@ define([
 		setZoneCollection : function(model, zoneCollection) {
 			model.set({zones : zoneCollection}, {silent: true});
 			this.listenTo(zoneCollection, 'add', this.addOneZoneToDOM);
+			this.listenTo(zoneCollection, 'change', this.zoneChanged);
 			this.listenTo(zoneCollection, 'remove', this.removeOneZoneFromDOM);
 		},
 
@@ -274,7 +275,9 @@ define([
 
 		zoneTypeHasChanged: function(evt) {
 			var self = this;
-			var zoneId = evt.currentTarget.getAttribute('adversify-zone-id');
+			var target = evt.currentTarget;
+			var zoneId = target.getAttribute('adversify-zone-id');
+			var websiteId = target.getAttribute('adversify-website-id');
 			var methodMap = {};
 			var imageZoneFieldset = this.$('.websiteZone#'+zoneId+' form.edit-zone-form .image-zone-fieldset');
 			var textZoneFieldset = this.$('.websiteZone#'+zoneId+' form.edit-zone-form .text-zone-fieldset');
@@ -292,37 +295,76 @@ define([
 			for(var i=0; i < editZoneFormSerialized.length; i++) {
 				editZoneFormRaw[editZoneFormSerialized[i].name] = editZoneFormSerialized[i].value;
 			}
+			var websiteModel = this.collection.get(websiteId);
+			this.setZoneCollection(websiteModel, websiteModel.zoneListToCollection());
+			var zoneModel = websiteModel.get('zones').get(zoneId);
+			var zoneOptions = _.clone(zoneModel.get('zoneOptions'));
+			zoneOptions.type = editZoneFormRaw['options.type'];
+			zoneModel.set('zoneOptions', zoneOptions);
 			methodMap[editZoneFormRaw['options.type']]();
 		},
 
 		handleBordercolorInput: function(evt) {
 			var borderColorPickerValue = evt.currentTarget.value;
 			var zoneId = evt.currentTarget.getAttribute('adversify-zone-id');
+			var websiteId = evt.currentTarget.getAttribute('adversify-website-id');
 			var colorInput = this.$('.websiteZone#'+zoneId+' .bordercolorinput');
 			colorInput.val(borderColorPickerValue);
+			this.$('.websiteZone#'+zoneId+' .zone-preview-container .zone-preview').css('borderColor', borderColorPickerValue);
 		},
 
 		handleContentcolorInput: function(evt) {
 			var contentColorPickerValue = evt.currentTarget.value;
 			var zoneId = evt.currentTarget.getAttribute('adversify-zone-id');
+			var websiteId = evt.currentTarget.getAttribute('adversify-website-id');
 			var colorInput = this.$('.websiteZone#'+zoneId+' .contentcolorinput');
 			colorInput.val(contentColorPickerValue);
+			this.$('.websiteZone#'+zoneId+' .zone-preview-container .zone-preview').css('color', contentColorPickerValue);
 		},
 
 		handleBackgroundcolorInput: function(evt) {
 			var backgroundColorPickerValue = evt.currentTarget.value;
 			var zoneId = evt.currentTarget.getAttribute('adversify-zone-id');
+			var websiteId = evt.currentTarget.getAttribute('adversify-website-id');
 			var colorInput = this.$('.websiteZone#'+zoneId+' .backgroundcolorinput');
 			colorInput.val(backgroundColorPickerValue);
+			this.$('.websiteZone#'+zoneId+' .zone-preview-container .zone-preview').css('backgroundColor', backgroundColorPickerValue);
 		},
 
 		showZonePreview: function(evt) {
 			evt.preventDefault();
-			var zoneId = evt.currentTarget.getAttribute('adversify-zone-id');
+			var target = evt.currentTarget;
+			var zoneId = target.getAttribute('adversify-zone-id');
+			var websiteId = target.getAttribute('adversify-website-id');
 			var zonePreviewContainer = this.$('.websiteZone#'+zoneId+' .zone-preview-container');
+			var websiteModel = this.collection.get(websiteId);
+			this.setZoneCollection(websiteModel, websiteModel.zoneListToCollection());
+			var zoneModel = websiteModel.get('zones').get(zoneId);
+			this.buildZonePreview(zoneModel);
 			zonePreviewContainer.show();
 		},
 
+		buildZonePreview: function(zoneModel) {
+			var zonePreview = this.$('.websiteZone#'+zoneModel.id+' .zone-preview-container .zone-preview');
+			var zoneWidth = 0;
+			var zoneHeight = 0;
+			var zoneBorderColor = '#000';
+			var zoneTitleColor = '#000';
+			var zoneTextColor = '#000';
+			var zoneBackgroundColor = '#333';
+
+			var dimensionsMap = {'300x233': {}, '234x60': {}};
+			dimensionsMap['300x233'].width = 300;
+			dimensionsMap['300x233'].height = 233;
+			dimensionsMap['234x60'].width = 234;
+			dimensionsMap['234x60'].height = 60;
+
+			zonePreview.css('width',dimensionsMap[zoneModel.get('design').dimensions].width);
+			zonePreview.css('height',dimensionsMap[zoneModel.get('design').dimensions].height);
+
+			zonePreview.css('border-color', zoneModel.get('design').borderColor);
+			zonePreview.css('background-color', zoneModel.get('design').backgroundColor);
+		},
 
 
 		title: 'My websites',

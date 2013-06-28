@@ -37,24 +37,36 @@
 								<li id="<%= zoneId %>" class="websiteZone">
 									<a adversify-id='<%= zoneId %>' href="#websites/zones/<%=zone.Id%>"><%=zone.name%></a>
 									<div class='zone-actions'>
-										<button adversify-zone-id='<%= zoneId %>' class='btn btn-small btn-info preview-zone-button'>Preview</button>
+										<button adversify-website-id='<%= websiteId %>' adversify-zone-id='<%= zoneId %>' class='btn btn-small btn-info preview-zone-button'>Preview</button>
 										<button adversify-id='<%= zoneId %>' class='btn btn-small btn-warning edit-zone-button'>Edit</button>
 										<button adversify-id='<%= zoneId %>'class='btn btn-small btn-danger delete-zone-button'>Delete</button>
 									</div>
-									<div class="zone-preview-container hide">
-										<div class="zone-preview" style="border:1px solid red;">
-											Zone preview container
+									<div class="zone-preview-container hide well">
+										<div class="zone-preview">
+											<h3 class="zone-preview-title"></h3>
+											<p class="zone-preview-content">
+												Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus nunc nec bibendum pellentesque. Nam est arcu, aliquam in nulla vitae, aliquet vestibulum erat. Ut condimentum augue id lacus elementum facilisis.
+											</p>
+											<p class="zone-preview-target">
+												<a href="http://www.adversify.fr/" title="Trust us." class="zone-preview-target-link">
+													Ad{versify} : <em>http://www.adversify.fr/</em></a>
+											</p>
+											<p>
+												<a href="https://www.twitter.com/adversify" title="Follow @adversify on Twitter!" class="zone-preview-twitter">@adversify</a>
+												<a href="" title="#hashtag" class="zone-preview-hashtag">#acceptableads</a>
+												<a href="https://wwww.facebook.com/adversifynet" title="Follow us on Facebook." class="zone-preview-hashtag">facebook.com/adversifynet</a>
+											</p>
 										</div>
 									</div>
 									<form class='well edit-zone-form' style='display:none;margin-top:20px'>
 									    <legend>Edit this zone<button adversify-id='<%= zoneId %>' class='pull-right btn btn-inverse close-edit-zone-form'>Close</button></legend>
 									    <fieldset class="text-zone-fieldset zone-fieldset pull-right" style="display:none;">
 				    				    	<legend>Text based Zone</legend>
-								        	<input adversify-zone-id="<%= zoneId %>" name="design.bordercolor" class="colorpicker bordercolorpicker fifthWidth" type="color" value="" />
+								        	<input adversify-zone-id="<%= zoneId %>" adversify-website-id="<%= websiteId %>" name="design.bordercolor" class="colorpicker bordercolorpicker fifthWidth" type="color" value="" />
 								        	<input class="colorPickerTextInput bordercolorinput" type="text" placeholder="Border Color. Click to edit.">
-								        	<input adversify-zone-id="<%= zoneId %>" name="design.contentcolor" class="colorpicker contentcolorpicker fifthWidth" type="color" value="" />
+								        	<input adversify-zone-id="<%= zoneId %>" adversify-website-id="<%= websiteId %>" name="design.contentcolor" class="colorpicker contentcolorpicker fifthWidth" type="color" value="" />
 								        	<input class="colorPickerTextInput contentcolorinput" type="text" placeholder="Color of the content. Click to edit.">
-								        	<input adversify-zone-id="<%= zoneId %>" name="design.backgroundcolor" class="colorpicker backgroundcolorpicker fifthWidth" type="color" value=""/>
+								        	<input adversify-zone-id="<%= zoneId %>" adversify-website-id="<%= websiteId %>" name="design.backgroundcolor" class="colorpicker backgroundcolorpicker fifthWidth" type="color" value=""/>
 								        	<input class="colorPickerTextInput backgroundcolorinput" type="text" placeholder="Background Color. Click to edit.">
 									    </fieldset>
 								        <fieldset class="ad-provider-fieldset zone-fieldset pull-right" style="display:none">
@@ -71,7 +83,7 @@
 									            <option value="cpm" <%= (zone.zoneOptions && zone.zoneOptions.remuneration === 'cpm') ? 'selected' : '' %>>CPM</option>
 									            <option value="*" <%= (zone.zoneOptions && zone.zoneOptions.remuneration === '*') ? 'selected' : '' %>>Nevermind</option>
 											</select><br/>
-									        <select class="zonetype" name="options.type" adversify-zone-id="<%= zoneId %>">
+									        <select class="zonetype" name="options.type" adversify-website-id="<%= websiteId %>" adversify-zone-id="<%= zoneId %>">
 									            <option value="">Image or Textual?</option>
 									            <option value="image" <%= (zone.zoneOptions && zone.zoneOptions.type === 'image') ? 'selected' : '' %>>Image</option>
 									            <option value="text" <%= (zone.zoneOptions && zone.zoneOptions.type === 'text') ? 'selected' : '' %>>Textual</option>

@@ -25,6 +25,9 @@ define(["backbone"], function(Backbone) {
     zoneListToCollection: function() {
       var zoneList = this.get('zones');
       var self = this;
+      if(zoneList.models) {
+        return zoneList;
+      }
       var ZoneModel = Backbone.Model.extend({
         idAttribute: "_id",
         defaults: {
