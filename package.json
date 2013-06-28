@@ -1,18 +1,15 @@
 {
   "name": "adversify",
   "version": "0.0.1",
-  "author": "Timothée PILLARD",
+  "author": "Ziir || Timothée PILLARD",
   "private": true,
   "scripts": {
-    "start": "node app"
+    "start": "node appServer"
   },
   "dependencies": {
     "express": "3.1.1",
     "underscore": "1.4.4",
-    "uinexpress":"0.0.5",
     "mongoose": "3.6.4",
-    "socket.io": "0.9.14",
-    "pwd": "0.0.2",
-    "stripe": "1.3.0"
+    "socket.io": "0.9.14"
   }
 }
