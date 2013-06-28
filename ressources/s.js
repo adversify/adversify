@@ -3,7 +3,6 @@
   var _adv = _adv || [];
   _adv.push(['_setAccount', '50f359e75b48db0c10000006']);
   _adv.push(['_setWebsite', '50f35a285b48db0c10000007']);
-  _adv.push(['codeName', navigator.appCodeName]);
   _adv.push(['r', Math.floor(Math.random()*99999999999)]);
 
   (function() {

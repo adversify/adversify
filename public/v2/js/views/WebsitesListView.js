@@ -44,6 +44,7 @@ define([
 			'click .add-zone-button' : 'showAddZoneForm',
 			'click .close-add-zone-form' : 'hideAddZoneForm',
 			'click .submit-add-zone-form' : 'submitZoneAdd',
+			'click .preview-zone-button' : 'showZonePreview',
 
 			'click .delete-zone-button': 'deleteZone',
 			'click .edit-zone-button': 'showEditZoneForm',
@@ -313,6 +314,13 @@ define([
 			var zoneId = evt.currentTarget.getAttribute('adversify-zone-id');
 			var colorInput = this.$('.websiteZone#'+zoneId+' .backgroundcolorinput');
 			colorInput.val(backgroundColorPickerValue);
+		},
+
+		showZonePreview: function(evt) {
+			evt.preventDefault();
+			var zoneId = evt.currentTarget.getAttribute('adversify-zone-id');
+			var zonePreviewContainer = this.$('.websiteZone#'+zoneId+' .zone-preview-container');
+			zonePreviewContainer.show();
 		},
 
 
