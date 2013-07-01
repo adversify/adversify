@@ -18,9 +18,23 @@ var WebsiteZone = new Schema({
         dimensions : { type: String , enum: ['300x233','234x60','125x125','180x150','120x230','200x200','233x233'], default: '300x233'}
     },
     status: {
-        deleted: { type: Boolean, default: false},
-        suspended: {type: Boolean, default: false},
+        deleted: { type: Boolean, default: false },
+        suspended: { type: Boolean, default: false },
         validated : { type : Boolean, default: false }
+    },
+    targets: {
+        link : { type : String, match : /((http:\/\/|https:\/\/)?(www.)?(([a-zA-Z0-9-]){2,}\.){1,4}([a-zA-Z]){2,6}(\/([a-zA-Z-_\/\.0-9#:?=&;,]*)?)?)/},
+        social: {
+            twitter: { type: String },
+            hashtag: { type: String },
+            youtube: { type: String},
+            facebook : { type : String, match : /((http:\/\/|https:\/\/)?(www.)?(([a-zA-Z0-9-]){2,}\.){1,4}([a-zA-Z]){2,6}(\/([a-zA-Z-_\/\.0-9#:?=&;,]*)?)?)/}
+        }
+    },
+    content: {
+        text: { type: String },
+        title: { type: String },
+        image: {}
     }
 });
 

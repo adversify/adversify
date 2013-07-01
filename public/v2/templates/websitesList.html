@@ -42,16 +42,17 @@
 										<button adversify-id='<%= zoneId %>'class='btn btn-small btn-danger delete-zone-button'>Delete</button>
 									</div>
 									<div class="zone-preview-container hide well">
+										<h3>Zone #<%= zoneId %> Preview <strong class="zone-preview-live hide">LIVE</strong></h3>
 										<div class="zone-preview">
-											<h3 class="zone-preview-title"></h3>
+											<h3 class="zone-preview-title">Adversify</h3>
 											<p class="zone-preview-content">
-												Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus nunc nec bibendum pellentesque. Nam est arcu, aliquam in nulla vitae, aliquet vestibulum erat. Ut condimentum augue id lacus elementum facilisis.
+												Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 											</p>
 											<p class="zone-preview-target">
 												<a href="http://www.adversify.fr/" title="Trust us." class="zone-preview-target-link">
 													Ad{versify} : <em>http://www.adversify.fr/</em></a>
 											</p>
-											<p>
+											<p class="zone-preview-social">
 												<a href="https://www.twitter.com/adversify" title="Follow @adversify on Twitter!" class="zone-preview-twitter">@adversify</a>
 												<a href="" title="#hashtag" class="zone-preview-hashtag">#acceptableads</a>
 												<a href="https://wwww.facebook.com/adversifynet" title="Follow us on Facebook." class="zone-preview-hashtag">facebook.com/adversifynet</a>
@@ -89,13 +90,13 @@
 									            <option value="text" <%= (zone.zoneOptions && zone.zoneOptions.type === 'text') ? 'selected' : '' %>>Textual</option>
 									            <option value="*" <%= (zone.zoneOptions && zone.zoneOptions.type === '*') ? 'selected' : '' %>>Nevermind</option>
 									        </select><br/>
-									        <select class="zonedimensions" name="design.dimensions">
+									        <select adversify-zone-id="<%= zoneId %>" class="zonedimensions" name="design.dimensions">
 									            <option value="">How big?</option>
 									            <option value="300x233" <%= (zone.design.dimensions === '300x233') ? 'selected' : '' %>>300x233</option>
 									            <option value="234x60" <%= (zone.design.dimensions === '234x60') ? 'selected' : '' %>>234x60</option>
 									            <option value="125x125" <%= (zone.design.dimensions === '125x125') ? 'selected' : '' %>>125x125</option>
 									            <option value="180x150" <%= (zone.design.dimensions === '180x150') ? 'selected' : '' %>>180x150</option>
-									            <option value="120x130" <%= (zone.design.dimensions === '120x130') ? 'selected' : '' %>>120x230</option>
+									            <option value="120x230" <%= (zone.design.dimensions === '120x230') ? 'selected' : '' %>>120x230</option>
 									            <option value="200x200" <%= (zone.design.dimensions === '200x200') ? 'selected' : '' %>>200x200</option>
 									            <option value="233x233" <%= (zone.design.dimensions === '233x233') ? 'selected' : '' %>>233x233</option>
 									    	</select>

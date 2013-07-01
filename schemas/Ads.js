@@ -27,7 +27,20 @@ var Ad = new Schema({
         suspended: {type: Boolean, default: false},
         validated: { type : Boolean, default: false }
     },
-    content : {}
+    content : {
+        title: { type : String },
+        content: { type: String },
+        image: {}
+    },
+    targets: {
+        link : { type : String, match : /((http:\/\/|https:\/\/)?(www.)?(([a-zA-Z0-9-]){2,}\.){1,4}([a-zA-Z]){2,6}(\/([a-zA-Z-_\/\.0-9#:?=&;,]*)?)?)/ },
+        social: {
+            twitter: { type: String },
+            hashtag: { type: String },
+            youtube: { type: String },
+            facebook : { type : String, match : /((http:\/\/|https:\/\/)?(www.)?(([a-zA-Z0-9-]){2,}\.){1,4}([a-zA-Z]){2,6}(\/([a-zA-Z-_\/\.0-9#:?=&;,]*)?)?)/ }
+        }
+    }
 });
 
 

@@ -30,6 +30,8 @@ define([
 			'click .edit-ad-button': 'showEditAdForm',
 			'click .close-edit-ad-form': 'hideEditAdForm',
 			'click .submit-edit-ad-form': 'submitAdEdit',
+
+			'change .adtype' : 'adTypeHasChanged'		
 		},
 
 		render : function () {
@@ -111,6 +113,30 @@ define([
 					alert("Unable to save your modifications on this ad ("+adModel.id+")");
 				}
 			});
+		},
+
+		adTypeHasChanged: function(evt) {
+			var self = this;
+			var target = evt.currentTarget;
+			var adId = target.getAttribute('adversify-ad-id');
+			var methodMap = {};
+			var imageAdFieldset = this.$('.ad#'+adId+' form.edit-ad-form .image-ad-fieldset');
+			var textAdFieldset = this.$('.ad#'+adId+' form.edit-ad-form .text-ad-fieldset');
+			methodMap['text'] = function() {
+				imageAdFieldset.hide();
+				textAdFieldset.show();
+			};
+			methodMap['image'] = function() {
+				textAdFieldset.hide();
+				imageAdFieldset.show();
+			};
+			var editAdForm = this.$('.ad#'+adId+' form.edit-ad-form');
+			var editAdFormRaw = {};
+			var editAdFormSerialized = editAdForm.serializeArray();
+			for(var i=0; i < editAdFormSerialized.length; i++) {
+				editAdFormRaw[editAdFormSerialized[i].name] = editAdFormSerialized[i].value;
+			}
+			methodMap[editAdFormRaw['ad.type']]();
 		},
 
 		title: 'Ads List'

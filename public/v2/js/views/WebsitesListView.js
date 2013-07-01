@@ -40,6 +40,7 @@ define([
 			'change .bordercolorpicker' : 'handleBordercolorInput',
 			'change .backgroundcolorpicker' : 'handleBackgroundcolorInput',
 			'change .contentcolorpicker' : 'handleContentcolorInput',
+			'change .zonedimensions' : 'zoneDimensionsHaveChanged',
 
 			'click .add-zone-button' : 'showAddZoneForm',
 			'click .close-add-zone-form' : 'hideAddZoneForm',
@@ -311,6 +312,7 @@ define([
 			var colorInput = this.$('.websiteZone#'+zoneId+' .bordercolorinput');
 			colorInput.val(borderColorPickerValue);
 			this.$('.websiteZone#'+zoneId+' .zone-preview-container .zone-preview').css('borderColor', borderColorPickerValue);
+			this.$('.websiteZone#'+zoneId+' .zone-preview-container .zone-preview-live').show();
 		},
 
 		handleContentcolorInput: function(evt) {
@@ -320,6 +322,7 @@ define([
 			var colorInput = this.$('.websiteZone#'+zoneId+' .contentcolorinput');
 			colorInput.val(contentColorPickerValue);
 			this.$('.websiteZone#'+zoneId+' .zone-preview-container .zone-preview').css('color', contentColorPickerValue);
+			this.$('.websiteZone#'+zoneId+' .zone-preview-container .zone-preview-live').show();
 		},
 
 		handleBackgroundcolorInput: function(evt) {
@@ -329,6 +332,7 @@ define([
 			var colorInput = this.$('.websiteZone#'+zoneId+' .backgroundcolorinput');
 			colorInput.val(backgroundColorPickerValue);
 			this.$('.websiteZone#'+zoneId+' .zone-preview-container .zone-preview').css('backgroundColor', backgroundColorPickerValue);
+			this.$('.websiteZone#'+zoneId+' .zone-preview-container .zone-preview-live').show();
 		},
 
 		showZonePreview: function(evt) {
@@ -353,17 +357,87 @@ define([
 			var zoneTextColor = '#000';
 			var zoneBackgroundColor = '#333';
 
-			var dimensionsMap = {'300x233': {}, '234x60': {}};
+			var dimensionsMap = {'300x233': {}, '234x60': {},"120x230": {}, "233x233": {}, "180x150": {}, "125x125": {}, "200x200": {}};
 			dimensionsMap['300x233'].width = 300;
 			dimensionsMap['300x233'].height = 233;
 			dimensionsMap['234x60'].width = 234;
 			dimensionsMap['234x60'].height = 60;
+			dimensionsMap['120x230'].width = 120;
+			dimensionsMap['120x230'].height = 230;
+			dimensionsMap['233x233'].width = 233;
+			dimensionsMap['233x233'].height = 233;
+			dimensionsMap['125x125'].width = 125;
+			dimensionsMap['125x125'].height = 125;
+			dimensionsMap['180x150'].width = 180;
+			dimensionsMap['180x150'].height = 150;
+			dimensionsMap['125x125'].width = 200;
+			dimensionsMap['125x125'].height = 200;
 
 			zonePreview.css('width',dimensionsMap[zoneModel.get('design').dimensions].width);
 			zonePreview.css('height',dimensionsMap[zoneModel.get('design').dimensions].height);
 
 			zonePreview.css('border-color', zoneModel.get('design').borderColor);
 			zonePreview.css('background-color', zoneModel.get('design').backgroundColor);
+		},
+
+		zoneDimensionsHaveChanged: function(evt) {
+			var target = evt.currentTarget;
+			var zoneId = evt.currentTarget.getAttribute('adversify-zone-id');
+			var zonePreview = this.$('.websiteZone#'+zoneId+' .zone-preview-container .zone-preview');
+			var zoneDimensionsValue = evt.currentTarget.value;
+			var dimensionsMap = {'300x233': {}, '234x60': {},"120x230": {}, "233x233": {}, "180x150": {}, "125x125": {}, "200x200": {}};
+			dimensionsMap['300x233'].width = 300;
+			dimensionsMap['300x233'].height = 233;
+			dimensionsMap['125x125'].characterLimit = {
+				title:30,
+				content:100
+			};
+
+			dimensionsMap['234x60'].width = 234;
+			dimensionsMap['234x60'].height = 60;
+			dimensionsMap['125x125'].characterLimit = {
+				title:30,
+				content:100
+			};
+
+			dimensionsMap['120x230'].width = 120;
+			dimensionsMap['120x230'].height = 230;
+			dimensionsMap['125x125'].characterLimit = {
+				title:30,
+				content:100
+			};
+
+			dimensionsMap['233x233'].width = 233;
+			dimensionsMap['233x233'].height = 233;
+			dimensionsMap['125x125'].characterLimit = {
+				title:30,
+				content:100
+			};
+
+			dimensionsMap['125x125'].width = 125;
+			dimensionsMap['125x125'].height = 125;
+			dimensionsMap['125x125'].characterLimit = {
+				title:30,
+				content:100
+			};
+
+			dimensionsMap['180x150'].width = 180;
+			dimensionsMap['180x150'].height = 150;
+			dimensionsMap['125x125'].characterLimit = {
+				title:30,
+				content:100
+			};
+
+			dimensionsMap['125x125'].width = 200;
+			dimensionsMap['125x125'].height = 200;
+			dimensionsMap['125x125'].characterLimit = {
+				title:30,
+				content:100
+			};
+
+			zonePreview.css('width',dimensionsMap[zoneDimensionsValue].width);
+			zonePreview.css('height',dimensionsMap[zoneDimensionsValue].height);
+			this.$('.websiteZone#'+zoneId+' .zone-preview-container .zone-preview-live').show();
 		},
 
 
