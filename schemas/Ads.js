@@ -38,6 +38,7 @@ var Ad = new Schema({
             twitter: { type: String },
             hashtag: { type: String },
             youtube: { type: String },
+            flickr: { type: String },
             facebook : { type : String, match : /((http:\/\/|https:\/\/)?(www.)?(([a-zA-Z0-9-]){2,}\.){1,4}([a-zA-Z]){2,6}(\/([a-zA-Z-_\/\.0-9#:?=&;,]*)?)?)/ }
         }
     }

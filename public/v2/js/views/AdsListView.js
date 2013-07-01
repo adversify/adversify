@@ -31,7 +31,8 @@ define([
 			'click .close-edit-ad-form': 'hideEditAdForm',
 			'click .submit-edit-ad-form': 'submitAdEdit',
 
-			'change .adtype' : 'adTypeHasChanged'		
+			'change .adtype' : 'adTypeHasChanged',
+			'click .preview-ad-button' : 'showAdPreview'
 		},
 
 		render : function () {
@@ -103,6 +104,20 @@ define([
 				adOptions: {
 					remuneration: editAdFormRaw['ad.remuneration'],
 					type: editAdFormRaw['ad.type']
+				},
+				content: {
+					title: editAdFormRaw['content.title'],
+					text: editAdFormRaw['content.text']
+				},
+				targets: {
+					link: editAdFormRaw['targets.link'],
+					social: {
+						twitter: editAdFormRaw['targets.social.twitter'],
+						youtube: editAdFormRaw['targets.social.youtube'],
+						flickr: editAdFormRaw['targets.social.flickr'],
+						hashtag: editAdFormRaw['targets.social.hashtag'],
+						facebook: editAdFormRaw['targets.social.facebook']
+					}
 				}
 			};
 			adModel.save(adHash, {
@@ -138,6 +153,21 @@ define([
 			}
 			methodMap[editAdFormRaw['ad.type']]();
 		},
+
+		showAdPreview: function(evt) {
+			evt.preventDefault();
+			var target = evt.currentTarget;
+			var adId = target.getAttribute('adversify-ad-id');
+			var adPreviewContainer = this.$('.ad#'+adId+' .ad-preview-container');
+			var adModel = this.collection.get(zoneId);
+			this.buildAdPreview(adModel);
+			adPreviewContainer.show();
+		},
+
+		buildAdPreview: function(adModel) {
+			return true;
+		},
+
 
 		title: 'Ads List'
 

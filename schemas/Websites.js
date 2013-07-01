@@ -28,6 +28,7 @@ var WebsiteZone = new Schema({
             twitter: { type: String },
             hashtag: { type: String },
             youtube: { type: String},
+            flickr: { type: String},
             facebook : { type : String, match : /((http:\/\/|https:\/\/)?(www.)?(([a-zA-Z0-9-]){2,}\.){1,4}([a-zA-Z]){2,6}(\/([a-zA-Z-_\/\.0-9#:?=&;,]*)?)?)/}
         }
     },
@@ -49,6 +50,13 @@ var Website = new Schema({
        deleted: { type: Boolean, default: false},
         suspended: {type: Boolean, default: false},
         validated : { type : Boolean, default: false }
+    },
+    social: {
+        facebook : {type: String},
+        twitter: {type: String},
+        hashtag: {type: String},
+        youtube : {type: String},
+        flickr: {type: String}
     }
 });
 
