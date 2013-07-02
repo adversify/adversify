@@ -17,9 +17,9 @@
 					<fieldset class="website-general-fieldset website-fieldset">
 						<input type='text' name="name" class='websitename' placeholder='Website name' value='<%= website.get('infos').name %>'/><br/>
 						<input type='text' name="url" class='websiteurl' placeholder="Website's URL" value='<%= website.get('infos').url %> '/><br/>
-						<input type='text' name="twitter" class='websitetwitter' placeholder="Website's Twitter Account @YourWebsite" value=''/><br/>
-						<input type='text' name="fanpage" class='websitefanpage' placeholder="Website's Facebook Fanpage" value=''/><br/>
-				    	<input type="text" value="" name="hashtag" class="websitehashtag" placeholder="Social #hastag" />
+						<input type='text' name="twitter" class='websitetwitter' placeholder="Website's Twitter Account @YourWebsite" value='<%= website.get('social').twitter %> '/><br/>
+						<input type='text' name="fanpage" class='websitefanpage' placeholder="Website's Facebook Fanpage" value='<%= website.get('social').facebook %> '/><br/>
+				    	<input type="text" value="<%= website.get('social').hashtag %> " name="hashtag" class="websitehashtag" placeholder="Social #hastag" />
 				    	<br/>
 					</fieldset>
 					<button class='btn btn-success submit-edit-website-form' adversify-id='<%= websiteId %>'>Save</button>
@@ -63,12 +63,14 @@
 									    <legend>Edit this zone<button adversify-id='<%= zoneId %>' class='pull-right btn btn-inverse close-edit-zone-form'>Close</button></legend>
 									    <fieldset class="text-zone-fieldset zone-fieldset pull-right" style="display:none;">
 				    				    	<legend>Text based Zone</legend>
-								        	<input adversify-zone-id="<%= zoneId %>" adversify-website-id="<%= websiteId %>" name="design.bordercolor" class="colorpicker bordercolorpicker fifthWidth" type="color" value="" />
-								        	<input class="colorPickerTextInput bordercolorinput" type="text" placeholder="Border Color. Click to edit.">
-								        	<input adversify-zone-id="<%= zoneId %>" adversify-website-id="<%= websiteId %>" name="design.contentcolor" class="colorpicker contentcolorpicker fifthWidth" type="color" value="" />
-								        	<input class="colorPickerTextInput contentcolorinput" type="text" placeholder="Color of the content. Click to edit.">
-								        	<input adversify-zone-id="<%= zoneId %>" adversify-website-id="<%= websiteId %>" name="design.backgroundcolor" class="colorpicker backgroundcolorpicker fifthWidth" type="color" value=""/>
-								        	<input class="colorPickerTextInput backgroundcolorinput" type="text" placeholder="Background Color. Click to edit.">
+								        	<input adversify-zone-id="<%= zoneId %>" adversify-website-id="<%= websiteId %>" class="colorpicker bordercolorpicker fifthWidth" type="color" value="<%= zone.design.borderColor %>" />
+								        	<input name="design.bordercolor" class="colorPickerTextInput bordercolorinput" type="text" placeholder="Border Color. Click to edit." value="<%= zone.design.borderColor %>">
+								        	<input adversify-zone-id="<%= zoneId %>" adversify-website-id="<%= websiteId %>" class="colorpicker contentcolorpicker fifthWidth" type="color" value="<%= zone.design.textColor %>" />
+								        	<input name="design.contentcolor" class="colorPickerTextInput contentcolorinput" type="text" placeholder="Color of the content. Click to edit." value="<%= zone.design.textColor %>">
+								        	<input adversify-zone-id="<%= zoneId %>" adversify-website-id="<%= websiteId %>" class="colorpicker backgroundcolorpicker fifthWidth" type="color" value="<%= zone.design.bgColor %>"/>
+								        	<input name="design.backgroundcolor" class="colorPickerTextInput backgroundcolorinput" type="text" placeholder="Background Color. Click to edit." value="<%= zone.design.bgColor %>">
+								        	<input adversify-zone-id="<%= zoneId %>" adversify-website-id="<%= websiteId %>" class="colorpicker titlecolorpicker fifthWidth" type="color" value="<%= zone.design.titleColor %>"/>
+								        	<input name="design.titlecolor" class="colorPickerTextInput titlecolorinput" type="text" placeholder="Title Color. Click to edit." value="<%= zone.design.titleColor %>">
 									    </fieldset>
 								        <fieldset class="ad-provider-fieldset zone-fieldset pull-right" style="display:none">
 									    	<legend>Acceptable Ad Fallback</legend>

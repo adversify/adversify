@@ -41,8 +41,6 @@ WM.getListOfWebsites = function(uId,nb,sort,callback) {
 
 WM.updateWebsite = function(uId, websiteId, newData, callback) {
 	newData = _.omit(newData, '_id');
-	console.log(newData.options ? newData.options.services : newData);
-	console.log("--- ENd of new datya");
 	WebsiteModel.findOneAndUpdate({_id : websiteId, owner: uId},newData, function(err, updatedWebsite) {
 		if(err || !updatedWebsite) {
 			callback(err ? err : 'Unable to update this website.');

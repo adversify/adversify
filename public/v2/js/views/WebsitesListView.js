@@ -40,6 +40,7 @@ define([
 			'change .bordercolorpicker' : 'handleBordercolorInput',
 			'change .backgroundcolorpicker' : 'handleBackgroundcolorInput',
 			'change .contentcolorpicker' : 'handleContentcolorInput',
+			'change .titlecolorpicker' : 'handleTitlecolorInput',
 			'change .zonedimensions' : 'zoneDimensionsHaveChanged',
 
 			'click .add-zone-button' : 'showAddZoneForm',
@@ -112,6 +113,13 @@ define([
 				infos: {
 					'name' : editWebsiteForm['name'].value,
 					'url' : editWebsiteForm['url'].value
+				},
+				social: {
+					'twitter' : editWebsiteForm['twitter'].value,
+					'facebook' : editWebsiteForm['fanpage'].value,
+					'youtube' : '',
+					'flickr' : '',
+					'hashtag' : editWebsiteForm['hashtag'].value
 				}
 			};
 			websiteModel.save(websiteHash, {
@@ -185,7 +193,11 @@ define([
 			var zoneHash = {
 				'name' : editZoneForm['name'].value,
 				'design': {
-					'dimensions' : editZoneForm['design.dimensions'].value
+					'dimensions' : editZoneForm['design.dimensions'].value,
+					'textColor' : editZoneForm['design.contentcolor'].value,
+					'bgColor' : editZoneForm['design.backgroundcolor'].value,
+					'titleColor' : editZoneForm['design.titlecolor'].value,
+					'borderColor' : editZoneForm['design.bordercolor'].value
 				}, 'options': {
 					'type' : editZoneForm['options.type'].value,
 					'remuneration': editZoneForm['options.remuneration'].value,
@@ -197,21 +209,6 @@ define([
 							'enabled' : true
 						},
 						'crawling' : {
-							'enabled' : true
-						},
-						'social' : {
-							'enabled' : true,
-							'facebook' : {
-								'enabled' : true
-							},
-							'twitter' : {
-								'enabled' : true
-							}
-						},
-						'doNotTrackUs' : {
-							'enabled' : true
-						},
-						'acceptableAds' : {
 							'enabled' : true
 						}
 					}
@@ -322,6 +319,16 @@ define([
 			var colorInput = this.$('.websiteZone#'+zoneId+' .contentcolorinput');
 			colorInput.val(contentColorPickerValue);
 			this.$('.websiteZone#'+zoneId+' .zone-preview-container .zone-preview').css('color', contentColorPickerValue);
+			this.$('.websiteZone#'+zoneId+' .zone-preview-container .zone-preview-live').show();
+		},
+
+		handleTitlecolorInput: function(evt) {
+			var titleColorPickerValue = evt.currentTarget.value;
+			var zoneId = evt.currentTarget.getAttribute('adversify-zone-id');
+			var websiteId = evt.currentTarget.getAttribute('adversify-website-id');
+			var colorInput = this.$('.websiteZone#'+zoneId+' .titlecolorinput');
+			colorInput.val(titleColorPickerValue);
+			this.$('.websiteZone#'+zoneId+' .zone-preview-container .zone-preview-title').css('color', titleColorPickerValue);
 			this.$('.websiteZone#'+zoneId+' .zone-preview-container .zone-preview-live').show();
 		},
 
