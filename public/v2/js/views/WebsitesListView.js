@@ -200,21 +200,22 @@ define([
 					'borderColor' : editZoneForm['design.bordercolor'].value
 				}, 'options': {
 					'type' : editZoneForm['options.type'].value,
-					'remuneration': editZoneForm['options.remuneration'].value,
-					'services' : {
-						'adblockFallback' : {
-							'enabled' : true
-						},
-						'googleAnalytics' : {
-							'enabled' : true
-						},
-						'crawling' : {
-							'enabled' : true
-						}
+					'remuneration': editZoneForm['options.remuneration'].value
+				},
+				'services' : {
+					'adblockFallback' : {
+						'enabled' : editZoneForm['services.adblockFallback'].checked,
+						'script' : editZoneForm['services.adblockFallback.script'].value,
+						'provider' : editZoneForm['services.adblockFallback.provider'].value
+					},
+					'googleAnalytics' : {
+						'enabled' : editZoneForm['services.googleAnalytics'].checked
+					},
+					'crawling' : {
+						'enabled' : editZoneForm['services.crawling'].checked
 					}
 				}
 			};
-
 			var websiteModel = this.collection.get(websiteId);
 			this.setZoneCollection(websiteModel, websiteModel.zoneListToCollection());
 			var zoneModel = websiteModel.get('zones').get(zoneId);

@@ -5,10 +5,10 @@ var WebsiteModel;
 
 var WebsiteZone = new Schema({
     name: {type: String},
+    services: {},
     zoneOptions: {
         type: { type : String, enum: ['image','text','*'], default: '*' },
-        remuneration: { type: String ,enum: ['cpm', 'cpc', '*'], default: '*' },
-        services : {}
+        remuneration: { type: String ,enum: ['cpm', 'cpc', '*'], default: '*' }
     },
     design : {
         textColor: {type : String, default: '#444'},

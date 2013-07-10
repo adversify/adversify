@@ -3,31 +3,46 @@
 			var websiteId = website.id ? website.id : website.cid;
 		 %>
 			<li id="<%= websiteId%>" class='website slideToRight'>
-				<a href="#websites/<%= websiteId %>" class="linkTab">
+				<a title="View this particular website" href="#websites/<%= websiteId %>" class="linkTab">
 					<%= website.get('infos').name %> : 
-					<em><%= website.get('infos').url %></em>
+					<em>
+						<%= website.get('infos').url %>
+					</em>
 				</a>
 				<div class="website-actions">
-					<button class='btn add-zone-button' adversify-id='<%= websiteId%>'>Add a zone to this website</button>
-					<button class='btn btn-warning edit-website-button' adversify-id='<%= websiteId%>'>Edit</button>
-					<button class='btn btn-danger delete-website-button' adversify-id='<%= websiteId%>'>Delete</button>
+					<button class='btn add-zone-button' adversify-id='<%= websiteId%>'>
+						Add a zone to this website
+					</button>
+					<button class='btn btn-warning edit-website-button' adversify-id='<%= websiteId%>'>
+						Edit
+					</button>
+					<button class='btn btn-danger delete-website-button' adversify-id='<%= websiteId%>'>
+						Delete
+					</button>
 				</div>
 				<form class='well edit-website-form' style='display:none;margin-top:20px'>
 				    <legend>Edit this website<button adversify-id='<%= websiteId %>' class='pull-right btn btn-inverse close-edit-website-form'>Close</button></legend>
 					<fieldset class="website-general-fieldset website-fieldset">
 						<input type='text' name="name" class='websitename' placeholder='Website name' value='<%= website.get('infos').name %>'/><br/>
-						<input type='text' name="url" class='websiteurl' placeholder="Website's URL" value='<%= website.get('infos').url %> '/><br/>
-						<input type='text' name="twitter" class='websitetwitter' placeholder="Website's Twitter Account @YourWebsite" value='<%= website.get('social').twitter %> '/><br/>
-						<input type='text' name="fanpage" class='websitefanpage' placeholder="Website's Facebook Fanpage" value='<%= website.get('social').facebook %> '/><br/>
-				    	<input type="text" value="<%= website.get('social').hashtag %> " name="hashtag" class="websitehashtag" placeholder="Social #hastag" />
-				    	<br/>
+						<input type='text' name="url" class='websiteurl' placeholder="Website's URL" value='<%= website.get('infos').url %>'/><br/>
+						<input type='text' name="twitter" class='websitetwitter' placeholder="Website's Twitter Account @YourWebsite" value='<%= website.get('social') ? website.get('social').twitter : ''%>'/><br/>
+						<input type='text' name="fanpage" class='websitefanpage' placeholder="Website's Facebook Fanpage" value='<%= website.get('social') ? website.get('social').facebook : ''%>'/><br/>
+				    	<input type="text" value="<%= website.get('social') ? website.get('social').hashtag : ''%>" name="hashtag" class="websitehashtag" placeholder="Social #hastag" /><br/>
 					</fieldset>
-					<button class='btn btn-success submit-edit-website-form' adversify-id='<%= websiteId %>'>Save</button>
+					<button class='btn btn-success submit-edit-website-form' adversify-id='<%= websiteId %>'>
+						Save
+					</button>
 				</form>
 				<form class='well add-zone-form' style='display:none;margin-top:20px'>
-				    <legend>Add a zone to this website<button adversify-id='<%= websiteId %>' class='pull-right btn btn-inverse close-add-zone-form'>Close</button></legend>
+				    <legend>Add a zone to this website
+				    	<button adversify-id='<%= websiteId %>' class='pull-right btn btn-inverse close-add-zone-form'>
+				    		Close
+				    	</button>
+				    </legend>
 					<input type='text' name="name" class='zonename' placeholder='Zone name' value=''/><br/>
-					<button class='btn btn-success submit-add-zone-form' adversify-id='<%= websiteId %>'>Save</button>
+					<button class='btn btn-success submit-add-zone-form' adversify-id='<%= websiteId %>'>
+						Save
+					</button>
 				</form>
 				<ul>
 					<% if(website.get('zones') && website.get('zones').length > 0) {
@@ -35,14 +50,35 @@
 								var zoneId = zone._id;
 					%>
 								<li id="<%= zoneId %>" class="websiteZone">
-									<a adversify-id='<%= zoneId %>' href="#websites/zones/<%=zone.Id%>"><%=zone.name%></a>
+									<a adversify-id='<%= zoneId %>' href="#websites/zones/<%=zone.Id%>">
+										<%=zone.name%>
+									</a>
 									<div class='zone-actions'>
-										<button adversify-website-id='<%= websiteId %>' adversify-zone-id='<%= zoneId %>' class='btn btn-small btn-info preview-zone-button'>Preview</button>
-										<button adversify-id='<%= zoneId %>' class='btn btn-small btn-warning edit-zone-button'>Edit</button>
-										<button adversify-id='<%= zoneId %>'class='btn btn-small btn-danger delete-zone-button'>Delete</button>
+										<button adversify-website-id='<%= websiteId %>' adversify-zone-id='<%= zoneId %>' class='btn btn-small btn-primary get-zone-script-button'>
+											Get Script
+										</button>
+										<button adversify-website-id='<%= websiteId %>' adversify-zone-id='<%= zoneId %>' class='btn btn-small btn-info preview-zone-button'>
+											Preview
+										</button>
+										<button adversify-id='<%= zoneId %>' class='btn btn-small btn-warning edit-zone-button'>
+											Edit
+										</button>
+										<button adversify-id='<%= zoneId %>'class='btn btn-small btn-danger delete-zone-button'>
+											Delete
+										</button>
 									</div>
 									<div class="zone-preview-container hide well">
-										<h3>Zone #<%= zoneId %> Preview <strong class="zone-preview-live hide">LIVE</strong></h3>
+										<h3>
+											Zone
+											<strong style="color:red;">
+												#<%= zoneId %>
+											</strong>
+											 Preview 
+											 <strong class="zone-preview-live hide">
+											 	LIVE
+											 </strong>
+
+										</h3>
 										<div class="zone-preview">
 											<h3 class="zone-preview-title">Adversify</h3>
 											<p class="zone-preview-content">
@@ -50,32 +86,51 @@
 											</p>
 											<p class="zone-preview-target">
 												<a href="http://www.adversify.fr/" title="Trust us." class="zone-preview-target-link">
-													Ad{versify} : <em>http://www.adversify.fr/</em></a>
+													Ad{versify} : 
+													<em>
+														http://www.adversify.fr/
+													</em>
+												</a>
 											</p>
 											<p class="zone-preview-social">
-												<a href="https://www.twitter.com/adversify" title="Follow @adversify on Twitter!" class="zone-preview-twitter">@adversify</a>
-												<a href="" title="#hashtag" class="zone-preview-hashtag">#acceptableads</a>
-												<a href="https://wwww.facebook.com/adversifynet" title="Follow us on Facebook." class="zone-preview-hashtag">facebook.com/adversifynet</a>
+												<a href="https://www.twitter.com/adversify" title="Follow @adversify on Twitter!" class="zone-preview-twitter">
+													@adversify
+												</a>
+												<a href="" title="#hashtag" class="zone-preview-hashtag">
+													#acceptableads
+												</a>
+												<a href="https://wwww.facebook.com/adversifynet" title="Follow us on Facebook." class="zone-preview-hashtag">
+													facebook.com/adversifynet
+												</a>
 											</p>
 										</div>
 									</div>
 									<form class='well edit-zone-form' style='display:none;margin-top:20px'>
-									    <legend>Edit this zone<button adversify-id='<%= zoneId %>' class='pull-right btn btn-inverse close-edit-zone-form'>Close</button></legend>
+									    <legend>
+									    	Edit this zone
+									    	<button adversify-id='<%= zoneId %>' class='pull-right btn btn-inverse close-edit-zone-form'>
+									    		Close
+									    	</button>
+									    </legend>
 									    <fieldset class="text-zone-fieldset zone-fieldset pull-right" style="display:none;">
 				    				    	<legend>Text based Zone</legend>
 								        	<input adversify-zone-id="<%= zoneId %>" adversify-website-id="<%= websiteId %>" class="colorpicker bordercolorpicker fifthWidth" type="color" value="<%= zone.design.borderColor %>" />
-								        	<input name="design.bordercolor" class="colorPickerTextInput bordercolorinput" type="text" placeholder="Border Color. Click to edit." value="<%= zone.design.borderColor %>">
+								        	<input name="design.bordercolor" class="colorPickerTextInput bordercolorinput" type="text" placeholder="Border Color. Click to edit." value="<%= zone.design.borderColor %>"/>
 								        	<input adversify-zone-id="<%= zoneId %>" adversify-website-id="<%= websiteId %>" class="colorpicker contentcolorpicker fifthWidth" type="color" value="<%= zone.design.textColor %>" />
-								        	<input name="design.contentcolor" class="colorPickerTextInput contentcolorinput" type="text" placeholder="Color of the content. Click to edit." value="<%= zone.design.textColor %>">
+								        	<input name="design.contentcolor" class="colorPickerTextInput contentcolorinput" type="text" placeholder="Color of the content. Click to edit." value="<%= zone.design.textColor %>"/>
 								        	<input adversify-zone-id="<%= zoneId %>" adversify-website-id="<%= websiteId %>" class="colorpicker backgroundcolorpicker fifthWidth" type="color" value="<%= zone.design.bgColor %>"/>
 								        	<input name="design.backgroundcolor" class="colorPickerTextInput backgroundcolorinput" type="text" placeholder="Background Color. Click to edit." value="<%= zone.design.bgColor %>">
 								        	<input adversify-zone-id="<%= zoneId %>" adversify-website-id="<%= websiteId %>" class="colorpicker titlecolorpicker fifthWidth" type="color" value="<%= zone.design.titleColor %>"/>
-								        	<input name="design.titlecolor" class="colorPickerTextInput titlecolorinput" type="text" placeholder="Title Color. Click to edit." value="<%= zone.design.titleColor %>">
+								        	<input name="design.titlecolor" class="colorPickerTextInput titlecolorinput" type="text" placeholder="Title Color. Click to edit." value="<%= zone.design.titleColor %>"/>
 									    </fieldset>
 								        <fieldset class="ad-provider-fieldset zone-fieldset pull-right" style="display:none">
 									    	<legend>Acceptable Ad Fallback</legend>
-								            <textarea class="adProviderScript" name="adProviderScript" placeholder="Place here the JavaScript code given by your ad provider.It should look like this:
-								            <script>...</script>"></textarea>
+								            <textarea class="adProviderScript" name="services.adblockFallback.script" placeholder="Place here the JavaScript code given by your ad provider.It should look like this:
+								            <script>...</script>"><%= (zone.services && zone.services.adblockFallback && zone.services.adblockFallback.enabled) ? zone.services.adblockFallback.script : '' %></textarea>
+								            <label for="services.adblockFallback.provider">
+								            	Enter your provider for information purposes.
+								            </label>
+								            <input type="text" value="Google Adsense" name="services.adblockFallback.provider" placeholder="Ad provider"/>
 								        </fieldset>
 								        <fieldset class="general-zone-fieldset zone-fieldset">
 				    				    	<legend>General Settings</legend>
@@ -105,15 +160,15 @@
 				    				    	<legend>Services</legend>
 	    									<label>
 	    										AdBlock+ fallback.
-										    	<input type="checkbox" zone-id="<%= zoneId %>" class="js-zone-fallback zoneservice" name="zoneservice" value="fallback" <%= (zone.zoneOptions && zone.zoneOptions.services &&  zone.zoneOptions.services.adblockFallback && zone.zoneOptions.services.adblockFallback.enabled) ? 'checked' : '' %>/>
+										    	<input type="checkbox" zone-id="<%= zoneId %>" class="js-zone-fallback zoneservice" name="services.adblockFallback" value="true" <%= (zone.services &&  zone.services.adblockFallback && zone.services.adblockFallback.enabled) ? 'checked' : '' %>/>
 											</label>
 	    									<label>
 	    										Google Analytics analysis.
-										    	<input type="checkbox" zone-id="<%= zoneId %>" class="js-zone-ganalytics zoneganalytics" name="zoneservice" value="ganalytics" <%= (zone.zoneOptions && zone.zoneOptions.services &&  zone.zoneOptions.services.googleAnalytics && zone.zoneOptions.services.googleAnalytics.enabled) ? 'checked' : '' %>/>
+										    	<input type="checkbox" zone-id="<%= zoneId %>" class="js-zone-ganalytics zoneganalytics" name="services.googleAnalytics" value="true" <%= (zone.zoneOptions && zone.zoneOptions.services &&  zone.zoneOptions.services.googleAnalytics && zone.services.googleAnalytics.enabled) ? 'checked' : '' %>/>
 											</label>
 	    									<label>
 	    										Contextual smart ad serving.
-										    	<input type="checkbox" zone-id="<%= zoneId %>" class="js-zone-contextual zonecontextual" name="zoneservice" value="contextual" <%= (zone.zoneOptions && zone.zoneOptions.services &&  zone.zoneOptions.services.crawling && zone.options.services.crawling.enabled) ? 'checked' : '' %>/>
+										    	<input type="checkbox" zone-id="<%= zoneId %>" class="js-zone-contextual zonecontextual" name="services.crawling" value="true" <%= (zone.services &&  zone.services.crawling && zone.services.crawling.enabled) ? 'checked' : '' %>/>
 											</label>
 								        </fieldset>
 										<button class='btn btn-large btn-success submit-edit-zone-form' adversify-id='<%= zoneId %>'>Submit changes</button>
