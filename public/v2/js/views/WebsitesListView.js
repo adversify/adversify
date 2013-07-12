@@ -47,6 +47,7 @@ define([
 			'click .close-add-zone-form' : 'hideAddZoneForm',
 			'click .submit-add-zone-form' : 'submitZoneAdd',
 			'click .preview-zone-button' : 'showZonePreview',
+			'click .get-zone-script-button' : 'showZoneScript',
 
 			'click .delete-zone-button': 'deleteZone',
 			'click .edit-zone-button': 'showEditZoneForm',
@@ -446,6 +447,10 @@ define([
 			zonePreview.css('width',dimensionsMap[zoneDimensionsValue].width);
 			zonePreview.css('height',dimensionsMap[zoneDimensionsValue].height);
 			this.$('.websiteZone#'+zoneId+' .zone-preview-container .zone-preview-live').show();
+		},
+
+		showZoneScript: function(evt) {
+			evt.preventDefault();
 		},
 
 

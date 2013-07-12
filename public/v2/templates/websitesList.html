@@ -20,8 +20,13 @@
 						Delete
 					</button>
 				</div>
-				<form class='well edit-website-form' style='display:none;margin-top:20px'>
-				    <legend>Edit this website<button adversify-id='<%= websiteId %>' class='pull-right btn btn-inverse close-edit-website-form'>Close</button></legend>
+				<form class='well edit-website-form hide smallMarginTop'>
+				    <legend>
+				    	Edit this website
+				    	<button adversify-id='<%= websiteId %>' class='pull-right btn btn-inverse close-edit-website-form'>
+				    		Close
+				    	</button>
+				    </legend>
 					<fieldset class="website-general-fieldset website-fieldset">
 						<input type='text' name="name" class='websitename' placeholder='Website name' value='<%= website.get('infos').name %>'/><br/>
 						<input type='text' name="url" class='websiteurl' placeholder="Website's URL" value='<%= website.get('infos').url %>'/><br/>
@@ -33,7 +38,7 @@
 						Save
 					</button>
 				</form>
-				<form class='well add-zone-form' style='display:none;margin-top:20px'>
+				<form class='well add-zone-form hide smallMarginTop'>
 				    <legend>Add a zone to this website
 				    	<button adversify-id='<%= websiteId %>' class='pull-right btn btn-inverse close-add-zone-form'>
 				    		Close
@@ -105,25 +110,34 @@
 											</p>
 										</div>
 									</div>
-									<form class='well edit-zone-form' style='display:none;margin-top:20px'>
+									<form class='well edit-zone-form hide smallMarginTop'>
 									    <legend>
 									    	Edit this zone
 									    	<button adversify-id='<%= zoneId %>' class='pull-right btn btn-inverse close-edit-zone-form'>
 									    		Close
 									    	</button>
 									    </legend>
-									    <fieldset class="text-zone-fieldset zone-fieldset pull-right" style="display:none;">
+									    <fieldset class="text-zone-fieldset zone-fieldset pull-right <%= (zone.zoneOptions && zone.zoneOptions.type === 'text') ? '' : 'hide' %>">
 				    				    	<legend>Text based Zone</legend>
+
 								        	<input adversify-zone-id="<%= zoneId %>" adversify-website-id="<%= websiteId %>" class="colorpicker bordercolorpicker fifthWidth" type="color" value="<%= zone.design.borderColor %>" />
+
 								        	<input name="design.bordercolor" class="colorPickerTextInput bordercolorinput" type="text" placeholder="Border Color. Click to edit." value="<%= zone.design.borderColor %>"/>
+
 								        	<input adversify-zone-id="<%= zoneId %>" adversify-website-id="<%= websiteId %>" class="colorpicker contentcolorpicker fifthWidth" type="color" value="<%= zone.design.textColor %>" />
+
 								        	<input name="design.contentcolor" class="colorPickerTextInput contentcolorinput" type="text" placeholder="Color of the content. Click to edit." value="<%= zone.design.textColor %>"/>
+
 								        	<input adversify-zone-id="<%= zoneId %>" adversify-website-id="<%= websiteId %>" class="colorpicker backgroundcolorpicker fifthWidth" type="color" value="<%= zone.design.bgColor %>"/>
+
 								        	<input name="design.backgroundcolor" class="colorPickerTextInput backgroundcolorinput" type="text" placeholder="Background Color. Click to edit." value="<%= zone.design.bgColor %>">
+
 								        	<input adversify-zone-id="<%= zoneId %>" adversify-website-id="<%= websiteId %>" class="colorpicker titlecolorpicker fifthWidth" type="color" value="<%= zone.design.titleColor %>"/>
+
 								        	<input name="design.titlecolor" class="colorPickerTextInput titlecolorinput" type="text" placeholder="Title Color. Click to edit." value="<%= zone.design.titleColor %>"/>
 									    </fieldset>
-								        <fieldset class="ad-provider-fieldset zone-fieldset pull-right" style="display:none">
+
+								        <fieldset class="ad-provider-fieldset zone-fieldset pull-right <%= (zone.services && zone.services.adblockFallback && zone.services.adblockFallback.enabled) ? '' : 'hide' %>">
 									    	<legend>Acceptable Ad Fallback</legend>
 								            <textarea class="adProviderScript" name="services.adblockFallback.script" placeholder="Place here the JavaScript code given by your ad provider.It should look like this:
 								            <script>...</script>"><%= (zone.services && zone.services.adblockFallback && zone.services.adblockFallback.enabled) ? zone.services.adblockFallback.script : '' %></textarea>
@@ -132,6 +146,7 @@
 								            </label>
 								            <input type="text" value="Google Adsense" name="services.adblockFallback.provider" placeholder="Ad provider"/>
 								        </fieldset>
+
 								        <fieldset class="general-zone-fieldset zone-fieldset">
 				    				    	<legend>General Settings</legend>
 											<input type='text' name="name" class='zonename' placeholder='Zone name' value='<%= zone.name %>'/><br/>
@@ -140,13 +155,17 @@
 									            <option value="cpc" <%= (zone.zoneOptions && zone.zoneOptions.remuneration === 'cpc') ? 'selected' : '' %>>CPC</option>
 									            <option value="cpm" <%= (zone.zoneOptions && zone.zoneOptions.remuneration === 'cpm') ? 'selected' : '' %>>CPM</option>
 									            <option value="*" <%= (zone.zoneOptions && zone.zoneOptions.remuneration === '*') ? 'selected' : '' %>>Nevermind</option>
-											</select><br/>
+											</select>
+											<br/>
+
 									        <select class="zonetype" name="options.type" adversify-website-id="<%= websiteId %>" adversify-zone-id="<%= zoneId %>">
 									            <option value="">Image or Textual?</option>
 									            <option value="image" <%= (zone.zoneOptions && zone.zoneOptions.type === 'image') ? 'selected' : '' %>>Image</option>
 									            <option value="text" <%= (zone.zoneOptions && zone.zoneOptions.type === 'text') ? 'selected' : '' %>>Textual</option>
 									            <option value="*" <%= (zone.zoneOptions && zone.zoneOptions.type === '*') ? 'selected' : '' %>>Nevermind</option>
-									        </select><br/>
+									        </select>
+									        <br/>
+
 									        <select adversify-zone-id="<%= zoneId %>" class="zonedimensions" name="design.dimensions">
 									            <option value="">How big?</option>
 									            <option value="300x233" <%= (zone.design.dimensions === '300x233') ? 'selected' : '' %>>300x233</option>
@@ -157,6 +176,7 @@
 									            <option value="200x200" <%= (zone.design.dimensions === '200x200') ? 'selected' : '' %>>200x200</option>
 									            <option value="233x233" <%= (zone.design.dimensions === '233x233') ? 'selected' : '' %>>233x233</option>
 									    	</select>
+
 				    				    	<legend>Services</legend>
 	    									<label>
 	    										AdBlock+ fallback.
@@ -171,7 +191,10 @@
 										    	<input type="checkbox" zone-id="<%= zoneId %>" class="js-zone-contextual zonecontextual" name="services.crawling" value="true" <%= (zone.services &&  zone.services.crawling && zone.services.crawling.enabled) ? 'checked' : '' %>/>
 											</label>
 								        </fieldset>
-										<button class='btn btn-large btn-success submit-edit-zone-form' adversify-id='<%= zoneId %>'>Submit changes</button>
+
+										<button class='btn btn-large btn-success submit-edit-zone-form' adversify-id='<%= zoneId %>'>
+											Submit changes
+										</button>
 									</form>
 								</li>
 					<%
