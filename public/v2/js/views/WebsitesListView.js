@@ -56,6 +56,7 @@ define([
 		},
 
 		render : function () {
+			console.log("Websites List render");
 			this.$el.html(this.template({websites : this.collection.models }));
 		},
 

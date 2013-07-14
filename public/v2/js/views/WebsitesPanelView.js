@@ -32,10 +32,10 @@ define([
 			console.log('WebsitesPanelView render');
 			console.log(this.$el);
 			this.$el.html(this.template);
+			this.$el.find('.content').append(this.subviews.websitesList.el);
 			this.subviews.addWebsite.render();
 			this.$el.find('.content').append(this.subviews.addWebsite.el);
 			this.$el.find(this.subviews.addWebsite.el).hide().addClass('slideFromRight');
-			this.$el.find('.content').append(this.subviews.websitesList.el);
 		},
 
 		events: {
